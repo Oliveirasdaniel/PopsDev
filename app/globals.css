@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  @apply bg-ink-950 text-sand antialiased;
+  background-image:
+    radial-gradient(60rem 40rem at 80% -10%, rgba(116, 178, 71, 0.14), transparent 60%),
+    radial-gradient(50rem 30rem at 0% 20%, rgba(116, 178, 71, 0.07), transparent 60%);
+  background-attachment: fixed;
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .section {
+    @apply py-20 sm:py-28;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-moss-500/30 bg-moss-500/10
+           px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-moss-300;
+  }
+
+  .h2 {
+    @apply text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-[2.75rem];
+  }
+
+  .lead {
+    @apply text-base leading-relaxed text-sand/60 sm:text-lg;
+  }
+
+  .card {
+    @apply rounded-2xl border border-white/10 bg-ink-900/70 p-6 backdrop-blur-sm
+           transition duration-300 hover:border-moss-500/40 hover:bg-ink-800/70;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
+           transition duration-200 focus-visible:outline focus-visible:outline-2
+           focus-visible:outline-offset-2 focus-visible:outline-moss-400;
+  }
+
+  .btn-primary {
+    @apply btn bg-moss-500 text-ink-950 hover:bg-moss-400 hover:shadow-[0_0_32px_-6px_rgba(116,178,71,.6)];
+  }
+
+  .btn-ghost {
+    @apply btn border border-white/15 text-sand hover:border-moss-400/50 hover:text-moss-300;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-sm text-sand
+           placeholder:text-sand/30 outline-none transition
+           focus:border-moss-500/60 focus:ring-2 focus:ring-moss-500/20;
+  }
+
+  .label {
+    @apply mb-2 block text-xs font-medium uppercase tracking-wider text-sand/50;
+  }
+}
+
+.mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
