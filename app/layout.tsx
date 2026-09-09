@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import FundoReativo from "@/components/FundoReativo";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const sans = Plus_Jakarta_Sans({
+const sans = Archivo({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -45,8 +53,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={sans.variable}>
-      <body>{children}</body>
+    <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`}>
+      <body className="grain">
+        <FundoReativo />
+        <div className="relative z-10">{children}</div>
+      </body>
     </html>
   );
 }

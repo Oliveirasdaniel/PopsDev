@@ -5,28 +5,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: {
-          950: "#0a0d0c",
-          900: "#0f1412",
-          800: "#151b18",
-          700: "#1d2521",
+        // Cinzas neutros, sem tingimento verde.
+        base: {
+          950: "#0a0a0a",
+          900: "#101010",
+          850: "#151515",
+          800: "#1a1a1a",
         },
-        moss: {
-          200: "#d7e8c9",
-          300: "#b9d99f",
-          400: "#95c76e",
-          500: "#74b247",
-          600: "#5a8f36",
-          700: "#456f2b",
-        },
-        sand: "#f2ede4",
+        line: "rgba(255,255,255,.09)",
+        bone: "#ece9e2",
+        muted: "#8b8b85",
+        acid: "#a3e635",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+      },
+      letterSpacing: {
+        tightest: "-0.045em",
       },
       keyframes: {
-        "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(16px)" },
+        rise: {
+          "0%": { opacity: "0", transform: "translateY(12px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         marquee: {
@@ -35,8 +35,8 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-up": "fade-up .7s cubic-bezier(.16,1,.3,1) both",
-        marquee: "marquee 32s linear infinite",
+        rise: "rise .55s cubic-bezier(.22,1,.36,1) both",
+        marquee: "marquee 42s linear infinite",
       },
     },
   },

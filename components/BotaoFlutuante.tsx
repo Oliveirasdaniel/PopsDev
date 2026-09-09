@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
-import { IconWhatsApp } from "./Icons";
 
 export default function BotaoFlutuante() {
   const [visivel, setVisivel] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisivel(window.scrollY > 600);
+    const onScroll = () => setVisivel(window.scrollY > 700);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -19,12 +18,11 @@ export default function BotaoFlutuante() {
       href={whatsappLink(`Olá, Daniel! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Falar no WhatsApp"
-      className={`fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-moss-500 text-ink-950 shadow-[0_10px_40px_-8px_rgba(116,178,71,.8)] transition duration-300 hover:bg-moss-400 ${
-        visivel ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
+      className={`fixed bottom-5 right-5 z-40 inline-flex h-11 items-center rounded-sm bg-bone px-5 font-mono text-[11px] uppercase tracking-[0.16em] text-base-950 transition-all duration-200 hover:bg-acid ${
+        visivel ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >
-      <IconWhatsApp className="h-7 w-7" />
+      WhatsApp
     </a>
   );
 }

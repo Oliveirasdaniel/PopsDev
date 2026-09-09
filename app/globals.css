@@ -8,72 +8,81 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 4.5rem;
 }
 
 body {
-  @apply bg-ink-950 text-sand antialiased;
-  background-image:
-    radial-gradient(60rem 40rem at 80% -10%, rgba(116, 178, 71, 0.14), transparent 60%),
-    radial-gradient(50rem 30rem at 0% 20%, rgba(116, 178, 71, 0.07), transparent 60%);
-  background-attachment: fixed;
+  @apply bg-base-950 text-bone antialiased;
+  /* Fundo chapado: a camada reativa fica no canvas, não em gradiente. */
+}
+
+::selection {
+  background: #a3e635;
+  color: #0a0a0a;
 }
 
 @layer components {
-  .container-page {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  .wrap {
+    @apply mx-auto w-full max-w-[76rem] px-5 sm:px-8;
   }
 
-  .section {
-    @apply py-20 sm:py-28;
+  /* Rótulo técnico em mono: substitui as "pílulas" coloridas. */
+  .label-mono {
+    @apply font-mono text-[11px] uppercase tracking-[0.2em] text-muted;
   }
 
-  .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-moss-500/30 bg-moss-500/10
-           px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-moss-300;
-  }
-
-  .h2 {
-    @apply text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-[2.75rem];
+  .display {
+    @apply font-semibold tracking-tightest;
   }
 
   .lead {
-    @apply text-base leading-relaxed text-sand/60 sm:text-lg;
-  }
-
-  .card {
-    @apply rounded-2xl border border-white/10 bg-ink-900/70 p-6 backdrop-blur-sm
-           transition duration-300 hover:border-moss-500/40 hover:bg-ink-800/70;
+    @apply text-[15px] leading-relaxed text-muted sm:text-base;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
-           transition duration-200 focus-visible:outline focus-visible:outline-2
-           focus-visible:outline-offset-2 focus-visible:outline-moss-400;
+    @apply inline-flex items-center justify-center gap-2 text-sm font-medium
+           transition-colors duration-150 focus-visible:outline focus-visible:outline-2
+           focus-visible:outline-offset-2 focus-visible:outline-acid;
   }
 
-  .btn-primary {
-    @apply btn bg-moss-500 text-ink-950 hover:bg-moss-400 hover:shadow-[0_0_32px_-6px_rgba(116,178,71,.6)];
+  .btn-solid {
+    @apply btn h-11 rounded-sm bg-bone px-6 text-base-950 hover:bg-acid;
   }
 
-  .btn-ghost {
-    @apply btn border border-white/15 text-sand hover:border-moss-400/50 hover:text-moss-300;
+  .btn-line {
+    @apply btn h-11 rounded-sm border border-line px-6 text-bone hover:border-bone/40 hover:bg-white/[.03];
   }
 
   .field {
-    @apply w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-sm text-sand
-           placeholder:text-sand/30 outline-none transition
-           focus:border-moss-500/60 focus:ring-2 focus:ring-moss-500/20;
+    @apply h-11 w-full rounded-sm border border-line bg-transparent px-3.5 text-sm text-bone
+           outline-none transition-colors placeholder:text-muted/60
+           focus:border-bone/40;
   }
 
-  .label {
-    @apply mb-2 block text-xs font-medium uppercase tracking-wider text-sand/50;
+  .label-form {
+    @apply mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted;
+  }
+
+  /* Régua fina com o número da seção. */
+  .rule {
+    @apply flex items-baseline gap-4 border-t border-line pt-4;
   }
 }
 
 .mask-fade-x {
-  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Textura sutil por cima do fundo — quebra o "chapado digital" sem colorir nada. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 @media (prefers-reduced-motion: reduce) {

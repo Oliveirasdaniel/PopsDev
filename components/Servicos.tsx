@@ -1,43 +1,47 @@
 import { servicos } from "@/lib/site";
-import { IconCheck, iconMap } from "./Icons";
 import Reveal from "./Reveal";
 
 export default function Servicos() {
   return (
-    <section id="servicos" className="section">
-      <div className="container-page">
-        <Reveal className="max-w-2xl">
-          <span className="eyebrow">O que eu construo</span>
-          <h2 className="h2 mt-5">
-            Não é só um site bonito. É a ferramenta que o seu negócio usa todo dia.
-          </h2>
-          <p className="lead mt-5">
-            Cada projeto começa pelo gargalo real: agenda cheia de mensagem repetida, pedido perdido no direct,
-            cliente que não acha o preço. O site resolve isso.
-          </p>
+    <section id="servicos" className="pt-28 sm:pt-36">
+      <div className="wrap">
+        <Reveal className="rule">
+          <span className="label-mono">01</span>
+          <span className="label-mono">O que eu construo</span>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
-          {servicos.map((s, i) => {
-            const Icone = iconMap[s.icone];
-            return (
-              <Reveal key={s.titulo} as="article" delay={i * 90} className="card group">
-                <span className="grid h-11 w-11 place-items-center rounded-xl border border-moss-500/25 bg-moss-500/10 text-moss-400 transition group-hover:bg-moss-500 group-hover:text-ink-950">
-                  <Icone />
-                </span>
-                <h3 className="mt-5 text-xl font-semibold tracking-tight">{s.titulo}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-sand/55">{s.resumo}</p>
-                <ul className="mt-5 space-y-2.5 border-t border-white/5 pt-5">
-                  {s.itens.map((item) => (
-                    <li key={item} className="flex gap-2.5 text-sm text-sand/70">
-                      <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-moss-400" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            );
-          })}
+        <Reveal delay={60}>
+          <h2 className="display mt-10 max-w-2xl text-3xl leading-[1.05] sm:text-[2.75rem]">
+            Quatro frentes, todas partindo do que trava a venda hoje.
+          </h2>
+        </Reveal>
+
+        <div className="mt-16">
+          {servicos.map((s, i) => (
+            <Reveal
+              key={s.titulo}
+              as="article"
+              delay={i * 60}
+              className="grid gap-6 border-t border-line py-9 md:grid-cols-[3rem_1fr_1fr] md:gap-10"
+            >
+              <span className="label-mono md:pt-1.5">{String(i + 1).padStart(2, "0")}</span>
+
+              <div>
+                <h3 className="text-xl font-medium tracking-tight">{s.titulo}</h3>
+                <p className="lead mt-3 max-w-md">{s.resumo}</p>
+              </div>
+
+              <ul className="space-y-2.5 md:pt-1">
+                {s.itens.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm text-bone/70">
+                    <span className="mt-2 h-px w-3 shrink-0 bg-bone/25" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+          <div className="border-t border-line" />
         </div>
       </div>
     </section>

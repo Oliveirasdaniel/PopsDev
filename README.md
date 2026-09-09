@@ -30,18 +30,18 @@ Abre em http://localhost:3000
 
 ```
 app/
-  layout.tsx      metadados, fonte, SEO
+  layout.tsx      metadados, fontes (Archivo + IBM Plex Mono), SEO
   page.tsx        monta as seções + JSON-LD (ProfessionalService + FAQPage)
-  globals.css     tema, tokens e classes utilitárias (.card, .btn-primary, .field...)
+  globals.css     tema, tokens e utilitários (.wrap, .label-mono, .btn-solid, .field...)
 components/
+  FundoReativo    canvas do fundo: trilha de pixels + onda ao clicar
   Header          menu fixo com versão mobile
-  Hero            headline, foto e números
+  Hero            manchete, foto e números
   Nichos          esteira de segmentos atendidos
-  Servicos        4 frentes de trabalho
+  Servicos        4 frentes, em lista com fios
   Portfolio       projetos reais com link
   Processo        4 etapas do atendimento
   Planos          R$ 29 / R$ 79 / R$ 149 por mês
-  Depoimentos     provas sociais
   Faq             perguntas frequentes (accordion nativo)
   Briefing        formulário que monta a mensagem do WhatsApp
   Footer          contatos e navegação
@@ -58,12 +58,27 @@ npx vercel --prod # produção
 
 Ou suba o repositório no GitHub e importe em vercel.com — o Next.js é detectado automaticamente, sem configuração extra.
 
-## Paleta
+## Direção visual
+
+Preto neutro, tipografia como estrutura e uma única cor de acento. Nada de gradiente colorido, brilho ou pílula — o movimento vem do fundo reativo, não da decoração.
 
 | Token | Uso |
 | --- | --- |
-| `ink-950` → `ink-700` | fundos, do mais escuro ao card |
-| `moss-300` → `moss-600` | verde de destaque, botões e ícones |
-| `sand` | texto principal (`#f2ede4`) |
+| `base-950` → `base-800` | fundos, do mais escuro ao elevado |
+| `bone` (`#ece9e2`) | texto principal e blocos invertidos |
+| `muted` (`#8b8b85`) | texto secundário |
+| `acid` (`#a3e635`) | acento, usado com parcimônia |
+| `line` | fios de 1px que separam tudo |
 
-Para trocar o verde por outra cor, edite `moss` em [`tailwind.config.ts`](tailwind.config.ts) — o site inteiro acompanha.
+Fontes: **Archivo** (texto e manchetes) e **IBM Plex Mono** (rótulos, números e etiquetas).
+
+### Fundo reativo
+
+[`components/FundoReativo.tsx`](components/FundoReativo.tsx) é um canvas único, `pointer-events-none`, montado uma vez em `app/layout.tsx`:
+
+- **trilha de pixels** — células acendem sob o cursor e apagam sozinhas;
+- **onda ao clicar** — anel que se expande e acende a grade na borda;
+- só anima quando há algo acontecendo (sem rAF rodando à toa);
+- respeita `prefers-reduced-motion`: quem pede menos movimento não recebe nenhum.
+
+Para trocar pelos componentes do Originkit (`pixel-trail` e `clickeffects`), basta substituir o conteúdo desse arquivo — nada mais no projeto depende da implementação.

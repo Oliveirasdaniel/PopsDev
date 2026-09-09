@@ -1,6 +1,5 @@
 import BotaoFlutuante from "@/components/BotaoFlutuante";
 import Briefing from "@/components/Briefing";
-import Depoimentos from "@/components/Depoimentos";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -51,7 +50,6 @@ export default function Home() {
         <Portfolio />
         <Processo />
         <Planos />
-        <Depoimentos />
         <Faq />
         <Briefing />
       </main>

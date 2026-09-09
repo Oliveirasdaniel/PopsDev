@@ -21,10 +21,9 @@ export const site = {
 };
 
 export const stats = [
-  { valor: "3+", label: "nichos atendidos", detalhe: "beleza, alimentação e serviços" },
-  { valor: "7 dias", label: "prazo médio de entrega", detalhe: "do briefing ao site no ar" },
-  { valor: "100%", label: "responsivo e rápido", detalhe: "otimizado para celular" },
-  { valor: "R$ 29", label: "para começar", detalhe: "sem fidelidade, cancele quando quiser" },
+  { valor: "3", label: "sites no ar", detalhe: "beleza, alimentação e serviços" },
+  { valor: "7 dias", label: "para entregar", detalhe: "landing page, do briefing ao ar" },
+  { valor: "R$ 29", label: "para começar", detalhe: "mensal, sem fidelidade" },
 ];
 
 export const nichos = [
@@ -241,27 +240,6 @@ export const faq = [
   {
     p: "Você atende fora da minha cidade?",
     r: "Atendo o Brasil inteiro. Todo o processo é remoto, por WhatsApp e chamada de vídeo quando necessário.",
-  },
-];
-
-export const depoimentos = [
-  {
-    texto:
-      "O site ficou exatamente com a cara do meu trabalho. As clientes chegam já sabendo o que querem agendar.",
-    autor: "Kelly Ferreira",
-    papel: "Terapeuta Capilar Integrativa",
-  },
-  {
-    texto:
-      "O quiz de diagnóstico mudou o jogo: as pessoas descobrem o produto certo sozinhas e compram com muito mais segurança.",
-    autor: "Florae Cosméticos",
-    papel: "Cosméticos veganos",
-  },
-  {
-    texto:
-      "Antes eu explicava tudo por mensagem. Hoje mando o link e o cliente já pede o orçamento com os detalhes do evento.",
-    autor: "Artesãos do Crepe",
-    papel: "Buffet artesanal",
   },
 ];
 

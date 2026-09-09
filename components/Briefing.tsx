@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
-import { IconWhatsApp } from "./Icons";
 import Reveal from "./Reveal";
 
 const segmentos = [
@@ -42,8 +41,10 @@ export default function Briefing() {
     detalhes: "",
   });
 
-  const set = (campo: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, [campo]: e.target.value }));
+  const set =
+    (campo: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setForm((f) => ({ ...f, [campo]: e.target.value }));
 
   function montarMensagem() {
     const linhas = [
@@ -67,40 +68,47 @@ export default function Briefing() {
   }
 
   return (
-    <section id="contato" className="section">
-      <div className="container-page">
-        <div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr]">
-          <Reveal>
-            <span className="eyebrow">Briefing rápido</span>
-            <h2 className="h2 mt-5">Me conta do seu negócio em 30 segundos.</h2>
-            <p className="lead mt-5">
-              Preencha os campos e o botão abre o WhatsApp com tudo já escrito. Eu leio, penso no melhor formato e
-              volto com uma proposta.
+    <section id="contato" className="pt-28 sm:pt-36">
+      <div className="wrap">
+        <Reveal className="rule">
+          <span className="label-mono">06</span>
+          <span className="label-mono">Briefing</span>
+        </Reveal>
+
+        <div className="mt-10 grid gap-12 lg:grid-cols-[22rem_1fr] lg:gap-20">
+          <Reveal delay={60}>
+            <h2 className="display text-3xl leading-[1.05] sm:text-[2.75rem]">
+              Me conta do seu negócio em 30 segundos.
+            </h2>
+            <p className="lead mt-6">
+              Preencha e o botão abre o WhatsApp com tudo escrito. Você revisa antes de enviar.
             </p>
 
-            <ul className="mt-8 space-y-3 text-sm text-sand/55">
-              <li>· Resposta em até 2 horas em horário comercial</li>
-              <li>· Sem compromisso e sem cobrança pela conversa</li>
-              <li>· Se não for o momento, eu digo na hora</li>
-            </ul>
-
-            <div className="mt-8 rounded-2xl border border-white/10 bg-ink-900/60 p-5">
-              <p className="text-xs uppercase tracking-[0.16em] text-sand/40">Prefere falar direto?</p>
-              <a href={`mailto:${site.email}`} className="mt-2 block text-sm text-moss-300 hover:underline">
-                {site.email}
-              </a>
-              <p className="mt-1 text-sm text-sand/50">{site.cidade}</p>
-            </div>
+            <dl className="mt-10 border-t border-line font-mono text-[11px] uppercase tracking-[0.14em]">
+              <div className="flex justify-between gap-4 border-b border-line py-3">
+                <dt className="text-muted">Resposta</dt>
+                <dd className="text-bone/80">até 2h úteis</dd>
+              </div>
+              <div className="flex justify-between gap-4 border-b border-line py-3">
+                <dt className="text-muted">E-mail</dt>
+                <dd className="normal-case tracking-normal">
+                  <a href={`mailto:${site.email}`} className="text-bone/80 underline decoration-line underline-offset-4 hover:decoration-acid">
+                    {site.email}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex justify-between gap-4 border-b border-line py-3">
+                <dt className="text-muted">Atendimento</dt>
+                <dd className="text-bone/80">remoto, Brasil</dd>
+              </div>
+            </dl>
           </Reveal>
 
           <Reveal delay={120}>
-            <form
-              onSubmit={enviar}
-              className="rounded-2xl border border-white/10 bg-ink-900/70 p-6 backdrop-blur-sm sm:p-8"
-            >
-              <div className="grid gap-5 sm:grid-cols-2">
+            <form onSubmit={enviar}>
+              <div className="grid gap-6 sm:grid-cols-2">
                 <div>
-                  <label className="label" htmlFor="nome">
+                  <label className="label-form" htmlFor="nome">
                     Seu nome
                   </label>
                   <input
@@ -114,7 +122,7 @@ export default function Briefing() {
                 </div>
 
                 <div>
-                  <label className="label" htmlFor="negocio">
+                  <label className="label-form" htmlFor="negocio">
                     Nome do negócio
                   </label>
                   <input
@@ -128,12 +136,12 @@ export default function Briefing() {
                 </div>
 
                 <div>
-                  <label className="label" htmlFor="segmento">
+                  <label className="label-form" htmlFor="segmento">
                     Segmento
                   </label>
                   <select id="segmento" className="field" value={form.segmento} onChange={set("segmento")}>
                     {segmentos.map((s) => (
-                      <option key={s} value={s} className="bg-ink-900">
+                      <option key={s} value={s} className="bg-base-900">
                         {s}
                       </option>
                     ))}
@@ -141,28 +149,26 @@ export default function Briefing() {
                 </div>
 
                 <div>
-                  <label className="label" htmlFor="tipo">
+                  <label className="label-form" htmlFor="tipo">
                     O que você precisa
                   </label>
                   <select id="tipo" className="field" value={form.tipo} onChange={set("tipo")}>
                     {tipos.map((t) => (
-                      <option key={t} value={t} className="bg-ink-900">
+                      <option key={t} value={t} className="bg-base-900">
                         {t}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                <div className="sm:col-span-2">
-                  <span className="label">Plano de interesse</span>
-                  <div className="grid gap-2 sm:grid-cols-2">
+                <fieldset className="sm:col-span-2">
+                  <legend className="label-form">Plano de interesse</legend>
+                  <div className="grid gap-px bg-line sm:grid-cols-2">
                     {modelos.map((m) => (
                       <label
                         key={m}
-                        className={`cursor-pointer rounded-xl border px-4 py-3 text-sm transition ${
-                          form.modelo === m
-                            ? "border-moss-500/60 bg-moss-500/10 text-moss-200"
-                            : "border-white/10 text-sand/60 hover:border-white/25"
+                        className={`cursor-pointer px-4 py-3 text-sm transition-colors ${
+                          form.modelo === m ? "bg-bone text-base-950" : "bg-base-950 text-muted hover:text-bone"
                         }`}
                       >
                         <input
@@ -177,31 +183,26 @@ export default function Briefing() {
                       </label>
                     ))}
                   </div>
-                </div>
+                </fieldset>
 
                 <div className="sm:col-span-2">
-                  <label className="label" htmlFor="detalhes">
+                  <label className="label-form" htmlFor="detalhes">
                     Detalhes (opcional)
                   </label>
                   <textarea
                     id="detalhes"
                     rows={4}
-                    className="field resize-none"
-                    placeholder="Conte o que te trava hoje: agenda cheia de mensagem, pedidos perdidos, site antigo..."
+                    className="w-full resize-none rounded-sm border border-line bg-transparent px-3.5 py-3 text-sm text-bone outline-none transition-colors placeholder:text-muted/60 focus:border-bone/40"
+                    placeholder="O que te trava hoje: agenda cheia de mensagem, pedido perdido, site antigo…"
                     value={form.detalhes}
                     onChange={set("detalhes")}
                   />
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary mt-7 w-full">
-                <IconWhatsApp className="h-4 w-4" />
-                Enviar briefing pelo WhatsApp
+              <button type="submit" className="btn-solid mt-8 w-full sm:w-auto sm:px-10">
+                Enviar pelo WhatsApp
               </button>
-
-              <p className="mt-3 text-center text-xs text-sand/35">
-                O botão abre o WhatsApp com a mensagem já preenchida. Você revisa antes de enviar.
-              </p>
             </form>
           </Reveal>
         </div>

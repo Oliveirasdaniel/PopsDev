@@ -3,30 +3,36 @@ import Reveal from "./Reveal";
 
 export default function Faq() {
   return (
-    <section id="faq" className="section border-t border-white/10 bg-ink-900/30">
-      <div className="container-page grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-        <Reveal>
-          <span className="eyebrow">Dúvidas frequentes</span>
-          <h2 className="h2 mt-5">Antes de você perguntar.</h2>
-          <p className="lead mt-5">
-            Ficou algo de fora? Me chama no WhatsApp que eu respondo direto, sem robô no meio.
-          </p>
+    <section id="faq" className="pt-28 sm:pt-36">
+      <div className="wrap">
+        <Reveal className="rule">
+          <span className="label-mono">05</span>
+          <span className="label-mono">Dúvidas frequentes</span>
         </Reveal>
 
-        <Reveal delay={100} className="divide-y divide-white/10 border-y border-white/10">
-          {faq.map((f) => (
-            <details key={f.p} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-base font-medium text-sand/90 transition hover:text-moss-300">
-                {f.p}
-                <span className="relative grid h-6 w-6 shrink-0 place-items-center rounded-full border border-white/15 transition group-open:border-moss-500/60 group-open:bg-moss-500/10">
-                  <span className="absolute h-px w-3 bg-current" />
-                  <span className="absolute h-3 w-px bg-current transition group-open:rotate-90 group-open:opacity-0" />
-                </span>
-              </summary>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-sand/55">{f.r}</p>
-            </details>
-          ))}
-        </Reveal>
+        <div className="mt-10 grid gap-10 lg:grid-cols-[22rem_1fr] lg:gap-20">
+          <Reveal delay={60}>
+            <h2 className="display text-3xl leading-[1.05] sm:text-[2.75rem]">Antes de você perguntar.</h2>
+            <p className="lead mt-6">Ficou algo de fora? Me chama no WhatsApp — quem responde sou eu.</p>
+          </Reveal>
+
+          <Reveal delay={120} as="div">
+            <div className="border-t border-line">
+              {faq.map((f) => (
+                <details key={f.p} className="group border-b border-line">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-8 py-5 text-[15px] font-medium text-bone/90 transition-colors hover:text-bone">
+                    {f.p}
+                    <span className="relative mt-2 block h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                      <span className="absolute top-1 block h-px w-2.5 bg-muted" />
+                      <span className="absolute left-1 block h-2.5 w-px bg-muted transition-transform group-open:rotate-90 group-open:opacity-0" />
+                    </span>
+                  </summary>
+                  <p className="lead max-w-2xl pb-6 text-sm">{f.r}</p>
+                </details>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
