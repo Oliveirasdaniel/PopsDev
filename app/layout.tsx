@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
-import FundoReativo from "@/components/FundoReativo";
+import Fundo from "@/components/Fundo";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`}>
       <body className="grain">
-        <FundoReativo />
+        <Fundo />
         <div className="relative z-10">{children}</div>
       </body>
     </html>
