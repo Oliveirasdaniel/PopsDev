@@ -18,7 +18,7 @@ export default function BotaoFlutuante() {
       href={whatsappLink(`Olá, Daniel! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`fixed bottom-5 right-5 z-40 inline-flex h-11 items-center rounded-sm bg-bone px-5 font-mono text-[11px] uppercase tracking-[0.16em] text-base-950 transition-all duration-200 hover:bg-acid ${
+      className={`fixed bottom-5 right-5 z-40 inline-flex h-11 items-center rounded-sm bg-acid px-5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-base-950 transition-all duration-200 hover:brightness-110 ${
         visivel ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >

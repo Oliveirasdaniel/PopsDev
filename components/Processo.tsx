@@ -6,7 +6,7 @@ export default function Processo() {
     <section id="processo" className="pt-28 sm:pt-36">
       <div className="wrap">
         <Reveal className="rule">
-          <span className="label-mono">03</span>
+          <span className="num">03</span>
           <span className="label-mono">Como funciona</span>
         </Reveal>
 

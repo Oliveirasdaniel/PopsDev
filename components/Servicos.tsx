@@ -6,7 +6,7 @@ export default function Servicos() {
     <section id="servicos" className="pt-28 sm:pt-36">
       <div className="wrap">
         <Reveal className="rule">
-          <span className="label-mono">01</span>
+          <span className="num">01</span>
           <span className="label-mono">O que eu construo</span>
         </Reveal>
 

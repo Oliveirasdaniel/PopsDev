@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
 
 const links = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#projetos", label: "Projetos" },
-  { href: "#processo", label: "Processo" },
-  { href: "#planos", label: "Planos" },
-  { href: "#faq", label: "Dúvidas" },
+  { href: "/#servicos", label: "Serviços" },
+  { href: "/#projetos", label: "Projetos" },
+  { href: "/#processo", label: "Processo" },
+  { href: "/#planos", label: "Planos" },
+  { href: "/#faq", label: "Dúvidas" },
+  { href: "/sobre", label: "Sobre" },
 ];
 
 export default function Header() {
@@ -36,7 +37,7 @@ export default function Header() {
       }`}
     >
       <div className="wrap flex h-16 items-center justify-between">
-        <a href="#topo" className="flex items-baseline gap-1.5" aria-label={`${site.nome} — início`}>
+        <a href="/" className="flex items-baseline gap-1.5" aria-label={`${site.nome} — início`}>
           <span className="text-[17px] font-semibold tracking-tightest">popsdev</span>
           <span className="h-1.5 w-1.5 rounded-full bg-acid" aria-hidden="true" />
         </a>

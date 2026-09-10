@@ -46,7 +46,7 @@ body {
   }
 
   .btn-solid {
-    @apply btn h-11 rounded-sm bg-bone px-6 text-base-950 hover:bg-acid;
+    @apply btn h-11 rounded-sm bg-acid px-6 font-semibold text-base-950 hover:brightness-110;
   }
 
   .btn-line {
@@ -63,9 +63,33 @@ body {
     @apply mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted;
   }
 
+  /* Número da seção, em destaque. */
+  .num {
+    @apply font-mono text-[11px] uppercase tracking-[0.2em] text-acid;
+  }
+
   /* Régua fina com o número da seção. */
   .rule {
     @apply flex items-baseline gap-4 border-t border-line pt-4;
+  }
+}
+
+
+/* Palavra "selecionada": tarja verde varrendo da esquerda para a direita. */
+.selecao-tarja {
+  position: absolute;
+  inset: 0;
+  color: #0a0a0a;
+  background: #a3e635;
+  padding: 0 0.06em;
+  margin: -0.04em -0.06em;
+  clip-path: inset(0 100% 0 0);
+  animation: selecionar 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
+}
+
+@keyframes selecionar {
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -86,6 +110,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .selecao-tarja {
+    clip-path: inset(0 0 0 0);
+  }
+
   html {
     scroll-behavior: auto;
   }

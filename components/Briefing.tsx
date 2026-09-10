@@ -71,7 +71,7 @@ export default function Briefing() {
     <section id="contato" className="pt-28 sm:pt-36">
       <div className="wrap">
         <Reveal className="rule">
-          <span className="label-mono">06</span>
+          <span className="num">06</span>
           <span className="label-mono">Briefing</span>
         </Reveal>
 
@@ -168,7 +168,7 @@ export default function Briefing() {
                       <label
                         key={m}
                         className={`cursor-pointer px-4 py-3 text-sm transition-colors ${
-                          form.modelo === m ? "bg-bone text-base-950" : "bg-base-950 text-muted hover:text-bone"
+                          form.modelo === m ? "bg-acid font-medium text-base-950" : "bg-base-950 text-muted hover:text-bone"
                         }`}
                       >
                         <input

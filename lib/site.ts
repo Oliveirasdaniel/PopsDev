@@ -13,7 +13,7 @@ export const site = {
   // Formato internacional, só dígitos: 55 + DDD + número
   whatsapp: "5521971552321",
   email: "oliveirasdaniel@outlook.com",
-  instagram: "https://instagram.com/popsdev",
+  instagram: "https://instagram.com/popsdev_",
   cidade: "Brasil · atendimento 100% remoto",
 
   // Domínio final (usado no SEO / Open Graph)
@@ -95,7 +95,7 @@ export const projetos = [
     nome: "Florae Cosméticos",
     segmento: "Cosméticos veganos · E-commerce",
     url: "https://florae-cosmeticos.vercel.app/",
-    imagem: "/portfolio/florae.jpg",
+    imagem: "/portfolio/florae.png",
     descricao:
       "Loja completa com catálogo de produtos, carrinho e um quiz de diagnóstico capilar que recomenda a linha certa para cada tipo de cabelo.",
     tags: ["E-commerce", "Carrinho", "Quiz de diagnóstico", "Catálogo"],
@@ -104,7 +104,7 @@ export const projetos = [
     nome: "Kelly Ferreira",
     segmento: "Terapia capilar · Agendamento",
     url: "https://kelly-grace.vercel.app",
-    imagem: "/portfolio/kelly.jpg",
+    imagem: "/portfolio/kelly.png",
     descricao:
       "Site de autoridade para terapeuta capilar: vitrine de serviços, resultados antes e depois e agendamento de consulta direto pelo WhatsApp.",
     tags: ["Agendamento", "Antes e depois", "WhatsApp", "Serviços"],
@@ -113,7 +113,7 @@ export const projetos = [
     nome: "Artesãos do Crepe",
     segmento: "Buffet de eventos · Orçamento",
     url: "https://creperia-sigma.vercel.app",
-    imagem: "/portfolio/crepe.jpg",
+    imagem: "/portfolio/crepe.png",
     descricao:
       "Landing page de buffet artesanal com portfólio de eventos, tipos de festa atendidos e captação de orçamento em um clique.",
     tags: ["Landing page", "Portfólio", "Orçamento", "Eventos"],

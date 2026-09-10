@@ -6,7 +6,7 @@ export default function Faq() {
     <section id="faq" className="pt-28 sm:pt-36">
       <div className="wrap">
         <Reveal className="rule">
-          <span className="label-mono">05</span>
+          <span className="num">05</span>
           <span className="label-mono">Dúvidas frequentes</span>
         </Reveal>
 

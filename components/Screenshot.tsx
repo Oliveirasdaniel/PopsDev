@@ -1,10 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 type Props = { src: string; alt: string; nome: string };
 
-/** Mostra o print do projeto; se o arquivo ainda não existir, exibe um placeholder discreto. */
+/**
+ * Print do projeto. Passa pelo otimizador do Next (converte para WebP e
+ * serve o tamanho certo para cada tela) — os PNGs originais somam megabytes.
+ * Se o arquivo não existir, mostra um placeholder discreto.
+ */
 export default function Screenshot({ src, alt, nome }: Props) {
   const [falhou, setFalhou] = useState(false);
 
@@ -17,14 +22,13 @@ export default function Screenshot({ src, alt, nome }: Props) {
   }
 
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
+      fill
+      sizes="(max-width: 768px) 100vw, 60vw"
       onError={() => setFalhou(true)}
-      loading="lazy"
-      width={1200}
-      height={900}
-      className="h-full w-full object-cover object-top grayscale transition duration-500 group-hover:grayscale-0"
+      className="object-cover object-top"
     />
   );
 }

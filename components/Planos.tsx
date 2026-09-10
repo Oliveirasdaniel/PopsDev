@@ -6,7 +6,7 @@ export default function Planos() {
     <section id="planos" className="pt-28 sm:pt-36">
       <div className="wrap">
         <Reveal className="rule">
-          <span className="label-mono">04</span>
+          <span className="num">04</span>
           <span className="label-mono">Planos de agendamento</span>
         </Reveal>
 
@@ -85,7 +85,7 @@ export default function Planos() {
                   rel="noopener noreferrer"
                   className={`mt-9 h-11 w-full rounded-sm text-sm font-medium transition-colors inline-flex items-center justify-center ${
                     escuro
-                      ? "bg-base-950 text-bone hover:bg-base-800"
+                      ? "bg-acid font-semibold text-base-950 hover:brightness-110"
                       : "border border-line text-bone hover:border-bone/40 hover:bg-white/[.03]"
                   }`}
                 >
