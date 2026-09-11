@@ -24,9 +24,9 @@ const tipos = [
 ];
 
 const modelos = [
-  "Agenda WhatsApp · R$ 29/mês",
-  "Agenda + site · R$ 79/mês",
-  "Completo automático · R$ 149/mês",
+  "Agenda WhatsApp",
+  "Agenda + site",
+  "Completo automático",
   "Projeto sob medida",
   "Quero entender qual vale mais a pena",
 ];

@@ -23,7 +23,7 @@ export const site = {
 export const stats = [
   { valor: "3", label: "sites no ar", detalhe: "beleza, alimentação e serviços" },
   { valor: "7 dias", label: "para entregar", detalhe: "landing page, do briefing ao ar" },
-  { valor: "R$ 29", label: "para começar", detalhe: "mensal, sem fidelidade" },
+  { valor: "24h", label: "para o orçamento", detalhe: "depois da primeira conversa" },
 ];
 
 export const nichos = [
@@ -131,9 +131,9 @@ export const planos = [
   {
     nome: "Agenda WhatsApp",
     formato: "Só o essencial, sem site",
-    preco: "R$ 29",
-    sufixo: "/mês",
-    nota: "Sem taxa de setup",
+    preco: "Sob consulta",
+    sufixo: "",
+    nota: "Valor conforme o tamanho da agenda",
     notaDestaque: false,
     resumo:
       "Para quem já tem clientes chegando e só precisa parar de perder horário no meio das mensagens.",
@@ -143,14 +143,14 @@ export const planos = [
       { t: "Confirmação automática", ok: true },
       { t: "Lembrete automático", ok: true },
     ],
-    cta: "Quero a Agenda WhatsApp",
+    cta: "Combinar valor",
   },
   {
     nome: "Agenda + site",
     formato: "Presença online, cobrança manual",
-    preco: "R$ 79",
-    sufixo: "/mês",
-    nota: "+ R$ 100 de setup (taxa única)",
+    preco: "Sob consulta",
+    sufixo: "",
+    nota: "Valor conforme o porte do negócio",
     notaDestaque: false,
     resumo:
       "Sua página própria no ar, com o cliente escolhendo o horário sozinho pelo site.",
@@ -161,14 +161,14 @@ export const planos = [
       { t: "Agendamento pelo site", ok: true },
       { t: "Cobrança via Pix manual", ok: false },
     ],
-    cta: "Quero Agenda + site",
+    cta: "Combinar valor",
   },
   {
     nome: "Completo automático",
     formato: "Zero trabalho manual pro lojista",
-    preco: "R$ 149",
-    sufixo: "/mês",
-    nota: "Setup grátis",
+    preco: "Sob consulta",
+    sufixo: "",
+    nota: "Orçamento fechado antes de começar",
     notaDestaque: true,
     resumo:
       "O sistema cobra, confirma e reserva sozinho. Você só abre a agenda e atende.",
@@ -179,7 +179,7 @@ export const planos = [
       { t: "Pix automático (cobrança sozinha)", ok: true },
       { t: "Reserva automática de horário", ok: true },
     ],
-    cta: "Quero o Completo automático",
+    cta: "Combinar valor",
   },
 ];
 
@@ -221,11 +221,15 @@ export const faq = [
   },
   {
     p: "Qual a diferença entre os três planos?",
-    r: "No Agenda WhatsApp (R$ 29/mês) você tem a agenda com confirmação e lembrete automáticos, sem site. No Agenda + site (R$ 79/mês + R$ 100 de setup) entra a sua landing page com agendamento pelo site, e a cobrança do sinal você faz no Pix manualmente. No Completo automático (R$ 149/mês, setup grátis) o Pix é automático e o horário fica reservado sozinho assim que o cliente paga — você não faz nada manual.",
+    r: "No Agenda WhatsApp você tem a agenda com confirmação e lembrete automáticos, sem site. No Agenda + site entra a sua landing page com agendamento pelo site, e a cobrança do sinal você faz no Pix manualmente. No Completo automático o Pix é automático e o horário fica reservado sozinho assim que o cliente paga — você não faz nada manual.",
+  },
+  {
+    p: "Por que os preços não estão no site?",
+    r: "Porque o mesmo plano custa coisas diferentes dependendo do tamanho da operação. Uma barbearia com um profissional e uma rede com quatro unidades e trinta serviços dão trabalhos muito distintos, e colocar um número único na página só faria eu cobrar caro de quem é pequeno ou barato de quem é grande. Na conversa inicial eu entendo o porte, e você recebe o valor fechado por escrito.",
   },
   {
     p: "Tem fidelidade ou multa para cancelar?",
-    r: "Não. As assinaturas são mensais e você cancela quando quiser. A única cobrança à parte é a taxa de setup de R$ 100 do plano Agenda + site, paga uma vez na montagem — no Completo automático o setup é grátis.",
+    r: "Não. As assinaturas são mensais e você cancela quando quiser. Se houver taxa de montagem no seu caso, ela aparece na proposta antes de qualquer coisa começar — nunca depois.",
   },
   {
     p: "Preciso de site também? Ou só a agenda resolve?",

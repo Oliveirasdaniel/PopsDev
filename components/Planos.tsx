@@ -15,7 +15,9 @@ export default function Planos() {
             Comece pela agenda. Suba de plano quando fizer sentido.
           </h2>
           <p className="lead mt-6 max-w-xl">
-            Mensal, sem fidelidade, cancela quando quiser.
+            O escopo é o mesmo para todo mundo; o valor não. Uma agenda de um profissional e uma rede de
+            quatro unidades dão trabalhos diferentes — por isso o preço sai depois de uma conversa de 20
+            minutos, fechado por escrito e sem reajuste no meio do caminho.
           </p>
         </Reveal>
 
@@ -42,8 +44,18 @@ export default function Planos() {
                 <p className={`mt-1 text-sm ${escuro ? "text-base-950/55" : "text-muted"}`}>{p.formato}</p>
 
                 <div className="mt-9 flex items-baseline gap-1.5">
-                  <span className="display text-[2.5rem] leading-none">{p.preco}</span>
-                  <span className={`text-sm ${escuro ? "text-base-950/50" : "text-muted"}`}>{p.sufixo}</span>
+                  <span
+                    className={`display leading-none ${
+                      /\d/.test(p.preco) ? "text-[2.5rem]" : "text-[1.75rem]"
+                    }`}
+                  >
+                    {p.preco}
+                  </span>
+                  {p.sufixo && (
+                    <span className={`text-sm ${escuro ? "text-base-950/50" : "text-muted"}`}>
+                      {p.sufixo}
+                    </span>
+                  )}
                 </div>
                 <p
                   className={`mt-2 font-mono text-[11px] uppercase tracking-[0.12em] ${
