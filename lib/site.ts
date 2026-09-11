@@ -67,12 +67,14 @@ export const servicos = [
   {
     titulo: "Cardápio digital e delivery",
     resumo:
-      "Catálogo online com carrinho que fecha o pedido direto no WhatsApp — sem taxa de aplicativo.",
+      "Sistema próprio da Popsdev: o pedido é montado no seu site e chega formatado no seu WhatsApp. Nenhuma comissão por venda, nenhum aplicativo no meio.",
     itens: [
-      "Cardápio por categorias com fotos",
-      "Carrinho, observações e adicionais",
-      "Cálculo de taxa de entrega por bairro",
+      "Cardápio por categorias, com fotos e adicionais",
+      "Carrinho com observações do cliente",
+      "Taxa de entrega calculada por bairro",
+      "Aberto ou fechado conforme o seu horário",
       "Pedido formatado direto no seu WhatsApp",
+      "Sem comissão por pedido, nunca",
     ],
     icone: "cart" as const,
   },
@@ -231,7 +233,7 @@ export const faq = [
   },
   {
     p: "O cardápio com delivery cobra taxa por pedido?",
-    r: "Não. O pedido é montado no seu site e chega formatado no seu WhatsApp. Nenhuma comissão por venda, diferente dos aplicativos de entrega.",
+    r: "Não. O sistema de pedidos é próprio da Popsdev, desenvolvido por mim — não é plugin nem intermediário. O pedido é montado no seu site e chega formatado no seu WhatsApp, sem comissão por venda, diferente dos aplicativos de entrega que ficam com 20% a 30% de cada pedido.",
   },
   {
     p: "Eu consigo alterar textos e fotos sozinho?",
