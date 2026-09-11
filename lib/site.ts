@@ -123,65 +123,159 @@ export const projetos = [
 ];
 
 /**
- * Planos de agendamento.
+ * Planos, agrupados por família. Um negócio de horário marcado e um de
+ * entrega compram coisas diferentes — misturar tudo numa lista só faz
+ * cada um ler metade do que não interessa.
+ *
  * itens: `ok: false` aparece riscado, como recurso que o plano NÃO inclui.
- * nota: linha abaixo do preço (setup). `notaDestaque` deixa ela em verde.
+ * nota: linha abaixo do preço. `notaDestaque` deixa ela em verde.
  */
-export const planos = [
+export const familias = [
   {
-    nome: "Agenda WhatsApp",
-    formato: "Só o essencial, sem site",
-    preco: "Sob consulta",
-    sufixo: "",
-    nota: "Valor conforme o tamanho da agenda",
-    notaDestaque: false,
-    resumo:
-      "Para quem já tem clientes chegando e só precisa parar de perder horário no meio das mensagens.",
-    destaque: false,
-    itens: [
-      { t: "Agendamento via WhatsApp", ok: true },
-      { t: "Confirmação automática", ok: true },
-      { t: "Lembrete automático", ok: true },
+    id: "agendamento",
+    nome: "Para quem vive de horário marcado",
+    publico: "Barbearias, salões, clínicas, estética e terapeutas",
+    planos: [
+      {
+        nome: "Agenda WhatsApp",
+        formato: "Só o essencial, sem site",
+        preco: "Sob consulta",
+        sufixo: "",
+        nota: "Valor conforme o tamanho da agenda",
+        notaDestaque: false,
+        resumo:
+          "Para quem já tem clientes chegando e só precisa parar de perder horário no meio das mensagens.",
+        destaque: false,
+        itens: [
+          { t: "Agendamento via WhatsApp", ok: true },
+          { t: "Confirmação automática", ok: true },
+          { t: "Lembrete automático", ok: true },
+          { t: "Página própria na internet", ok: false },
+        ],
+        cta: "Combinar valor",
+      },
+      {
+        nome: "Agenda + site",
+        formato: "Presença online, cobrança manual",
+        preco: "Sob consulta",
+        sufixo: "",
+        nota: "Valor conforme o porte do negócio",
+        notaDestaque: false,
+        resumo: "Sua página própria no ar, com o cliente escolhendo o horário sozinho pelo site.",
+        destaque: false,
+        itens: [
+          { t: "Tudo do plano WhatsApp", ok: true },
+          { t: "Landing page própria", ok: true },
+          { t: "Agendamento pelo site", ok: true },
+          { t: "Cobrança do sinal via Pix manual", ok: false },
+        ],
+        cta: "Combinar valor",
+      },
+      {
+        nome: "Completo automático",
+        formato: "Zero trabalho manual",
+        preco: "Sob consulta",
+        sufixo: "",
+        nota: "Orçamento fechado antes de começar",
+        notaDestaque: true,
+        resumo: "O sistema cobra, confirma e reserva sozinho. Você só abre a agenda e atende.",
+        destaque: true,
+        selo: "Mais completo",
+        itens: [
+          { t: "Tudo do plano Agenda + site", ok: true },
+          { t: "Pix automático (cobrança sozinha)", ok: true },
+          { t: "Reserva automática de horário", ok: true },
+          { t: "Fim do no-show sem sinal pago", ok: true },
+        ],
+        cta: "Combinar valor",
+      },
     ],
-    cta: "Combinar valor",
   },
   {
-    nome: "Agenda + site",
-    formato: "Presença online, cobrança manual",
-    preco: "Sob consulta",
-    sufixo: "",
-    nota: "Valor conforme o porte do negócio",
-    notaDestaque: false,
-    resumo:
-      "Sua página própria no ar, com o cliente escolhendo o horário sozinho pelo site.",
-    destaque: false,
-    itens: [
-      { t: "Tudo do plano WhatsApp", ok: true },
-      { t: "Landing page própria", ok: true },
-      { t: "Agendamento pelo site", ok: true },
-      { t: "Cobrança via Pix manual", ok: false },
+    id: "delivery",
+    nome: "Para quem vive de pedido",
+    publico: "Restaurantes, lanchonetes, pizzarias, docerias e hamburguerias",
+    planos: [
+      {
+        nome: "Cardápio digital",
+        formato: "O pedido chega no seu WhatsApp",
+        preco: "Sob consulta",
+        sufixo: "",
+        nota: "Valor conforme o tamanho do cardápio",
+        notaDestaque: false,
+        resumo:
+          "Troca o print do cardápio no story por uma página de verdade, com carrinho e pedido formatado.",
+        destaque: false,
+        itens: [
+          { t: "Cardápio por categorias, com fotos", ok: true },
+          { t: "Carrinho com adicionais e observações", ok: true },
+          { t: "Taxa de entrega por bairro", ok: true },
+          { t: "Pedido formatado no seu WhatsApp", ok: true },
+          { t: "Sem comissão por pedido", ok: true },
+          { t: "Painel próprio de pedidos", ok: false },
+        ],
+        cta: "Combinar valor",
+      },
+      {
+        nome: "Delivery próprio",
+        formato: "Sistema completo, com painel",
+        preco: "Sob consulta",
+        sufixo: "",
+        nota: "Orçamento fechado antes de começar",
+        notaDestaque: true,
+        resumo:
+          "O pedido deixa de ser mensagem e vira sistema: cai no painel da cozinha, apita e anda por status.",
+        destaque: true,
+        selo: "Mais vendido",
+        itens: [
+          { t: "Tudo do Cardápio digital", ok: true },
+          { t: "Painel da cozinha em tempo real, com aviso sonoro", ok: true },
+          { t: "Status do pedido: recebido, preparo, saiu, entregue", ok: true },
+          { t: "Cliente acompanha por link, sem ligar para saber", ok: true },
+          { t: "Comanda impressa em impressora térmica", ok: true },
+          { t: "Cupons de desconto e relatório de vendas", ok: true },
+          { t: "Você mesmo edita cardápio, preços e horários", ok: true },
+        ],
+        cta: "Combinar valor",
+      },
+      {
+        nome: "Pedido + pagamento",
+        formato: "O dinheiro entra antes da moto sair",
+        preco: "Sob consulta",
+        sufixo: "",
+        nota: "Depende do gateway escolhido",
+        notaDestaque: false,
+        resumo:
+          "Para quem cansou de pedido cancelado no portão e de fechar o caixa conferindo comprovante.",
+        destaque: false,
+        itens: [
+          { t: "Tudo do Delivery próprio", ok: true },
+          { t: "Pix automático, com baixa sozinha", ok: true },
+          { t: "Pedido só entra na cozinha depois de pago", ok: true },
+          { t: "Fechamento de caixa conferido pelo sistema", ok: true },
+        ],
+        cta: "Combinar valor",
+      },
     ],
-    cta: "Combinar valor",
-  },
-  {
-    nome: "Completo automático",
-    formato: "Zero trabalho manual pro lojista",
-    preco: "Sob consulta",
-    sufixo: "",
-    nota: "Orçamento fechado antes de começar",
-    notaDestaque: true,
-    resumo:
-      "O sistema cobra, confirma e reserva sozinho. Você só abre a agenda e atende.",
-    destaque: true,
-    selo: "Mais completo",
-    itens: [
-      { t: "Tudo do plano Agenda + site", ok: true },
-      { t: "Pix automático (cobrança sozinha)", ok: true },
-      { t: "Reserva automática de horário", ok: true },
-    ],
-    cta: "Combinar valor",
   },
 ];
+
+/** Mantido para quem importava a lista antiga. */
+export const planos = familias[0].planos;
+
+export const sobMedida = {
+  nome: "Sob medida",
+  resumo:
+    "Várias unidades, integração com o sistema que você já usa, catálogo com estoque, área de cliente com histórico — ou qualquer coisa que nenhum plano acima resolve.",
+  itens: [
+    "Levantamento de requisitos e protótipo antes de codar",
+    "Multi-unidade e multi-profissional",
+    "Integrações com pagamento, planilhas e automações",
+    "Treinamento da sua equipe",
+    "Contrato e cronograma definidos",
+  ],
+  cta: "Falar sobre meu projeto",
+};
 
 export const processo = [
   {
@@ -220,7 +314,7 @@ export const faq = [
     r: "Não precisa ter antes. Eu publico o site e, se você quiser um domínio próprio (seunegocio.com.br), eu registro e configuro tudo para você.",
   },
   {
-    p: "Qual a diferença entre os três planos?",
+    p: "Qual a diferença entre os planos de agendamento?",
     r: "No Agenda WhatsApp você tem a agenda com confirmação e lembrete automáticos, sem site. No Agenda + site entra a sua landing page com agendamento pelo site, e a cobrança do sinal você faz no Pix manualmente. No Completo automático o Pix é automático e o horário fica reservado sozinho assim que o cliente paga — você não faz nada manual.",
   },
   {
@@ -234,6 +328,10 @@ export const faq = [
   {
     p: "Preciso de site também? Ou só a agenda resolve?",
     r: "Se você já vende bem pelo Instagram e só perde tempo marcando horário na mão, o Agenda WhatsApp resolve. Se você quer aparecer no Google, mostrar preços, fotos e depoimentos sem depender de rede social, vale ter o site junto.",
+  },
+  {
+    p: "Qual a diferença entre Cardápio digital e Delivery próprio?",
+    r: "No Cardápio digital o cliente monta o pedido no site e ele chega pronto no seu WhatsApp — simples e barato, mas quem organiza é você. No Delivery próprio o pedido vira sistema: cai num painel que apita na cozinha, anda por status (recebido, preparo, saiu, entregue), o cliente acompanha por um link sem te ligar, a comanda sai na impressora e você ainda tem cupons e relatório de vendas. E edita o cardápio sozinho, sem me chamar.",
   },
   {
     p: "O cardápio com delivery cobra taxa por pedido?",

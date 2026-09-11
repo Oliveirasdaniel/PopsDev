@@ -27,6 +27,9 @@ const modelos = [
   "Agenda WhatsApp",
   "Agenda + site",
   "Completo automático",
+  "Cardápio digital",
+  "Delivery próprio",
+  "Pedido + pagamento",
   "Projeto sob medida",
   "Quero entender qual vale mais a pena",
 ];
@@ -37,7 +40,7 @@ export default function Briefing() {
     negocio: "",
     segmento: segmentos[0],
     tipo: tipos[0],
-    modelo: modelos[4],
+    modelo: modelos[7],
     detalhes: "",
   });
 
