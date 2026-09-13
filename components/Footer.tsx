@@ -4,7 +4,7 @@ const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
   { href: "/#processo", label: "Processo" },
-  { href: "/#planos", label: "Planos" },
+  { href: "/#habilidades", label: "Habilidades" },
   { href: "/#faq", label: "Dúvidas" },
   { href: "/sobre", label: "Sobre" },
   { href: "/#contato", label: "Briefing" },

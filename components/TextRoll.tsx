@@ -1,15 +1,16 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const STAGGER = 0.03;
+const PASSO = 30; // ms de atraso entre uma letra e a seguinte
 
 /**
- * Letras que rolam para cima ao passar o mouse, com a de baixo entrando no lugar.
- * Usar em POUCAS palavras — a graça é o contraste com o texto parado ao redor.
+ * Letras que rolam para cima ao passar o mouse.
  *
- * Baseado no TextRoll do Skiper UI (@gurvinder-singh02).
+ * Feito em CSS puro. A versão anterior usava Framer Motion só para
+ * isto — uma biblioteca de ~50 kB para animar duas cópias de uma
+ * palavra. Transição com atraso escalonado faz o mesmo, sem
+ * JavaScript nenhum rodando no hover.
+ *
+ * Efeito original: TextRoll do Skiper UI (@gurvinder-singh02).
  */
 export default function TextRoll({
   children,
@@ -20,46 +21,41 @@ export default function TextRoll({
   className?: string;
   center?: boolean;
 }) {
-  const atraso = (i: number) =>
-    center ? STAGGER * Math.abs(i - (children.length - 1) / 2) : STAGGER * i;
-
   const letras = children.split("");
+  const atraso = (i: number) =>
+    center ? PASSO * Math.abs(i - (letras.length - 1) / 2) : PASSO * i;
 
   return (
-    <motion.span
-      initial="parado"
-      whileHover="rolando"
-      className={cn("relative inline-block overflow-hidden align-bottom", className)}
+    <span
+      className={cn("group relative inline-block overflow-hidden align-bottom", className)}
       style={{ lineHeight: 0.85 }}
     >
       <span aria-hidden="true">
         {letras.map((l, i) => (
-          <motion.span
+          <span
             key={i}
-            variants={{ parado: { y: 0 }, rolando: { y: "-100%" } }}
-            transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.5, delay: atraso(i) }}
-            className="inline-block"
+            className="inline-block transition-transform duration-[520ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-full"
+            style={{ transitionDelay: `${atraso(i)}ms` }}
           >
             {l === " " ? " " : l}
-          </motion.span>
+          </span>
         ))}
       </span>
 
       <span className="absolute inset-0" aria-hidden="true">
         {letras.map((l, i) => (
-          <motion.span
+          <span
             key={i}
-            variants={{ parado: { y: "100%" }, rolando: { y: 0 } }}
-            transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.5, delay: atraso(i) }}
-            className="inline-block"
+            className="inline-block translate-y-full transition-transform duration-[520ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0"
+            style={{ transitionDelay: `${atraso(i)}ms` }}
           >
             {l === " " ? " " : l}
-          </motion.span>
+          </span>
         ))}
       </span>
 
       {/* Só esta cópia é lida por leitor de tela e copiada no Ctrl+C. */}
       <span className="sr-only">{children}</span>
-    </motion.span>
+    </span>
   );
 }
