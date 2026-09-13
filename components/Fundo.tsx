@@ -1,24 +1,32 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import ClickEffects from "./originkit/ui/clickeffects";
 
 /**
- * Camada de fundo do site. É o único lugar que conhece os efeitos.
+ * Camada de fundo do site.
  *
- * O Pixel Trail foi removido: ele monta milhares de <div> e um timer por
- * célula, o que travava a página. Sobrou o ClickEffects, que só desenha
- * no momento do clique e não custa nada enquanto está parado.
+ * O ClickEffects puxa o GSAP junto (~70 kB). Como ele é enfeite, não
+ * entra no carregamento inicial: só é buscado quando o navegador fica
+ * ocioso, depois da página já estar utilizável. Quem clicar no primeiro
+ * segundo não vê o anel — e isso é melhor que a página inteira demorar.
  */
+const ClickEffects = dynamic(() => import("./originkit/ui/clickeffects"), { ssr: false });
+
 export default function Fundo() {
-  const [animar, setAnimar] = useState(false);
+  const [ligar, setLigar] = useState(false);
 
   useEffect(() => {
-    // Quem pediu menos movimento no sistema não recebe efeito nenhum.
-    setAnimar(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ocioso =
+      (window as any).requestIdleCallback ?? ((fn: () => void) => setTimeout(fn, 1200));
+    const id = ocioso(() => setLigar(true));
+
+    return () => (window as any).cancelIdleCallback?.(id);
   }, []);
 
-  if (!animar) return null;
+  if (!ligar) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">

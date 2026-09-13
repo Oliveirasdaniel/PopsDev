@@ -92,7 +92,23 @@ export const servicos = [
   },
 ];
 
-export const projetos = [
+/**
+ * `contexto` é opcional e serve para dizer a verdade sobre o projeto
+ * quando ela não é óbvia pelo print — por exemplo, um trabalho que
+ * está pronto mas ainda não entrou em operação. Sem isso, a vitrine
+ * daria a entender que tudo ali é negócio faturando.
+ */
+export type Projeto = {
+  nome: string;
+  segmento: string;
+  url: string;
+  imagem: string;
+  descricao: string;
+  tags: string[];
+  contexto?: string;
+};
+
+export const projetos: Projeto[] = [
   {
     nome: "Florae Cosméticos",
     segmento: "Cosméticos veganos · E-commerce",
@@ -101,6 +117,8 @@ export const projetos = [
     descricao:
       "Loja completa com catálogo de produtos, carrinho e um quiz de diagnóstico capilar que recomenda a linha certa para cada tipo de cabelo.",
     tags: ["E-commerce", "Carrinho", "Quiz de diagnóstico", "Catálogo"],
+    contexto:
+      "Projeto desenvolvido no Espro (Jovem Aprendiz). A loja está construída e navegável, mas ainda não entrou em operação por falta de verba.",
   },
   {
     nome: "Kelly Ferreira",
