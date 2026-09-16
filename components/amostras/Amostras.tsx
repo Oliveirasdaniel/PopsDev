@@ -139,7 +139,7 @@ export function AmostraPainel() {
               className="flex-1 rounded-t-[3px]"
               style={{
                 height: `${b}%`,
-                background: i === 5 ? "#a3e635" : "rgba(255,255,255,.16)",
+                background: i === 5 ? "#f0b73c" : "rgba(255,255,255,.16)",
               }}
             />
           ))}
@@ -234,25 +234,26 @@ export function AmostraLoja() {
 /* ---------------------------------------------------------- 6 */
 export function AmostraIdentidade() {
   return (
-    <Moldura fundo="#ffffff" cor="#e9ccff" etiqueta="Identidade visual">
-      <div className="flex h-full flex-col p-3">
-        <p className="text-[40px] font-black leading-[0.8] tracking-tighter text-black">Aa</p>
-        <p className="text-[8px] uppercase tracking-[0.2em] text-black/40">Archivo · Plex Mono</p>
+    <Moldura fundo="#141413" cor="#f0b73c" etiqueta="Identidade visual">
+      <div className="flex h-full flex-col p-3 text-[#ece9e2]">
+        {/* A própria identidade da Popsdev, como amostra de repertório. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo/letreiro.svg" alt="" width={124} height={42} className="[image-rendering:pixelated]" />
+        <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#8b8b85]">Archivo · Jersey 10</p>
 
         <div className="mt-3 grid grid-cols-5 gap-1">
-          {["#141413", "#a3e635", "#4da2ff", "#fb4903", "#e9ccff"].map((c) => (
-            <div key={c} className="aspect-square rounded-md border border-black/10" style={{ background: c }} />
+          {["#141413", "#f0b73c", "#ffe38a", "#a3a7a2", "#474b48"].map((c) => (
+            <div key={c} className="aspect-square border border-white/15" style={{ background: c }} />
           ))}
         </div>
 
         <div className="mt-3 flex flex-1 items-end gap-2">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-black text-[15px] font-black text-white">
-            P
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo/marca.svg" alt="" width={38} height={38} className="[image-rendering:pixelated]" />
           <div className="flex-1 space-y-1">
-            <div className="h-1.5 w-full rounded-full bg-black/[.08]" />
-            <div className="h-1.5 w-2/3 rounded-full bg-black/[.08]" />
-            <div className="h-1.5 w-1/2 rounded-full bg-black/[.08]" />
+            <div className="h-1.5 w-full bg-white/10" />
+            <div className="h-1.5 w-2/3 bg-white/10" />
+            <div className="h-1.5 w-1/2 bg-[#f0b73c]" />
           </div>
         </div>
       </div>

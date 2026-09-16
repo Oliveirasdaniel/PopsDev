@@ -163,7 +163,7 @@ export default function Briefing() {
               estiver lá, escreva. No fim, o WhatsApp abre com tudo escrito.
             </p>
 
-            <dl className="mt-10 border-t border-line font-mono text-[11px] uppercase tracking-[0.14em]">
+            <dl className="mt-10 border-t border-line font-pixel text-[20px] uppercase leading-none tracking-[0.06em]">
               <div className="flex justify-between gap-4 border-b border-line py-3">
                 <dt className="text-muted">Resposta</dt>
                 <dd className="text-bone/80">até 2h úteis</dd>
@@ -173,7 +173,7 @@ export default function Briefing() {
                 <dd className="normal-case tracking-normal">
                   <a
                     href={`mailto:${site.email}`}
-                    className="text-bone/80 underline decoration-line underline-offset-4 hover:decoration-acid"
+                    className="text-bone/80 underline decoration-line underline-offset-4 hover:decoration-acento"
                   >
                     {site.email}
                   </a>
@@ -186,10 +186,11 @@ export default function Briefing() {
             </dl>
           </div>
 
-          <div className="overflow-hidden rounded-[28px] border border-line bg-base-900/60">
-            <div className="h-1 w-full bg-white/5">
+          <div className="casco overflow-hidden">
+            {/* m-1: a barra fica dentro da moldura do caixote, sem cobri-la. */}
+            <div className="m-1 h-1.5 bg-black/40">
               <div
-                className="h-full bg-acid transition-[width] duration-500"
+                className="h-full bg-acento transition-[width] duration-500"
                 style={{ width: `${progresso}%` }}
               />
             </div>
@@ -211,10 +212,10 @@ export default function Briefing() {
                           key={o}
                           type="button"
                           onClick={() => responder(atual.chave, o)}
-                          className={`rounded-full border px-5 py-3 text-sm transition-all duration-150 active:scale-[.97] ${
+                          className={`border-2 px-5 py-3 text-sm transition-colors duration-150 active:translate-y-px ${
                             escolhida
-                              ? "border-acid bg-acid font-semibold text-base-950"
-                              : "border-line text-bone/75 hover:border-bone/40 hover:bg-white/[.04]"
+                              ? "border-contorno bg-acento font-semibold text-contorno"
+                              : "border-andesito-fundo bg-base-900 text-bone/80 hover:border-andesito-escuro hover:text-bone"
                           }`}
                         >
                           {o}
@@ -227,7 +228,7 @@ export default function Briefing() {
                       <button
                         type="button"
                         onClick={() => setEscrevendoOutro(true)}
-                        className="rounded-full border border-dashed border-line px-5 py-3 text-sm text-muted transition hover:border-acid/50 hover:text-bone"
+                        className="border-2 border-dashed border-andesito-fundo px-5 py-3 text-sm text-muted transition hover:border-acento/60 hover:text-bone"
                       >
                         Outro…
                       </button>
@@ -244,12 +245,12 @@ export default function Briefing() {
                           value={outro}
                           onChange={(e) => setOutro(e.target.value)}
                           placeholder="Escreva a sua resposta"
-                          className="h-12 min-w-0 flex-1 rounded-full border border-acid/50 bg-transparent px-5 text-sm text-bone outline-none placeholder:text-muted/60 sm:w-64"
+                          className="h-12 min-w-0 flex-1 border-2 border-acento/60 bg-base-900 px-5 text-sm text-bone outline-none placeholder:text-muted/60 sm:w-64"
                         />
                         <button
                           type="submit"
                           disabled={!outro.trim()}
-                          className="btn-solid !h-12 shrink-0 !rounded-full !px-5 disabled:opacity-40"
+                          className="btn-solid !h-12 shrink-0 !px-5 disabled:opacity-40"
                         >
                           Usar
                         </button>
@@ -262,7 +263,7 @@ export default function Briefing() {
                       <button
                         type="button"
                         onClick={() => irPara(passo - 1)}
-                        className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted hover:text-bone"
+                        className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted hover:text-bone"
                       >
                         ← voltar
                       </button>
@@ -271,7 +272,7 @@ export default function Briefing() {
                     <button
                       type="button"
                       onClick={() => irPara(editando.current ? FIM : passo + 1)}
-                      className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted hover:text-bone"
+                      className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted hover:text-bone"
                     >
                       pular →
                     </button>
@@ -288,10 +289,10 @@ export default function Briefing() {
                         key={p.chave}
                         type="button"
                         onClick={() => irPara(i, true)}
-                        className="rounded-full border border-line px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted transition hover:border-acid/50 hover:text-bone"
+                        className="border-2 border-andesito-fundo px-3 py-1.5 font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted transition hover:border-acento/50 hover:text-bone"
                       >
                         {respostas[p.chave] || "não respondeu"}
-                        <span className="ml-1.5 text-acid">editar</span>
+                        <span className="ml-1.5 text-acento">editar</span>
                       </button>
                     ))}
                   </div>
@@ -303,7 +304,7 @@ export default function Briefing() {
                       </label>
                       <input
                         id="nome"
-                        className={`field !rounded-xl ${avisoNome ? "!border-acid" : ""}`}
+                        className={`field ${avisoNome ? "!border-acento" : ""}`}
                         value={nome}
                         onChange={(e) => {
                           setNome(e.target.value);
@@ -312,7 +313,7 @@ export default function Briefing() {
                         placeholder="Como posso te chamar?"
                       />
                       {avisoNome && (
-                        <p className="mt-1.5 text-xs text-acid">
+                        <p className="mt-1.5 text-xs text-acento">
                           Só o nome, para eu não começar com &ldquo;olá&rdquo;.
                         </p>
                       )}
@@ -323,7 +324,7 @@ export default function Briefing() {
                       </label>
                       <input
                         id="negocio"
-                        className="field !rounded-xl"
+                        className="field"
                         value={negocio}
                         onChange={(e) => setNegocio(e.target.value)}
                         placeholder="Ex.: Barbearia Norte"
@@ -356,14 +357,14 @@ export default function Briefing() {
                           document.getElementById("nome")?.focus();
                         }
                       }}
-                      className="btn-solid !h-12 !rounded-full !px-8"
+                      className="btn-solid !h-12 !px-8"
                     >
                       Enviar pelo WhatsApp
                     </a>
                     <button
                       type="button"
                       onClick={() => irPara(FIM - 1)}
-                      className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted hover:text-bone"
+                      className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted hover:text-bone"
                     >
                       ← voltar
                     </button>

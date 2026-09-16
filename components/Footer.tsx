@@ -16,10 +16,8 @@ export default function Footer() {
       <div className="wrap py-14">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto]">
           <div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-[17px] font-semibold tracking-tightest">popsdev</span>
-              <span className="h-1.5 w-1.5 rounded-full bg-acid" aria-hidden="true" />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo/letreiro.svg" alt={site.nome} width={124} height={42} className="[image-rendering:pixelated]" />
             <p className="lead mt-4 max-w-xs text-sm">{site.descricao}</p>
             <a
               href={whatsappLink(`Olá, Daniel! Vim pelo site da ${site.nome} e quero um orçamento.`)}
@@ -76,7 +74,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-line pt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-2 border-t border-line pt-5 font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {site.nome} — {site.autor}
           </p>
