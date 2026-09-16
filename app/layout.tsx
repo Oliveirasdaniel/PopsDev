@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Jersey_10 } from "next/font/google";
 import Fundo from "@/components/Fundo";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -10,12 +10,18 @@ const sans = Archivo({
   variable: "--font-sans",
 });
 
-const mono = IBM_Plex_Mono({
+// Fonte pixel dos rótulos: conversa com a logo sem sacrificar a leitura
+// dos títulos, que continuam na Archivo.
+const pixel = Jersey_10({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "400",
   display: "swap",
-  variable: "--font-mono",
+  // O Next não tem as métricas desta fonte para calibrar a substituta e
+  // avisava no build. Os rótulos são curtos: o ajuste não faz falta.
+  adjustFontFallback: false,
+  variable: "--font-pixel",
 });
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -53,7 +59,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="pt-BR" className={`${sans.variable} ${pixel.variable}`}>
       <body className="grain">
         <Fundo />
         <div className="relative z-10">{children}</div>

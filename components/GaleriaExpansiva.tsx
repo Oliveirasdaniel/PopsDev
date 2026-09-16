@@ -47,7 +47,7 @@ export default function GaleriaExpansiva({ projetos }: { projetos: Projeto[] }) 
 
             {/* Nome de pé, quando encolhido. */}
             <span
-              className={`absolute bottom-6 left-1/2 origin-bottom-left -translate-x-1/2 rotate-180 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.2em] text-bone/70 transition-opacity duration-300 [writing-mode:vertical-rl] ${
+              className={`absolute bottom-6 left-1/2 origin-bottom-left -translate-x-1/2 rotate-180 whitespace-nowrap font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-bone/70 transition-opacity duration-300 [writing-mode:vertical-rl] ${
                 expandido ? "pointer-events-none opacity-0" : "opacity-100"
               }`}
             >
@@ -71,7 +71,7 @@ export default function GaleriaExpansiva({ projetos }: { projetos: Projeto[] }) 
               {/* Ressalva do projeto, quando existe. Fica logo abaixo da
                   descrição para ninguém ler o print como loja faturando. */}
               {p.contexto && (
-                <p className="mt-3 hidden max-w-md border-l-2 border-acid/50 pl-3 text-xs leading-relaxed text-bone/55 sm:block">
+                <p className="mt-3 hidden max-w-md border-l-2 border-acento/50 pl-3 text-xs leading-relaxed text-bone/55 sm:block">
                   {p.contexto}
                 </p>
               )}

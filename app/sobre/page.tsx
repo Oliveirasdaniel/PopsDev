@@ -89,7 +89,7 @@ export default function Sobre() {
                   height={900}
                   className="w-full"
                 />
-                <figcaption className="mt-3 border-t border-line pt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+                <figcaption className="mt-3 border-t border-line pt-3 font-pixel text-[20px] uppercase leading-[1.1] tracking-[0.06em] text-muted">
                   {site.autor} — {site.cargo}
                 </figcaption>
               </figure>

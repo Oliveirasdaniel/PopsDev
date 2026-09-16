@@ -35,7 +35,7 @@ export default function Habilidades() {
 
       <div className="wrap">
         <Reveal delay={80}>
-          <div className="mt-10 overflow-hidden rounded-[28px] border border-line bg-base-900/60 p-8 text-center sm:p-12">
+          <div className="casco mt-10 p-8 text-center sm:p-12">
             <p className="label-mono">O seu não está aí</p>
             <h3 className="display mx-auto mt-4 max-w-2xl text-3xl leading-[1] sm:text-5xl">
               Me conta o que você precisa.
@@ -45,7 +45,7 @@ export default function Habilidades() {
               uma proposta — escopo e valor fechados antes de qualquer coisa começar.
             </p>
 
-            <a href="#contato" className="btn-solid mt-8 !h-12 !rounded-full !px-8">
+            <a href="#contato" className="btn-solid mt-8 !h-12 !px-8">
               Começar o briefing
               <span aria-hidden="true">↓</span>
             </a>

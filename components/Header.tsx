@@ -37,9 +37,11 @@ export default function Header() {
       }`}
     >
       <div className="wrap flex h-16 items-center justify-between">
-        <a href="/" className="flex items-baseline gap-1.5" aria-label={`${site.nome} — início`}>
-          <span className="text-[17px] font-semibold tracking-tightest">popsdev</span>
-          <span className="h-1.5 w-1.5 rounded-full bg-acid" aria-hidden="true" />
+        <a href="/" className="flex items-center" aria-label={`${site.nome} — início`}>
+          {/* Pixel art em 2x exato (62x21 -> 124x42): em escala quebrada os
+              pixels ficam com larguras diferentes. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo/letreiro.svg" alt="" width={124} height={42} className="[image-rendering:pixelated]" />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
@@ -47,7 +49,7 @@ export default function Header() {
             <a
               key={l.href}
               href={l.href}
-              className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-bone"
+              className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted transition-colors hover:text-bone"
             >
               {l.label}
             </a>

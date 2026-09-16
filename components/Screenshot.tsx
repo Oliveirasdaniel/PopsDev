@@ -16,7 +16,7 @@ export default function Screenshot({ src, alt, nome }: Props) {
   if (falhou) {
     return (
       <div className="grid h-full w-full place-items-center bg-base-900">
-        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">{nome}</span>
+        <span className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted">{nome}</span>
       </div>
     );
   }

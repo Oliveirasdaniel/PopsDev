@@ -143,8 +143,8 @@ export default function CarrosselHabilidades() {
               onClick={() => irPara(i)}
               aria-label={a.titulo}
               aria-current={i === ativo}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === ativo ? "w-6 bg-acid" : "w-2 bg-bone/25 hover:bg-bone/50"
+              className={`h-2 transition-all duration-300 ${
+                i === ativo ? "w-6 bg-acento" : "w-2 bg-bone/25 hover:bg-bone/50"
               }`}
             />
           ))}
