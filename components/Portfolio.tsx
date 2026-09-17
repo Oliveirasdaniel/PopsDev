@@ -13,7 +13,7 @@ export default function Portfolio() {
 
         <Reveal delay={60}>
           <h2 className="display mt-10 max-w-2xl text-3xl leading-[1.05] sm:text-[2.75rem]">
-            Três projetos que eu construí. Passe o mouse e veja de perto.
+            Quatro projetos que eu construí. Passe o mouse e veja de perto.
           </h2>
         </Reveal>
 
