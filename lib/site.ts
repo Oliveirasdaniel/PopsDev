@@ -21,7 +21,7 @@ export const site = {
 };
 
 export const stats = [
-  { valor: "3", label: "sites no ar", detalhe: "beleza, alimentação e serviços" },
+  { valor: "4", label: "sites no ar", detalhe: "beleza, alimentação, serviços e mídia" },
   { valor: "7 dias", label: "para entregar", detalhe: "landing page, do briefing ao ar" },
   { valor: "24h", label: "para o orçamento", detalhe: "depois da primeira conversa" },
 ];
@@ -128,6 +128,15 @@ export const projetos: Projeto[] = [
     descricao:
       "Site de autoridade para terapeuta capilar: vitrine de serviços, resultados antes e depois e agendamento de consulta direto pelo WhatsApp.",
     tags: ["Agendamento", "Antes e depois", "WhatsApp", "Serviços"],
+  },
+  {
+    nome: "Mídia Led",
+    segmento: "Mídia exterior · Painéis de LED",
+    url: "https://midia-led.vercel.app",
+    imagem: "/portfolio/midia-led.png",
+    descricao:
+      "Site de uma operação de mídia em LED na Baixada Fluminense: o trio de telas sobre veículo e o painel duplo da Via Dutra, com vídeo de fundo, números de circulação e pedido de orçamento em um clique.",
+    tags: ["Landing page", "Vídeo de fundo", "Mídia exterior", "Orçamento"],
   },
   {
     nome: "Artesãos do Crepe",

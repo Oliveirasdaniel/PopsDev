@@ -45,9 +45,11 @@ export default function GaleriaExpansiva({ projetos }: { projetos: Projeto[] }) 
             />
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-base-950 via-base-950/70 to-transparent" />
 
-            {/* Nome de pé, quando encolhido. */}
+            {/* Nome de pé, quando encolhido. Sem origin-bottom-left: girando
+                pelo canto, a caixa ia para baixo do card e o nome saía
+                cortado — dava para ler só as últimas letras. */}
             <span
-              className={`absolute bottom-6 left-1/2 origin-bottom-left -translate-x-1/2 rotate-180 whitespace-nowrap font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-bone/70 transition-opacity duration-300 [writing-mode:vertical-rl] ${
+              className={`absolute bottom-6 left-1/2 -translate-x-1/2 rotate-180 whitespace-nowrap font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-bone/70 transition-opacity duration-300 [writing-mode:vertical-rl] ${
                 expandido ? "pointer-events-none opacity-0" : "opacity-100"
               }`}
             >
