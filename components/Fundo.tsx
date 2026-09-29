@@ -33,7 +33,7 @@ export default function Fundo() {
       <ClickEffects
         showLabel={false}
         interactionMode="rings"
-        color="#f0b73c"
+        color="#ff4f12"
         strokeWidth={1.5}
         effectSize={160}
         duration={0.6}

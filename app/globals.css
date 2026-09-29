@@ -17,8 +17,8 @@ body {
 }
 
 ::selection {
-  background: #f0b73c;
-  color: #24170b;
+  background: theme("colors.destaque.DEFAULT");
+  color: theme("colors.contorno");
 }
 
 @layer components {
@@ -46,69 +46,70 @@ body {
            focus-visible:outline-offset-4 focus-visible:outline-acento;
   }
 
-  /* Placa de latão com o mesmo volume da logo: luz no fio de cima, degrau
-     escuro embaixo e contorno de 2px. Ao apertar, o botão desce o degrau —
-     como botão de interface de jogo. Cantos retos: é pixel art. */
+  /* Placa amarela com o mesmo volume da logo: luz no fio de cima, degrau
+     escuro embaixo e contorno de 2px. Amarela porque na arte o amarelo é
+     a ação (o botão, a seta). Ao apertar, o botão desce o degrau — como
+     botão de interface de jogo. Cantos retos: é pixel art. */
   .btn-solid {
-    @apply btn h-11 bg-acento px-6 font-semibold text-contorno;
+    @apply btn h-11 bg-destaque px-6 font-semibold text-contorno;
     box-shadow:
-      inset 0 2px 0 theme("colors.acento.claro"),
-      inset 0 -2px 0 theme("colors.acento.escuro"),
-      0 3px 0 0 theme("colors.acento.fundo"),
+      inset 0 2px 0 theme("colors.destaque.claro"),
+      inset 0 -2px 0 theme("colors.destaque.escuro"),
+      0 3px 0 0 theme("colors.destaque.fundo"),
       0 0 0 2px theme("colors.contorno"),
       0 3px 0 2px theme("colors.contorno");
     transition: transform 80ms, box-shadow 80ms, background-color 150ms;
   }
   .btn-solid:hover {
-    background-color: #f7c653;
+    background-color: #ffdf3d;
   }
   .btn-solid:active {
     transform: translateY(3px);
     box-shadow:
-      inset 0 2px 0 theme("colors.acento.claro"),
-      inset 0 -2px 0 theme("colors.acento.escuro"),
+      inset 0 2px 0 theme("colors.destaque.claro"),
+      inset 0 -2px 0 theme("colors.destaque.escuro"),
       0 0 0 2px theme("colors.contorno");
   }
 
-  /* A mesma placa, em andesito escuro: ação secundária. */
+  /* A mesma placa, em marinho: ação secundária. */
   .btn-line {
     @apply btn h-11 bg-base-800 px-6 text-bone;
     box-shadow:
-      inset 0 2px 0 theme("colors.andesito.fundo"),
-      inset 0 -2px 0 #1b1c1b,
-      0 3px 0 0 #101110,
-      0 0 0 2px #0b0b0a,
-      0 3px 0 2px #0b0b0a;
+      inset 0 2px 0 theme("colors.neutro.fundo"),
+      inset 0 -2px 0 #0d1d52,
+      0 3px 0 0 #07133d,
+      0 0 0 2px theme("colors.contorno"),
+      0 3px 0 2px theme("colors.contorno");
     transition: transform 80ms, box-shadow 80ms, background-color 150ms;
   }
   .btn-line:hover {
-    background-color: #33322e;
+    background-color: #1f377f;
   }
   .btn-line:active {
     transform: translateY(3px);
     box-shadow:
-      inset 0 2px 0 theme("colors.andesito.fundo"),
-      inset 0 -2px 0 #1b1c1b,
-      0 0 0 2px #0b0b0a;
+      inset 0 2px 0 theme("colors.neutro.fundo"),
+      inset 0 -2px 0 #0d1d52,
+      0 0 0 2px theme("colors.contorno");
   }
 
-  /* Caixote de andesito: moldura dupla e 4 parafusos, como as carcaças do
-     Create. Os parafusos são fundo, não elementos — não pesam no HTML. */
+  /* Caixote: moldura dupla e 4 parafusos, como as carcaças do Create.
+     Os parafusos são fundo, não elementos — não pesam no HTML. */
   .casco {
     background:
-      linear-gradient(theme("colors.andesito.claro") 0 0) left 10px top 10px / 4px 4px no-repeat,
-      linear-gradient(theme("colors.andesito.claro") 0 0) right 10px top 10px / 4px 4px no-repeat,
-      linear-gradient(theme("colors.andesito.claro") 0 0) left 10px bottom 10px / 4px 4px no-repeat,
-      linear-gradient(theme("colors.andesito.claro") 0 0) right 10px bottom 10px / 4px 4px no-repeat,
-      #1c1d1c;
+      linear-gradient(theme("colors.neutro.claro") 0 0) left 10px top 10px / 4px 4px no-repeat,
+      linear-gradient(theme("colors.neutro.claro") 0 0) right 10px top 10px / 4px 4px no-repeat,
+      linear-gradient(theme("colors.neutro.claro") 0 0) left 10px bottom 10px / 4px 4px no-repeat,
+      linear-gradient(theme("colors.neutro.claro") 0 0) right 10px bottom 10px / 4px 4px no-repeat,
+      theme("colors.base.900");
     box-shadow:
-      inset 0 0 0 2px theme("colors.andesito.fundo"),
-      inset 0 0 0 4px #252625,
-      0 0 0 2px #0b0b0a;
+      inset 0 0 0 2px theme("colors.neutro.fundo"),
+      inset 0 0 0 4px #13286b,
+      0 0 0 2px theme("colors.contorno");
   }
 
   .field {
-    @apply h-11 w-full border-2 border-andesito-fundo bg-base-900 px-3.5 text-sm text-bone
+    @apply h-11 w-full border-2 border-neutro-fundo bg-base-900 px-3.5 text-sm text-bone
            outline-none transition-colors placeholder:text-muted/60
            focus:border-acento;
   }
@@ -122,8 +123,8 @@ body {
     @apply font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-acento;
   }
 
-  /* Abertura de seção: engrenagem da logo, número, nome e um eixo de
-     andesito atravessando até a borda — cada seção "engatada" na próxima.
+  /* Abertura de seção: engrenagem da logo, número, nome e um eixo
+     cinza-azulado atravessando até a borda — cada seção "engatada" na próxima.
      Tudo em pseudo-elemento: nenhuma seção precisou mudar de marcação. */
   .rule {
     @apply flex items-center gap-3;
@@ -141,21 +142,21 @@ body {
     flex: 1;
     height: 6px;
     margin-left: 6px;
-    background: repeating-linear-gradient(90deg, theme("colors.andesito.escuro") 0 6px, #5b5f5c 6px 12px);
+    background: repeating-linear-gradient(90deg, theme("colors.neutro.escuro") 0 6px, #6f789c 6px 12px);
     box-shadow:
-      inset 0 2px 0 theme("colors.andesito.DEFAULT"),
-      inset 0 -2px 0 theme("colors.andesito.fundo"),
-      0 0 0 2px #0b0b0a;
+      inset 0 2px 0 theme("colors.neutro.DEFAULT"),
+      inset 0 -2px 0 theme("colors.neutro.fundo"),
+      0 0 0 2px theme("colors.contorno");
   }
 }
 
 
-/* Palavra "selecionada": tarja de latão varrendo da esquerda para a direita. */
+/* Palavra "selecionada": grifo amarelo varrendo da esquerda para a direita. */
 .selecao-tarja {
   position: absolute;
   inset: 0;
-  color: #24170b;
-  background: #f0b73c;
+  color: theme("colors.contorno");
+  background: theme("colors.destaque.DEFAULT");
   padding: 0 0.06em;
   margin: -0.04em -0.06em;
   clip-path: inset(0 100% 0 0);

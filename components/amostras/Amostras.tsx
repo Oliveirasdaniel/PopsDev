@@ -234,15 +234,15 @@ export function AmostraLoja() {
 /* ---------------------------------------------------------- 6 */
 export function AmostraIdentidade() {
   return (
-    <Moldura fundo="#141413" cor="#f0b73c" etiqueta="Identidade visual">
-      <div className="flex h-full flex-col p-3 text-[#ece9e2]">
+    <Moldura fundo="#0b1b4d" cor="#ff4f12" etiqueta="Identidade visual">
+      <div className="flex h-full flex-col p-3 text-[#eef0f7]">
         {/* A própria identidade da Popsdev, como amostra de repertório. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo/letreiro.svg" alt="" width={124} height={42} className="[image-rendering:pixelated]" />
-        <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#8b8b85]">Archivo · Jersey 10</p>
+        <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#8b93b2]">Archivo · Jersey 10</p>
 
         <div className="mt-3 grid grid-cols-5 gap-1">
-          {["#141413", "#f0b73c", "#ffe38a", "#a3a7a2", "#474b48"].map((c) => (
+          {["#0b1b4d", "#ff4f12", "#ffd60a", "#e6e9f2", "#8b93b2"].map((c) => (
             <div key={c} className="aspect-square border border-white/15" style={{ background: c }} />
           ))}
         </div>
@@ -253,7 +253,7 @@ export function AmostraIdentidade() {
           <div className="flex-1 space-y-1">
             <div className="h-1.5 w-full bg-white/10" />
             <div className="h-1.5 w-2/3 bg-white/10" />
-            <div className="h-1.5 w-1/2 bg-[#f0b73c]" />
+            <div className="h-1.5 w-1/2 bg-[#ff4f12]" />
           </div>
         </div>
       </div>

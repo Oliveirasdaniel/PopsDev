@@ -5,41 +5,53 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Cinzas neutros, sem tingimento verde.
-        // Preto levemente aquecido, para casar com o bone do texto.
-        // Nao e preto puro: #0a0a0a fechava demais e achatava os fios.
+        // Identidade laranja + marinho + amarelo, tirada das artes da
+        // Popsdev para redes sociais (cores medidas em pixel, não no olho).
+        // Lá o marinho é texto e faixa; aqui vira o fundo do site, e o
+        // laranja fica como acento — laranja chapado em página inteira
+        // cansaria a leitura.
         base: {
-          950: "#141413",
-          900: "#1b1b19",
-          850: "#222220",
-          800: "#2a2926",
+          950: "#0b1b4d", // o marinho exato da arte
+          900: "#0f2258",
+          850: "#142863",
+          800: "#192f6f",
         },
-        line: "rgba(255,255,255,.11)",
-        bone: "#ece9e2",
-        muted: "#8b8b85",
+        line: "rgba(230,233,242,.13)",
+        bone: "#eef0f7",
+        muted: "#8b93b2",
 
-        // Identidade Popsdev x Create. As cores saem da logo em pixel art
-        // (scripts/logo/gerar.mjs) — mudou lá, muda aqui.
+        // As cores também saem na logo em pixel art (scripts/logo/gerar.mjs)
+        // — mudou lá, muda aqui.
         //
-        // `acento` tem nome de FUNÇÃO, não de cor: trocar a paleta não
-        // obriga a renomear classe em nenhum componente.
+        // `acento`, `destaque` e `neutro` têm nome de FUNÇÃO, não de cor:
+        // trocar a paleta não obriga a renomear classe em nenhum componente.
         acento: {
-          DEFAULT: "#f0b73c", // latão
-          claro: "#ffe38a",
-          escuro: "#c27e22",
-          fundo: "#8a5317",
+          DEFAULT: "#ff4f12", // laranja: a cor da marca
+          claro: "#ff916b",
+          escuro: "#d13d0a",
+          fundo: "#8f2a06",
         },
-        andesito: {
-          claro: "#d5d8d3",
-          DEFAULT: "#a3a7a2",
-          escuro: "#6f7470",
-          fundo: "#474b48",
+        // Amarelo: na arte é o botão e a seta do "conclua o formulário".
+        // Aqui faz o mesmo papel — ação principal e grifo.
+        destaque: {
+          DEFAULT: "#ffd60a",
+          claro: "#ffe566",
+          escuro: "#d9b000",
+          fundo: "#8f7400",
         },
-        contorno: "#24170b",
+        // Cinzas azulados das janelas da arte, mais um marinho médio para
+        // bordas e fundos de peça.
+        neutro: {
+          claro: "#e6e9f2",
+          DEFAULT: "#b9bfd3",
+          escuro: "#8b93b2",
+          fundo: "#2e3d78",
+        },
+        contorno: "#050e2e",
 
         // Paleta "sticker": usada SÓ nas amostras de habilidade e em
-        // detalhes decorativos. O site continua com um acento só — estas
-        // existem para provar repertório, não para virar tema.
+        // detalhes decorativos. Existem para provar repertório, não para
+        // virar tema.
         sticker: {
           azul: "#4da2ff",
           menta: "#55db9c",

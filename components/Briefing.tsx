@@ -215,7 +215,7 @@ export default function Briefing() {
                           className={`border-2 px-5 py-3 text-sm transition-colors duration-150 active:translate-y-px ${
                             escolhida
                               ? "border-contorno bg-acento font-semibold text-contorno"
-                              : "border-andesito-fundo bg-base-900 text-bone/80 hover:border-andesito-escuro hover:text-bone"
+                              : "border-neutro-fundo bg-base-900 text-bone/80 hover:border-neutro-escuro hover:text-bone"
                           }`}
                         >
                           {o}
@@ -228,7 +228,7 @@ export default function Briefing() {
                       <button
                         type="button"
                         onClick={() => setEscrevendoOutro(true)}
-                        className="border-2 border-dashed border-andesito-fundo px-5 py-3 text-sm text-muted transition hover:border-acento/60 hover:text-bone"
+                        className="border-2 border-dashed border-neutro-fundo px-5 py-3 text-sm text-muted transition hover:border-acento/60 hover:text-bone"
                       >
                         Outro…
                       </button>
@@ -289,7 +289,7 @@ export default function Briefing() {
                         key={p.chave}
                         type="button"
                         onClick={() => irPara(i, true)}
-                        className="border-2 border-andesito-fundo px-3 py-1.5 font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted transition hover:border-acento/50 hover:text-bone"
+                        className="border-2 border-neutro-fundo px-3 py-1.5 font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted transition hover:border-acento/50 hover:text-bone"
                       >
                         {respostas[p.chave] || "não respondeu"}
                         <span className="ml-1.5 text-acento">editar</span>

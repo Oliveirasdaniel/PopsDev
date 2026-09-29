@@ -3,8 +3,8 @@
 //   node scripts/logo/gerar.mjs
 //
 // Saída: public/logo/letreiro.svg, public/logo/marca.svg e app/icon.svg.
-// Desenho original inspirado no Create (Minecraft): engrenagem de latão
-// com eixo quadrado de andesito no lugar do O. Nada copiado do mod.
+// Desenho original inspirado no Create (Minecraft): engrenagem laranja
+// com eixo quadrado cinza-azulado no lugar do O. Nada copiado do mod.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,10 +12,10 @@ import { contornar, deTexto, engrenagem, extrudar, grade, svg } from "./pixel.mj
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
-// As mesmas cores estão no tailwind.config.ts (acento, andesito, contorno).
-export const LATAO = { luz: "#ffe38a", meio: "#f0b73c", escuro: "#c27e22", fundo: "#8a5317" };
-export const ANDESITO = { luz: "#d5d8d3", meio: "#a3a7a2", escuro: "#6f7470", fundo: "#474b48" };
-export const CONTORNO = "#24170b";
+// As mesmas cores estão no tailwind.config.ts (acento, neutro, contorno).
+export const LARANJA = { luz: "#ff916b", meio: "#ff4f12", escuro: "#d13d0a", fundo: "#8f2a06" };
+export const NEUTRO = { luz: "#e6e9f2", meio: "#b9bfd3", escuro: "#8b93b2", fundo: "#2e3d78" };
+export const CONTORNO = "#050e2e";
 
 // Letras 9 de altura, traço de 2px. O V tem 7 de largura: com 6 ele só
 // afinava nas últimas linhas e, no tamanho do cabeçalho, lia como U.
@@ -27,7 +27,7 @@ const LETRAS = {
   V: ["##...##", "##...##", "##...##", ".##.##.", ".##.##.", ".##.##.", "..###..", "..###..", "...#..."],
 };
 
-/** Pinta a engrenagem com luz de cima-esquerda e o eixo de andesito. */
+/** Pinta a engrenagem com luz de cima-esquerda e o eixo cinza-azulado. */
 function pintarEngrenagem() {
   const m = engrenagem();
   const n = m.length;
@@ -40,15 +40,15 @@ function pintarEngrenagem() {
       if (!m[y][x]) continue;
       // Soma das direções que dão para fora: negativa = face iluminada.
       const lado = (vazio(x - 1, y) ? -1 : 0) + (vazio(x + 1, y) ? 1 : 0) + (vazio(x, y - 1) ? -1 : 0) + (vazio(x, y + 1) ? 1 : 0);
-      cores[y][x] = lado < 0 ? LATAO.luz : lado > 0 ? LATAO.escuro : LATAO.meio;
+      cores[y][x] = lado < 0 ? LARANJA.luz : lado > 0 ? LARANJA.escuro : LARANJA.meio;
     }
 
   // Eixo quadrado 5x5: moldura escura e miolo 3x3 sombreado.
-  for (let y = c - 2; y <= c + 2; y++) for (let x = c - 2; x <= c + 2; x++) cores[y][x] = ANDESITO.fundo;
+  for (let y = c - 2; y <= c + 2; y++) for (let x = c - 2; x <= c + 2; x++) cores[y][x] = NEUTRO.fundo;
   const miolo = [
-    [ANDESITO.luz, ANDESITO.luz, ANDESITO.meio],
-    [ANDESITO.luz, ANDESITO.meio, ANDESITO.escuro],
-    [ANDESITO.meio, ANDESITO.escuro, ANDESITO.escuro],
+    [NEUTRO.luz, NEUTRO.luz, NEUTRO.meio],
+    [NEUTRO.luz, NEUTRO.meio, NEUTRO.escuro],
+    [NEUTRO.meio, NEUTRO.escuro, NEUTRO.escuro],
   ];
   miolo.forEach((linha, dy) => linha.forEach((cor, dx) => (cores[c - 1 + dy][c - 1 + dx] = cor)));
   return cores;
@@ -66,7 +66,7 @@ function letreiro() {
   // Letras têm 9 linhas; a engrenagem, 17. Centralizada, sobra 4 em cima e 4 embaixo.
   const topoLetra = margem + 4;
   // Faixas horizontais: topo claro, base escura — luz de cima.
-  const faixa = [LATAO.luz, LATAO.luz, LATAO.meio, LATAO.meio, LATAO.meio, LATAO.meio, LATAO.escuro, LATAO.escuro, LATAO.fundo];
+  const faixa = [LARANJA.luz, LARANJA.luz, LARANJA.meio, LARANJA.meio, LARANJA.meio, LARANJA.meio, LARANJA.escuro, LARANJA.escuro, LARANJA.fundo];
 
   let cores = grade(largura, altura, null);
   let x = margem;
@@ -81,7 +81,7 @@ function letreiro() {
     x += larguras[i] + 1;
   });
 
-  cores = extrudar(cores, extrusao, LATAO.fundo);
+  cores = extrudar(cores, extrusao, LARANJA.fundo);
   return contornar(cores, CONTORNO);
 }
 
