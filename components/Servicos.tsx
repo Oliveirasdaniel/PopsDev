@@ -1,47 +1,74 @@
 import { servicos } from "@/lib/site";
-import Reveal from "./Reveal";
+
+type Icone = (typeof servicos)[number]["icone"];
+
+/**
+ * Cada frente é um cartão recortado, com cor e tamanho próprios. Em tela
+ * larga as linhas se desencontram (2+1, 1+2), e o delivery vem primeiro e
+ * maior: é o sistema próprio da Popsdev.
+ */
+const ordem: Icone[] = ["cart", "page", "calendar", "tools"];
+
+const estilo: Record<Icone, { cartao: string; lista: string }> = {
+  cart: { cartao: "bg-acento lg:col-span-2", lista: "sm:grid-cols-2" },
+  page: { cartao: "bg-papel", lista: "" },
+  calendar: { cartao: "bg-faixa-andesito", lista: "" },
+  tools: { cartao: "bg-acento-claro lg:col-span-2", lista: "sm:grid-cols-2" },
+};
 
 export default function Servicos() {
+  const lista = ordem.map((icone) => servicos.find((s) => s.icone === icone)!);
+
   return (
-    <section id="servicos" className="pt-28 sm:pt-36">
+    <section id="servicos" className="faixa bg-papel">
       <div className="wrap">
-        <Reveal className="rule">
-          <span className="num">01</span>
-          <span className="label-mono">O que eu construo</span>
-        </Reveal>
-
-        <Reveal delay={60}>
-          <h2 className="display mt-10 max-w-2xl text-3xl leading-[1.05] sm:text-[2.75rem]">
-            Quatro frentes, todas partindo do que trava a venda hoje.
+        {/* O adesivo é colado na ponta do título, por cima das letras. */}
+        <div className="relative w-fit">
+          <h2 className="display-secao">
+            Quatro
+            <br />
+            frentes
           </h2>
-        </Reveal>
+          <span
+            className="adesivo mt-4 bg-acento-claro text-[15px] font-extrabold sm:absolute sm:-right-8 sm:top-[-0.75rem] sm:mt-0"
+            style={{ "--giro": "8deg" } as React.CSSProperties}
+          >
+            sem template
+          </span>
+        </div>
+        <p className="tagline">Todas partindo do que trava a venda hoje.</p>
 
-        <div className="mt-16">
-          {servicos.map((s, i) => (
-            <Reveal
+        <div className="mt-14 grid gap-4 lg:grid-cols-3">
+          {lista.map((s) => (
+            <article
               key={s.titulo}
-              as="article"
-              delay={i * 60}
-              className="grid gap-6 border-t border-line py-9 md:grid-cols-[3rem_1fr_1fr] md:gap-10"
+              className={`relative rounded-[32px] border-2 border-tinta p-7 sm:p-9 ${estilo[s.icone].cartao}`}
             >
-              <span className="label-mono md:pt-1.5">{String(i + 1).padStart(2, "0")}</span>
+              {s.icone === "cart" && (
+                <span
+                  className="adesivo absolute -top-4 right-5 bg-tinta text-[13px] font-bold text-acento-claro sm:right-8"
+                  style={{ "--giro": "3deg" } as React.CSSProperties}
+                >
+                  sistema próprio
+                </span>
+              )}
 
-              <div>
-                <h3 className="text-xl font-medium tracking-tight">{s.titulo}</h3>
-                <p className="lead mt-3 max-w-md">{s.resumo}</p>
-              </div>
+              <h3 className="max-w-[18ch] text-[1.65rem] font-extrabold leading-[1.05] tracking-[-0.02em] sm:text-[2.1rem]">
+                {s.titulo}
+              </h3>
+              <p className="lead mt-3 max-w-[46ch] !text-tinta/80">{s.resumo}</p>
 
-              <ul className="space-y-2.5 md:pt-1">
+              <ul className={`mt-7 grid gap-x-8 gap-y-2.5 ${estilo[s.icone].lista}`}>
                 {s.itens.map((item) => (
-                  <li key={item} className="flex gap-3 text-sm text-bone/70">
-                    <span className="mt-2 h-px w-3 shrink-0 bg-bone/25" aria-hidden="true" />
+                  <li key={item} className="flex gap-3 text-[15px] font-medium leading-snug">
+                    {/* Marcador quadrado: um pixel da logo, ampliado. */}
+                    <span className="mt-[0.4em] h-2 w-2 shrink-0 bg-tinta" aria-hidden="true" />
                     {item}
                   </li>
                 ))}
               </ul>
-            </Reveal>
+            </article>
           ))}
-          <div className="border-t border-line" />
         </div>
       </div>
     </section>

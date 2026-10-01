@@ -19,7 +19,7 @@ export default function GaleriaExpansiva({ projetos }: { projetos: Projeto[] }) 
   const [ativo, setAtivo] = useState(0);
 
   return (
-    <div className="flex h-[24rem] w-full gap-2 sm:h-[30rem]">
+    <div className="flex h-[26rem] w-full gap-2.5 sm:h-[32rem]">
       {projetos.map((p, i) => {
         const expandido = ativo === i;
 
@@ -32,48 +32,43 @@ export default function GaleriaExpansiva({ projetos }: { projetos: Projeto[] }) 
               flexGrow: expandido ? 4 : 1,
               transition: "flex-grow .45s cubic-bezier(.22,1,.36,1)",
             }}
-            className="group/painel relative min-w-0 cursor-pointer overflow-hidden border border-line bg-base-900"
+            className="group/painel relative min-w-0 basis-0 cursor-pointer overflow-hidden rounded-[28px] border-2 border-tinta bg-papel"
           >
             <div className="absolute inset-0">
               <Screenshot src={p.imagem} alt={`Print do site ${p.nome}`} nome={p.nome} />
             </div>
 
-            {/* Véu: escurece o encolhido, clareia o expandido. */}
+            {/* Véu de papel: apaga o encolhido, some no expandido. */}
             <div
-              className="absolute inset-0 bg-base-950 transition-opacity duration-[450ms]"
-              style={{ opacity: expandido ? 0.35 : 0.75 }}
+              className="absolute inset-0 bg-faixa-andesito transition-opacity duration-[450ms]"
+              style={{ opacity: expandido ? 0 : 0.72 }}
             />
-            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-base-950 via-base-950/70 to-transparent" />
 
-            {/* Nome de pé, quando encolhido. Sem origin-bottom-left: girando
-                pelo canto, a caixa ia para baixo do card e o nome saía
-                cortado — dava para ler só as últimas letras. */}
+            {/* Nome de pé, quando encolhido, numa pílula de papel. */}
             <span
-              className={`absolute bottom-6 left-1/2 -translate-x-1/2 rotate-180 whitespace-nowrap font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-bone/70 transition-opacity duration-300 [writing-mode:vertical-rl] ${
+              className={`absolute bottom-5 left-1/2 -translate-x-1/2 rotate-180 whitespace-nowrap rounded-full border-2 border-tinta bg-papel px-1.5 py-4 text-[13px] font-bold tracking-[0.03em] transition-opacity duration-300 [writing-mode:vertical-rl] ${
                 expandido ? "pointer-events-none opacity-0" : "opacity-100"
               }`}
             >
               {p.nome}
             </span>
 
-            {/* Ficha completa, quando expandido. */}
+            {/* Ficha completa, quando expandido: um cartão colado no print. */}
             <div
-              className={`absolute inset-x-0 bottom-0 p-6 transition-all duration-300 sm:p-8 ${
+              className={`absolute bottom-3 left-3 right-3 max-w-md rounded-[22px] border-2 border-tinta bg-papel p-4 transition-all duration-300 sm:bottom-5 sm:left-5 sm:right-auto sm:p-6 ${
                 expandido
                   ? "translate-y-0 opacity-100 delay-100"
                   : "pointer-events-none translate-y-3 opacity-0"
               }`}
             >
-              <p className="num">{p.segmento}</p>
-              <h3 className="display mt-2 text-2xl sm:text-3xl">{p.nome}</h3>
-              <p className="mt-2 hidden max-w-md text-sm leading-relaxed text-bone/70 sm:block">
-                {p.descricao}
-              </p>
+              <p className="text-[12px] font-bold tracking-[0.02em] text-tinta/70 sm:text-[13px]">{p.segmento}</p>
+              <h3 className="mt-1 text-[1.2rem] font-extrabold leading-[1.05] tracking-[-0.02em] sm:text-[1.6rem]">{p.nome}</h3>
+              <p className="mt-2 hidden text-[14px] leading-relaxed text-tinta/80 sm:block">{p.descricao}</p>
 
               {/* Ressalva do projeto, quando existe. Fica logo abaixo da
                   descrição para ninguém ler o print como loja faturando. */}
               {p.contexto && (
-                <p className="mt-3 hidden max-w-md border-l-2 border-acento/50 pl-3 text-xs leading-relaxed text-bone/55 sm:block">
+                <p className="mt-3 hidden rounded-xl bg-faixa-latao px-3 py-2 text-[12.5px] leading-relaxed text-tinta/80 sm:block">
                   {p.contexto}
                 </p>
               )}
@@ -83,7 +78,7 @@ export default function GaleriaExpansiva({ projetos }: { projetos: Projeto[] }) 
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="btn-solid mt-5 !h-9 !px-5 !text-[13px]"
+                className="btn-solid mt-4 !h-10 !px-5 !text-[13px]"
               >
                 Visitar site
               </a>

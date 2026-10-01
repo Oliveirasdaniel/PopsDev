@@ -29,12 +29,12 @@ export default function Fundo() {
   if (!ligar) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden" aria-hidden="true">
       <ClickEffects
         showLabel={false}
         interactionMode="rings"
-        color="#f0b73c"
-        strokeWidth={1.5}
+        color="#24170b"
+        strokeWidth={2}
         effectSize={160}
         duration={0.6}
       />
