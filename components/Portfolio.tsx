@@ -1,25 +1,27 @@
 import { projetos } from "@/lib/site";
 import GaleriaExpansiva from "./GaleriaExpansiva";
-import Reveal from "./Reveal";
 
 export default function Portfolio() {
   return (
-    <section id="projetos" className="pt-28 sm:pt-36">
+    <section id="projetos" className="faixa bg-faixa-andesito">
       <div className="wrap">
-        <Reveal className="rule">
-          <span className="num">02</span>
-          <span className="label-mono">Projetos</span>
-        </Reveal>
+        {/* A instrução vira adesivo, colado na ponta do título: é a única
+            coisa que a pessoa precisa saber antes de mexer na galeria. */}
+        <div className="relative w-fit">
+          <h2 className="display-secao">Projetos</h2>
+          <span
+            className="adesivo mt-4 bg-papel text-[15px] font-extrabold sm:absolute sm:-right-10 sm:top-[-1.25rem] sm:mt-0"
+            style={{ "--giro": "-6deg" } as React.CSSProperties}
+          >
+            <span className="hidden lg:inline">passe o mouse e veja de perto</span>
+            <span className="lg:hidden">toque e veja de perto</span>
+          </span>
+        </div>
+        <p className="tagline">Quatro projetos que eu construí.</p>
 
-        <Reveal delay={60}>
-          <h2 className="display mt-10 max-w-2xl text-3xl leading-[1.05] sm:text-[2.75rem]">
-            Quatro projetos que eu construí. Passe o mouse e veja de perto.
-          </h2>
-        </Reveal>
-
-        <Reveal delay={120} className="mt-14">
+        <div className="mt-14">
           <GaleriaExpansiva projetos={projetos} />
-        </Reveal>
+        </div>
       </div>
     </section>
   );

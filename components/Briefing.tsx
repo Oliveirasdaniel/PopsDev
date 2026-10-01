@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
-import Reveal from "./Reveal";
 
 /**
  * Briefing em passos.
@@ -145,64 +144,68 @@ export default function Briefing() {
   const atual = PASSOS[Math.min(passo, FIM - 1)];
 
   return (
-    <section id="contato" className="pt-28 sm:pt-36">
+    <section id="contato" className="faixa bg-faixa-latao">
       <div className="wrap">
-        <Reveal className="rule">
-          <span className="num">05</span>
-          <span className="label-mono">Briefing</span>
-        </Reveal>
+        <h2 className="display-secao">Briefing</h2>
 
-        <Reveal delay={60} className="mt-10 grid gap-12 lg:grid-cols-[20rem_1fr] lg:gap-20">
+        <div className="mt-6 grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
           <div>
-            <h2 className="display text-3xl leading-[1] sm:text-5xl">
-              Quatro perguntas
-              <br />e pronto.
-            </h2>
-            <p className="lead mt-6 text-sm">
+            <p className="tagline !mt-0">Quatro perguntas e pronto.</p>
+            <p className="lead mt-4">
               A maioria é um toque só, e nenhuma tem resposta obrigatória da lista — se a sua não
               estiver lá, escreva. No fim, o WhatsApp abre com tudo escrito.
             </p>
 
-            <dl className="mt-10 border-t border-line font-pixel text-[20px] uppercase leading-none tracking-[0.06em]">
-              <div className="flex justify-between gap-4 border-b border-line py-3">
-                <dt className="text-muted">Resposta</dt>
-                <dd className="text-bone/80">até 2h úteis</dd>
+            <dl className="mt-8 divide-y-2 divide-tinta overflow-hidden rounded-[24px] border-2 border-tinta bg-papel text-[15px]">
+              <div className="flex justify-between gap-4 px-5 py-3.5">
+                <dt className="font-bold">Resposta</dt>
+                <dd className="text-tinta/75">até 2h úteis</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-line py-3">
-                <dt className="text-muted">E-mail</dt>
-                <dd className="normal-case tracking-normal">
+              <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 px-5 py-3.5">
+                <dt className="font-bold">E-mail</dt>
+                <dd className="min-w-0">
                   <a
                     href={`mailto:${site.email}`}
-                    className="text-bone/80 underline decoration-line underline-offset-4 hover:decoration-acento"
+                    className="break-all text-tinta/75 underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
                   >
                     {site.email}
                   </a>
                 </dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-line py-3">
-                <dt className="text-muted">Atendimento</dt>
-                <dd className="text-bone/80">remoto, Brasil</dd>
+              <div className="flex justify-between gap-4 px-5 py-3.5">
+                <dt className="font-bold">Atendimento</dt>
+                <dd className="text-tinta/75">remoto, Brasil</dd>
               </div>
             </dl>
           </div>
 
-          <div className="casco overflow-hidden">
-            {/* m-1: a barra fica dentro da moldura do caixote, sem cobri-la. */}
-            <div className="m-1 h-1.5 bg-black/40">
+          <div className="rounded-[40px] border-2 border-tinta bg-papel">
+            <div className="px-7 pt-7 sm:px-10 sm:pt-9">
               <div
-                className="h-full bg-acento transition-[width] duration-500"
-                style={{ width: `${progresso}%` }}
-              />
+                className="h-4 overflow-hidden rounded-full border-2 border-tinta bg-papel"
+                role="progressbar"
+                aria-label="Progresso do briefing"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(progresso)}
+              >
+                <div
+                  className="h-full rounded-full bg-acento transition-[width] duration-500"
+                  style={{ width: `${progresso}%` }}
+                />
+              </div>
             </div>
 
             <div className="p-7 sm:p-10">
               {!noFim ? (
-                <div key={passo} className="animate-rise">
-                  <p className="num">
+                <div key={passo} className="animate-troca">
+                  <p className="text-[13px] font-bold tracking-[0.03em] text-tinta/70">
                     Passo {passo + 1} de {FIM + 1}
                   </p>
-                  <h3 className="display mt-3 text-2xl sm:text-3xl">{atual.pergunta}</h3>
-                  {atual.ajuda && <p className="mt-2 text-sm text-muted">{atual.ajuda}</p>}
+                  <h3 className="mt-2 text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.2rem]">
+                    {atual.pergunta}
+                  </h3>
+                  {atual.ajuda && <p className="mt-2 text-[15px] text-tinta/70">{atual.ajuda}</p>}
 
                   <div className="mt-7 flex flex-wrap gap-2.5">
                     {atual.opcoes.map((o) => {
@@ -212,10 +215,9 @@ export default function Briefing() {
                           key={o}
                           type="button"
                           onClick={() => responder(atual.chave, o)}
-                          className={`border-2 px-5 py-3 text-sm transition-colors duration-150 active:translate-y-px ${
-                            escolhida
-                              ? "border-contorno bg-acento font-semibold text-contorno"
-                              : "border-andesito-fundo bg-base-900 text-bone/80 hover:border-andesito-escuro hover:text-bone"
+                          aria-pressed={escolhida}
+                          className={`rounded-full border-2 border-tinta px-5 py-3 text-[15px] font-semibold transition-colors duration-150 active:translate-y-px ${
+                            escolhida ? "bg-tinta text-papel" : "bg-papel hover:bg-faixa-latao"
                           }`}
                         >
                           {o}
@@ -228,7 +230,7 @@ export default function Briefing() {
                       <button
                         type="button"
                         onClick={() => setEscrevendoOutro(true)}
-                        className="border-2 border-dashed border-andesito-fundo px-5 py-3 text-sm text-muted transition hover:border-acento/60 hover:text-bone"
+                        className="rounded-full border-2 border-dashed border-tinta px-5 py-3 text-[15px] font-semibold text-tinta/75 transition-colors hover:bg-faixa-latao hover:text-tinta"
                       >
                         Outro…
                       </button>
@@ -245,43 +247,42 @@ export default function Briefing() {
                           value={outro}
                           onChange={(e) => setOutro(e.target.value)}
                           placeholder="Escreva a sua resposta"
-                          className="h-12 min-w-0 flex-1 border-2 border-acento/60 bg-base-900 px-5 text-sm text-bone outline-none placeholder:text-muted/60 sm:w-64"
+                          aria-label="Sua resposta"
+                          className="h-12 min-w-0 flex-1 rounded-full border-2 border-tinta bg-papel px-5 text-[15px] outline-none placeholder:text-tinta/45 focus:bg-faixa-latao/40 sm:w-64"
                         />
-                        <button
-                          type="submit"
-                          disabled={!outro.trim()}
-                          className="btn-solid !h-12 shrink-0 !px-5 disabled:opacity-40"
-                        >
+                        <button type="submit" disabled={!outro.trim()} className="btn-solid shrink-0 !px-5 disabled:opacity-40">
                           Usar
                         </button>
                       </form>
                     )}
                   </div>
 
-                  <div className="mt-8 flex items-center gap-5">
+                  <div className="mt-8 flex items-center gap-6 text-[14px] font-bold">
                     {passo > 0 && (
                       <button
                         type="button"
                         onClick={() => irPara(passo - 1)}
-                        className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted hover:text-bone"
+                        className="underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
                       >
-                        ← voltar
+                        Voltar
                       </button>
                     )}
                     {/* Sem resposta obrigatória: pular é melhor que abandonar. */}
                     <button
                       type="button"
                       onClick={() => irPara(editando.current ? FIM : passo + 1)}
-                      className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted hover:text-bone"
+                      className="underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
                     >
-                      pular →
+                      Pular
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="animate-rise">
-                  <p className="num">Último passo</p>
-                  <h3 className="display mt-3 text-2xl sm:text-3xl">Como te chamo?</h3>
+                <div className="animate-troca">
+                  <p className="text-[13px] font-bold tracking-[0.03em] text-tinta/70">Último passo</p>
+                  <h3 className="mt-2 text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.2rem]">
+                    Como te chamo?
+                  </h3>
 
                   <div className="mt-6 flex flex-wrap gap-2">
                     {PASSOS.map((p, i) => (
@@ -289,10 +290,10 @@ export default function Briefing() {
                         key={p.chave}
                         type="button"
                         onClick={() => irPara(i, true)}
-                        className="border-2 border-andesito-fundo px-3 py-1.5 font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted transition hover:border-acento/50 hover:text-bone"
+                        className="rounded-full border-2 border-tinta bg-papel px-4 py-2 text-[13px] font-semibold transition-colors hover:bg-faixa-latao"
                       >
                         {respostas[p.chave] || "não respondeu"}
-                        <span className="ml-1.5 text-acento">editar</span>
+                        <span className="ml-2 font-bold underline underline-offset-2">editar</span>
                       </button>
                     ))}
                   </div>
@@ -304,7 +305,7 @@ export default function Briefing() {
                       </label>
                       <input
                         id="nome"
-                        className={`field ${avisoNome ? "!border-acento" : ""}`}
+                        className={`field ${avisoNome ? "!bg-faixa-latao" : ""}`}
                         value={nome}
                         onChange={(e) => {
                           setNome(e.target.value);
@@ -313,7 +314,7 @@ export default function Briefing() {
                         placeholder="Como posso te chamar?"
                       />
                       {avisoNome && (
-                        <p className="mt-1.5 text-xs text-acento">
+                        <p className="mt-1.5 text-[13px] font-semibold text-acento-fundo">
                           Só o nome, para eu não começar com &ldquo;olá&rdquo;.
                         </p>
                       )}
@@ -337,7 +338,7 @@ export default function Briefing() {
                       <textarea
                         id="detalhes"
                         rows={3}
-                        className="w-full resize-none rounded-xl border border-line bg-transparent px-4 py-3 text-sm text-bone outline-none transition-colors placeholder:text-muted/60 focus:border-bone/40"
+                        className="field !h-auto resize-none py-3"
                         value={detalhes}
                         onChange={(e) => setDetalhes(e.target.value)}
                         placeholder="O que te trava hoje: agenda cheia de mensagem, pedido perdido, site antigo…"
@@ -345,7 +346,7 @@ export default function Briefing() {
                     </div>
                   </div>
 
-                  <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center">
                     <a
                       href={whatsappLink(montarMensagem())}
                       target="_blank"
@@ -357,23 +358,23 @@ export default function Briefing() {
                           document.getElementById("nome")?.focus();
                         }
                       }}
-                      className="btn-solid !h-12 !px-8"
+                      className="btn-solid !px-8"
                     >
                       Enviar pelo WhatsApp
                     </a>
                     <button
                       type="button"
                       onClick={() => irPara(FIM - 1)}
-                      className="font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-muted hover:text-bone"
+                      className="text-[14px] font-bold underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
                     >
-                      ← voltar
+                      Voltar
                     </button>
                   </div>
                 </div>
               )}
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

@@ -143,8 +143,8 @@ export default function CarrosselHabilidades() {
               onClick={() => irPara(i)}
               aria-label={a.titulo}
               aria-current={i === ativo}
-              className={`h-2 transition-all duration-300 ${
-                i === ativo ? "w-6 bg-acento" : "w-2 bg-bone/25 hover:bg-bone/50"
+              className={`h-3 rounded-full border-2 border-tinta transition-all duration-300 ${
+                i === ativo ? "w-9 bg-tinta" : "w-3 bg-papel hover:bg-acento"
               }`}
             />
           ))}
@@ -152,11 +152,11 @@ export default function CarrosselHabilidades() {
 
         {/* Altura mínima fixa: sem ela a página pula quando o texto troca. */}
         <div className="mx-auto mt-6 min-h-[7rem] max-w-md text-center">
-          <p className="num">
+          <p className="text-[13px] font-bold tracking-[0.03em] text-tinta/70">
             {String(ativo + 1).padStart(2, "0")} / {String(AMOSTRAS.length).padStart(2, "0")}
           </p>
-          <h3 className="display mt-2 text-2xl sm:text-3xl">{amostra.titulo}</h3>
-          <p className="lead mt-2 text-sm">{amostra.texto}</p>
+          <h3 className="mt-2 text-[1.6rem] font-extrabold tracking-[-0.02em] sm:text-[1.9rem]">{amostra.titulo}</h3>
+          <p className="lead mt-2 !text-[15px]">{amostra.texto}</p>
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import CarrosselPreguicoso from "./CarrosselPreguicoso";
-import Reveal from "./Reveal";
+import Engrenagem from "./Engrenagem";
 
 /**
  * Seção "o que eu sei fazer".
@@ -11,22 +11,17 @@ import Reveal from "./Reveal";
  */
 export default function Habilidades() {
   return (
-    <section id="habilidades" className="pt-28 sm:pt-36">
+    <section id="habilidades" className="faixa overflow-hidden bg-papel">
       <div className="wrap">
-        <Reveal className="rule">
-          <span className="num">04</span>
-          <span className="label-mono">O que eu sei fazer</span>
-        </Reveal>
-
-        <Reveal delay={60}>
-          <h2 className="display mt-10 max-w-3xl text-4xl leading-[0.95] sm:text-6xl lg:text-7xl">
-            Arraste e veja.
-          </h2>
-          <p className="lead mt-6 max-w-xl">
-            Cada peça abaixo é uma tela de verdade, funcionando aqui dentro — não o print de um
-            portfólio. É mais ou menos assim que o seu projeto começa.
-          </p>
-        </Reveal>
+        <h2 className="display-secao">
+          Arraste
+          <br />e veja
+        </h2>
+        <p className="tagline">Cada peça abaixo é uma tela de verdade.</p>
+        <p className="lead mt-4 max-w-[46ch]">
+          Funcionando aqui dentro — não o print de um portfólio. É mais ou menos assim que o seu projeto
+          começa.
+        </p>
       </div>
 
       <div className="mt-14">
@@ -34,23 +29,24 @@ export default function Habilidades() {
       </div>
 
       <div className="wrap">
-        <Reveal delay={80}>
-          <div className="casco mt-10 p-8 text-center sm:p-12">
-            <p className="label-mono">O seu não está aí</p>
-            <h3 className="display mx-auto mt-4 max-w-2xl text-3xl leading-[1] sm:text-5xl">
+        <div className="relative mt-10 overflow-hidden rounded-[40px] border-2 border-tinta bg-tinta p-8 text-papel sm:p-12 lg:p-16">
+          <div className="relative z-10 max-w-2xl">
+            <p className="text-[15px] font-bold text-acento-claro">O seu não está aí?</p>
+            <h3 className="display mt-5 text-[clamp(2.5rem,6.4vw,5.6rem)] !leading-[0.9] text-acento">
               Me conta o que você precisa.
             </h3>
-            <p className="lead mx-auto mt-5 max-w-md text-sm">
-              São quatro perguntas rápidas. No fim, o WhatsApp abre com tudo escrito e eu volto com
-              uma proposta — escopo e valor fechados antes de qualquer coisa começar.
+            <p className="mt-7 max-w-md text-[16px] leading-relaxed text-papel/75">
+              São quatro perguntas rápidas. No fim, o WhatsApp abre com tudo escrito e eu volto com uma
+              proposta — escopo e valor fechados antes de qualquer coisa começar.
             </p>
 
-            <a href="#contato" className="btn-solid mt-8 !h-12 !px-8">
+            <a href="#contato" className="btn mt-8 bg-acento text-tinta hover:bg-papel">
               Começar o briefing
-              <span aria-hidden="true">↓</span>
             </a>
           </div>
-        </Reveal>
+
+          <Engrenagem className="pointer-events-none absolute -bottom-28 -right-24 hidden h-[26rem] w-[26rem] md:block lg:-bottom-20 lg:right-[-3rem] lg:h-[30rem] lg:w-[30rem]" />
+        </div>
       </div>
     </section>
   );
