@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { site } from "@/lib/site";
+import { site, whatsappLink } from "@/lib/site";
 import { Marca } from "./Engrenagem";
+import IconeWhatsapp from "./IconeWhatsapp";
+
+const whatsapp = whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`);
 
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
-  { href: "/#processo", label: "Processo" },
   { href: "/#faq", label: "Dúvidas" },
   { href: "/sobre", label: "Sobre" },
 ];
@@ -61,8 +63,14 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <a href="/#contato" className="btn-latao !h-10 !px-4 !text-[14px] max-[380px]:hidden">
-            Pedir orçamento
+          <a
+            href={whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-latao !h-10 !gap-2 !px-4 !text-[14px]"
+          >
+            <IconeWhatsapp className="h-[18px] w-[18px]" />
+            WhatsApp
           </a>
 
           <button
@@ -105,8 +113,9 @@ export default function Header() {
               </li>
             ))}
             <li className="py-4">
-              <a href="/#contato" onClick={() => setAberto(false)} className="btn-latao w-full">
-                Pedir orçamento
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn-latao w-full">
+                <IconeWhatsapp />
+                Chamar no WhatsApp
               </a>
             </li>
           </ul>

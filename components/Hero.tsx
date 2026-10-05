@@ -1,5 +1,6 @@
-import { stats } from "@/lib/site";
+import { site, stats, whatsappLink } from "@/lib/site";
 import { DesenhoEngrenagem } from "./Engrenagem";
+import IconeWhatsapp from "./IconeWhatsapp";
 
 export default function Hero() {
   return (
@@ -12,8 +13,14 @@ export default function Hero() {
             para quem vive de agenda e de pedido. Código próprio, sem template e sem comissão por venda.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a href="#contato" className="btn-latao">
-              Pedir orçamento
+            <a
+              href={whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero um orçamento para o meu negócio.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-latao"
+            >
+              <IconeWhatsapp />
+              Chamar no WhatsApp
             </a>
             <a href="#projetos" className="btn-vazado">
               Ver projetos

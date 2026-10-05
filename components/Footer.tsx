@@ -4,17 +4,17 @@ import { Logo } from "./Header";
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
-  { href: "/#processo", label: "Processo" },
   { href: "/#faq", label: "Dúvidas" },
   { href: "/sobre", label: "Sobre" },
-  { href: "/#contato", label: "Pedir orçamento" },
+  { href: "/#contato", label: "Contato" },
 ];
 
 const linkClasse = "text-[15px] text-papel/70 transition-colors hover:text-latao-claro";
 
 export default function Footer() {
   return (
-    <footer className="bg-tinta text-papel">
+    // A faixa de contato acima tem a mesma cor: o fio separa os dois.
+    <footer className="border-t border-papel/10 bg-tinta text-papel">
       <div className="wrap py-16 sm:py-20">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto] lg:gap-24">
           <div>

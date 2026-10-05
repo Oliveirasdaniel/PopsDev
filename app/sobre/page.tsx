@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import IconeWhatsapp from "@/components/IconeWhatsapp";
 import { site, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -73,16 +74,17 @@ export default function Sobre() {
             </div>
 
             <div className="mt-16 flex flex-col gap-3 sm:flex-row">
-              <a href="/#contato" className="btn-latao">
-                Pedir orçamento
-              </a>
               <a
                 href={whatsappLink(`Olá! Vim pela página Sobre do site da ${site.nome}.`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-contorno"
+                className="btn-latao"
               >
-                Falar no WhatsApp
+                <IconeWhatsapp />
+                Chamar no WhatsApp
+              </a>
+              <a href="/#projetos" className="btn-contorno">
+                Ver projetos
               </a>
             </div>
           </div>

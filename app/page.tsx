@@ -1,11 +1,10 @@
 import BotaoFlutuante from "@/components/BotaoFlutuante";
-import Briefing from "@/components/Briefing";
+import Contato from "@/components/Contato";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Portfolio from "@/components/Portfolio";
-import Processo from "@/components/Processo";
 import Servicos from "@/components/Servicos";
 import { faq, site } from "@/lib/site";
 
@@ -45,9 +44,8 @@ export default function Home() {
         <Hero />
         <Servicos />
         <Portfolio />
-        <Processo />
         <Faq />
-        <Briefing />
+        <Contato />
       </main>
       <Footer />
       <BotaoFlutuante />
