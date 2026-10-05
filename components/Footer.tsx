@@ -1,39 +1,31 @@
 import { site, whatsappLink } from "@/lib/site";
+import { Logo } from "./Header";
 
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
   { href: "/#processo", label: "Processo" },
-  { href: "/#habilidades", label: "Habilidades" },
   { href: "/#faq", label: "Dúvidas" },
   { href: "/sobre", label: "Sobre" },
-  { href: "/#contato", label: "Briefing" },
+  { href: "/#contato", label: "Pedir orçamento" },
 ];
 
-const linkClasse = "text-[15px] text-papel/75 transition-colors hover:text-acento";
+const linkClasse = "text-[15px] text-papel/70 transition-colors hover:text-latao-claro";
 
-/** Faixa de tinta: o fim da página tem a cor do contorno da logo. */
 export default function Footer() {
   return (
     <footer className="bg-tinta text-papel">
       <div className="wrap py-16 sm:py-20">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto] lg:gap-20">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto] lg:gap-24">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo/letreiro.svg" alt={site.nome} width={124} height={42} className="[image-rendering:pixelated]" />
-            <p className="mt-5 max-w-xs text-[15px] leading-relaxed text-papel/70">{site.descricao}</p>
-            <a
-              href={whatsappLink(`Olá, Daniel! Vim pelo site da ${site.nome} e quero um orçamento.`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn mt-7 border-acento bg-acento text-tinta hover:border-papel hover:bg-papel focus-visible:outline-acento"
-            >
-              Falar agora
-            </a>
+            <Logo />
+            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-papel/60">{site.descricao}</p>
           </div>
 
-          <nav aria-label="Navegação do rodapé">
-            <p className="text-[13px] font-bold tracking-[0.03em] text-acento-claro">Navegar</p>
+          <nav aria-labelledby="rodape-navegar">
+            <h2 id="rodape-navegar" className="text-[14px] font-semibold text-latao">
+              Navegar
+            </h2>
             <ul className="mt-4 space-y-2.5">
               {links.map((l) => (
                 <li key={l.href}>
@@ -46,11 +38,11 @@ export default function Footer() {
           </nav>
 
           <div>
-            <p className="text-[13px] font-bold tracking-[0.03em] text-acento-claro">Contato</p>
+            <h2 className="text-[14px] font-semibold text-latao">Contato</h2>
             <ul className="mt-4 space-y-2.5">
               <li>
                 <a
-                  href={whatsappLink(`Olá, Daniel! Vim pelo site da ${site.nome}.`)}
+                  href={whatsappLink(`Olá! Vim pelo site da ${site.nome}.`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={linkClasse}
@@ -72,9 +64,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t-2 border-papel/15 pt-6 font-pixel text-[20px] uppercase leading-none tracking-[0.06em] text-papel/55 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-2 border-t border-papel/10 pt-7 text-[14px] text-papel/45 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {site.nome} — {site.autor}
+            © {new Date().getFullYear()} {site.nome}. Fundada por {site.autor}.
           </p>
           <p>{site.cidade}</p>
         </div>

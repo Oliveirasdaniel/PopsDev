@@ -5,10 +5,10 @@
 export const site = {
   nome: "Popsdev",
   autor: "Daniel Oliveira",
-  cargo: "Desenvolvedor de sites e ferramentas para negócios locais",
+  cargo: "Desenvolvedor e fundador",
   tagline: "Sites que agendam, vendem e entregam — sem depender de rede social.",
   descricao:
-    "Landing pages e ferramentas sob medida para restaurantes, barbearias, salões de beleza e todo negócio que vive de agendamento e delivery.",
+    "Sites, agendamento online, delivery próprio e ferramentas sob medida para restaurantes, barbearias, salões de beleza e todo negócio que vive de agenda e de pedido.",
 
   // Formato internacional, só dígitos: 55 + DDD + número
   whatsapp: "5521971552321",
@@ -81,7 +81,7 @@ export const servicos = [
   {
     titulo: "Ferramentas sob medida",
     resumo:
-      "Quando o negócio precisa de algo que nenhum template resolve, eu construo do zero.",
+      "Quando o negócio precisa de algo que nenhum template resolve, a Popsdev constrói do zero.",
     itens: [
       "Quiz e diagnóstico para recomendar produtos",
       "Painéis e relatórios simples",
@@ -321,24 +321,24 @@ export const processo = [
     passo: "03",
     titulo: "Construção",
     texto:
-      "Desenvolvo o site e te mando um link de prévia. Você acompanha, comenta e ajustamos antes de publicar.",
+      "Desenvolvemos o site e enviamos um link de prévia. Você acompanha, comenta e ajustamos antes de publicar.",
   },
   {
     passo: "04",
     titulo: "No ar e evoluindo",
     texto:
-      "Publico no seu domínio, te ensino a usar e sigo por perto para ajustes, novas seções e melhorias.",
+      "Publicamos no seu domínio, mostramos como usar e seguimos por perto para ajustes, novas seções e melhorias.",
   },
 ];
 
 export const faq = [
   {
     p: "Quanto tempo leva para o site ficar pronto?",
-    r: "Uma landing page fica pronta em cerca de 7 dias após você me enviar textos e fotos. Sistemas de agendamento e cardápio com delivery levam de 2 a 3 semanas, dependendo do escopo.",
+    r: "Uma landing page fica pronta em cerca de 7 dias depois que recebemos textos e fotos. Sistemas de agendamento e cardápio com delivery levam de 2 a 3 semanas, dependendo do escopo.",
   },
   {
     p: "Preciso ter domínio próprio?",
-    r: "Não precisa ter antes. Eu publico o site e, se você quiser um domínio próprio (seunegocio.com.br), eu registro e configuro tudo para você.",
+    r: "Não precisa ter antes. Publicamos o site e, se você quiser um domínio próprio (seunegocio.com.br), registramos e configuramos tudo para você.",
   },
   {
     p: "Qual a diferença entre os planos de agendamento?",
@@ -346,7 +346,7 @@ export const faq = [
   },
   {
     p: "Por que os preços não estão no site?",
-    r: "Porque o mesmo plano custa coisas diferentes dependendo do tamanho da operação. Uma barbearia com um profissional e uma rede com quatro unidades e trinta serviços dão trabalhos muito distintos, e colocar um número único na página só faria eu cobrar caro de quem é pequeno ou barato de quem é grande. Na conversa inicial eu entendo o porte, e você recebe o valor fechado por escrito.",
+    r: "Porque o mesmo plano custa coisas diferentes dependendo do tamanho da operação. Uma barbearia com um profissional e uma rede com quatro unidades e trinta serviços dão trabalhos muito distintos, e colocar um número único na página só nos faria cobrar caro de quem é pequeno ou barato de quem é grande. Na conversa inicial entendemos o porte, e você recebe o valor fechado por escrito.",
   },
   {
     p: "Tem fidelidade ou multa para cancelar?",
@@ -358,19 +358,19 @@ export const faq = [
   },
   {
     p: "Qual a diferença entre Cardápio digital e Delivery próprio?",
-    r: "No Cardápio digital o cliente monta o pedido no site e ele chega pronto no seu WhatsApp — simples e barato, mas quem organiza é você. No Delivery próprio o pedido vira sistema: cai num painel que apita na cozinha, anda por status (recebido, preparo, saiu, entregue), o cliente acompanha por um link sem te ligar, a comanda sai na impressora e você ainda tem cupons e relatório de vendas. E edita o cardápio sozinho, sem me chamar.",
+    r: "No Cardápio digital o cliente monta o pedido no site e ele chega pronto no seu WhatsApp — simples e barato, mas quem organiza é você. No Delivery próprio o pedido vira sistema: cai num painel que apita na cozinha, anda por status (recebido, preparo, saiu, entregue), o cliente acompanha por um link sem te ligar, a comanda sai na impressora e você ainda tem cupons e relatório de vendas. E edita o cardápio sozinho, sem precisar nos chamar.",
   },
   {
     p: "O cardápio com delivery cobra taxa por pedido?",
-    r: "Não. O sistema de pedidos é próprio da Popsdev, desenvolvido por mim — não é plugin nem intermediário. O pedido é montado no seu site e chega formatado no seu WhatsApp, sem comissão por venda, diferente dos aplicativos de entrega que ficam com 20% a 30% de cada pedido.",
+    r: "Não. O sistema de pedidos é próprio da Popsdev, desenvolvido aqui dentro — não é plugin nem intermediário. O pedido é montado no seu site e chega formatado no seu WhatsApp, sem comissão por venda, diferente dos aplicativos de entrega que ficam com 20% a 30% de cada pedido.",
   },
   {
     p: "Eu consigo alterar textos e fotos sozinho?",
-    r: "Sim. Entrego com um painel simples ou um arquivo único de conteúdo e gravo um vídeo curto mostrando como editar. Se preferir não mexer, na assinatura eu faço as alterações para você.",
+    r: "Sim. Entregamos com um painel simples ou um arquivo único de conteúdo e gravamos um vídeo curto mostrando como editar. Se preferir não mexer, na assinatura nós fazemos as alterações para você.",
   },
   {
     p: "Você atende fora da minha cidade?",
-    r: "Atendo o Brasil inteiro. Todo o processo é remoto, por WhatsApp e chamada de vídeo quando necessário.",
+    r: "Atendemos o Brasil inteiro. Todo o processo é remoto, por WhatsApp e chamada de vídeo quando necessário.",
   },
 ];
 

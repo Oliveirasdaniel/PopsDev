@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Archivo, Jersey_10 } from "next/font/google";
-import { DefsEngrenagem } from "@/components/Engrenagem";
-import Fundo from "@/components/Fundo";
+import { Archivo } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// Com o eixo de largura: os títulos usam o corte mais largo (125) e o
-// texto corrido fica no normal (100), tudo no mesmo arquivo de fonte.
+// Com o eixo de largura: os títulos usam o corte largo (112) e o texto
+// corrido fica no normal (100), tudo no mesmo arquivo de fonte.
 const sans = Archivo({
   subsets: ["latin"],
   display: "swap",
@@ -14,23 +12,10 @@ const sans = Archivo({
   variable: "--font-sans",
 });
 
-// Fonte pixel do letreiro que corre no topo: conversa com a logo sem
-// sacrificar a leitura do resto, que fica na Archivo.
-const pixel = Jersey_10({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-  // O Next não tem as métricas desta fonte para calibrar a substituta e
-  // avisava no build. Os rótulos são curtos: o ajuste não faz falta.
-  adjustFontFallback: false,
-  variable: "--font-pixel",
-});
-
-
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.nome} — Sites e ferramentas para agendamento e delivery`,
+    default: `${site.nome} — Sites e sistemas para agendamento e delivery`,
     template: `%s · ${site.nome}`,
   },
   description: site.descricao,
@@ -63,14 +48,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${sans.variable} ${pixel.variable}`}>
-      <body>
-        <DefsEngrenagem />
-        <div className="relative">{children}</div>
-        {/* Por cima do conteúdo: as faixas agora são opacas e esconderiam o
-            anel do clique. Não captura ponteiro, então não atrapalha nada. */}
-        <Fundo />
-      </body>
+    <html lang="pt-BR" className={sans.variable}>
+      <body>{children}</body>
     </html>
   );
 }

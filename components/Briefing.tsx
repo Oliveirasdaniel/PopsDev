@@ -77,6 +77,9 @@ const PASSOS: Passo[] = [
 
 const VAZIAS: Record<Chave, string> = { segmento: "", precisa: "", situacao: "", prazo: "" };
 
+const opcao =
+  "rounded-lg border px-4 py-3 text-[15px] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-latao-escuro";
+
 export default function Briefing() {
   const [passo, setPasso] = useState(0);
   const [respostas, setRespostas] = useState<Record<Chave, string>>(VAZIAS);
@@ -131,7 +134,7 @@ export default function Briefing() {
 
   function montarMensagem() {
     const linhas = [
-      `Olá, Daniel! Vim pelo site da ${site.nome}.`,
+      `Olá! Vim pelo site da ${site.nome}.`,
       "",
       `*Nome:* ${nome.trim() || "não informado"}`,
       `*Negócio:* ${negocio.trim() || "não informado"}`,
@@ -144,235 +147,212 @@ export default function Briefing() {
   const atual = PASSOS[Math.min(passo, FIM - 1)];
 
   return (
-    <section id="contato" className="faixa bg-faixa-latao">
-      <div className="wrap">
-        <h2 className="display-secao">Briefing</h2>
+    <section id="contato" className="secao bg-papel">
+      <div className="wrap grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-20">
+        <div>
+          <h2 className="titulo-2">Conte o seu projeto</h2>
+          <p className="lead mt-6 text-andesito-escuro">
+            Quatro perguntas, quase todas de um toque. Se a sua resposta não estiver na lista, escreva. No
+            fim, o WhatsApp abre com tudo preenchido.
+          </p>
 
-        <div className="mt-6 grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
-          <div>
-            <p className="tagline !mt-0">Quatro perguntas e pronto.</p>
-            <p className="lead mt-4">
-              A maioria é um toque só, e nenhuma tem resposta obrigatória da lista — se a sua não
-              estiver lá, escreva. No fim, o WhatsApp abre com tudo escrito.
-            </p>
+          <dl className="mt-10 border-b border-tinta/15 text-[15px]">
+            <div className="flex justify-between gap-4 border-t border-tinta/15 py-4">
+              <dt className="font-semibold">Resposta</dt>
+              <dd className="text-andesito-escuro">em até 2h úteis</dd>
+            </div>
+            <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 border-t border-tinta/15 py-4">
+              <dt className="font-semibold">E-mail</dt>
+              <dd className="min-w-0">
+                <a href={`mailto:${site.email}`} className="link break-all !font-normal text-andesito-escuro">
+                  {site.email}
+                </a>
+              </dd>
+            </div>
+            <div className="flex justify-between gap-4 border-t border-tinta/15 py-4">
+              <dt className="font-semibold">Atendimento</dt>
+              <dd className="text-andesito-escuro">remoto, todo o Brasil</dd>
+            </div>
+          </dl>
+        </div>
 
-            <dl className="mt-8 divide-y-2 divide-tinta overflow-hidden rounded-[24px] border-2 border-tinta bg-papel text-[15px]">
-              <div className="flex justify-between gap-4 px-5 py-3.5">
-                <dt className="font-bold">Resposta</dt>
-                <dd className="text-tinta/75">até 2h úteis</dd>
-              </div>
-              <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 px-5 py-3.5">
-                <dt className="font-bold">E-mail</dt>
-                <dd className="min-w-0">
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="break-all text-tinta/75 underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
-                  >
-                    {site.email}
-                  </a>
-                </dd>
-              </div>
-              <div className="flex justify-between gap-4 px-5 py-3.5">
-                <dt className="font-bold">Atendimento</dt>
-                <dd className="text-tinta/75">remoto, Brasil</dd>
-              </div>
-            </dl>
+        <div className="overflow-hidden rounded-2xl border border-tinta/15 bg-white">
+          <div
+            className="h-1 bg-pedra"
+            role="progressbar"
+            aria-label="Progresso do briefing"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progresso)}
+          >
+            <div className="h-full bg-latao transition-[width] duration-500" style={{ width: `${progresso}%` }} />
           </div>
 
-          <div className="rounded-[40px] border-2 border-tinta bg-papel">
-            <div className="px-7 pt-7 sm:px-10 sm:pt-9">
-              <div
-                className="h-4 overflow-hidden rounded-full border-2 border-tinta bg-papel"
-                role="progressbar"
-                aria-label="Progresso do briefing"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={Math.round(progresso)}
-              >
-                <div
-                  className="h-full rounded-full bg-acento transition-[width] duration-500"
-                  style={{ width: `${progresso}%` }}
-                />
-              </div>
-            </div>
+          <div className="p-6 sm:p-10">
+            {!noFim ? (
+              <div key={passo} className="animate-troca">
+                <p className="text-[14px] text-andesito-escuro">
+                  Passo {passo + 1} de {FIM + 1}
+                </p>
+                <h3 className="titulo mt-2 text-[1.6rem] sm:text-[2rem]">{atual.pergunta}</h3>
+                {atual.ajuda && <p className="mt-2 text-[15px] text-andesito-escuro">{atual.ajuda}</p>}
 
-            <div className="p-7 sm:p-10">
-              {!noFim ? (
-                <div key={passo} className="animate-troca">
-                  <p className="text-[13px] font-bold tracking-[0.03em] text-tinta/70">
-                    Passo {passo + 1} de {FIM + 1}
-                  </p>
-                  <h3 className="mt-2 text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.2rem]">
-                    {atual.pergunta}
-                  </h3>
-                  {atual.ajuda && <p className="mt-2 text-[15px] text-tinta/70">{atual.ajuda}</p>}
-
-                  <div className="mt-7 flex flex-wrap gap-2.5">
-                    {atual.opcoes.map((o) => {
-                      const escolhida = respostas[atual.chave] === o;
-                      return (
-                        <button
-                          key={o}
-                          type="button"
-                          onClick={() => responder(atual.chave, o)}
-                          aria-pressed={escolhida}
-                          className={`rounded-full border-2 border-tinta px-5 py-3 text-[15px] font-semibold transition-colors duration-150 active:translate-y-px ${
-                            escolhida ? "bg-tinta text-papel" : "bg-papel hover:bg-faixa-latao"
-                          }`}
-                        >
-                          {o}
-                        </button>
-                      );
-                    })}
-
-                    {/* Resposta livre: nenhuma lista cobre todo mundo. */}
-                    {!escrevendoOutro ? (
+                <div className="mt-8 flex flex-wrap gap-2.5">
+                  {atual.opcoes.map((o) => {
+                    const escolhida = respostas[atual.chave] === o;
+                    return (
                       <button
+                        key={o}
                         type="button"
-                        onClick={() => setEscrevendoOutro(true)}
-                        className="rounded-full border-2 border-dashed border-tinta px-5 py-3 text-[15px] font-semibold text-tinta/75 transition-colors hover:bg-faixa-latao hover:text-tinta"
+                        onClick={() => responder(atual.chave, o)}
+                        aria-pressed={escolhida}
+                        className={`${opcao} ${
+                          escolhida ? "border-tinta bg-tinta text-papel" : "border-tinta/20 hover:border-tinta"
+                        }`}
                       >
-                        Outro…
+                        {o}
                       </button>
-                    ) : (
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          responder(atual.chave, outro);
-                        }}
-                        className="flex w-full gap-2 sm:w-auto"
-                      >
-                        <input
-                          autoFocus
-                          value={outro}
-                          onChange={(e) => setOutro(e.target.value)}
-                          placeholder="Escreva a sua resposta"
-                          aria-label="Sua resposta"
-                          className="h-12 min-w-0 flex-1 rounded-full border-2 border-tinta bg-papel px-5 text-[15px] outline-none placeholder:text-tinta/45 focus:bg-faixa-latao/40 sm:w-64"
-                        />
-                        <button type="submit" disabled={!outro.trim()} className="btn-solid shrink-0 !px-5 disabled:opacity-40">
-                          Usar
-                        </button>
-                      </form>
-                    )}
-                  </div>
+                    );
+                  })}
 
-                  <div className="mt-8 flex items-center gap-6 text-[14px] font-bold">
-                    {passo > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => irPara(passo - 1)}
-                        className="underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
-                      >
-                        Voltar
-                      </button>
-                    )}
-                    {/* Sem resposta obrigatória: pular é melhor que abandonar. */}
+                  {/* Resposta livre: nenhuma lista cobre todo mundo. */}
+                  {!escrevendoOutro ? (
                     <button
                       type="button"
-                      onClick={() => irPara(editando.current ? FIM : passo + 1)}
-                      className="underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
+                      onClick={() => setEscrevendoOutro(true)}
+                      className={`${opcao} border-dashed border-tinta/30 text-andesito-escuro hover:border-tinta hover:text-tinta`}
                     >
-                      Pular
+                      Outro…
                     </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="animate-troca">
-                  <p className="text-[13px] font-bold tracking-[0.03em] text-tinta/70">Último passo</p>
-                  <h3 className="mt-2 text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.2rem]">
-                    Como te chamo?
-                  </h3>
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {PASSOS.map((p, i) => (
-                      <button
-                        key={p.chave}
-                        type="button"
-                        onClick={() => irPara(i, true)}
-                        className="rounded-full border-2 border-tinta bg-papel px-4 py-2 text-[13px] font-semibold transition-colors hover:bg-faixa-latao"
-                      >
-                        {respostas[p.chave] || "não respondeu"}
-                        <span className="ml-2 font-bold underline underline-offset-2">editar</span>
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className="label-form" htmlFor="nome">
-                        Seu nome
-                      </label>
-                      <input
-                        id="nome"
-                        className={`field ${avisoNome ? "!bg-faixa-latao" : ""}`}
-                        value={nome}
-                        onChange={(e) => {
-                          setNome(e.target.value);
-                          if (e.target.value.trim()) setAvisoNome(false);
-                        }}
-                        placeholder="Como posso te chamar?"
-                      />
-                      {avisoNome && (
-                        <p className="mt-1.5 text-[13px] font-semibold text-acento-fundo">
-                          Só o nome, para eu não começar com &ldquo;olá&rdquo;.
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="label-form" htmlFor="negocio">
-                        Nome do negócio
-                      </label>
-                      <input
-                        id="negocio"
-                        className="field"
-                        value={negocio}
-                        onChange={(e) => setNegocio(e.target.value)}
-                        placeholder="Ex.: Barbearia Norte"
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <label className="label-form" htmlFor="detalhes">
-                        Quer contar mais? (opcional)
-                      </label>
-                      <textarea
-                        id="detalhes"
-                        rows={3}
-                        className="field !h-auto resize-none py-3"
-                        value={detalhes}
-                        onChange={(e) => setDetalhes(e.target.value)}
-                        placeholder="O que te trava hoje: agenda cheia de mensagem, pedido perdido, site antigo…"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <a
-                      href={whatsappLink(montarMensagem())}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => {
-                        if (!nome.trim()) {
-                          e.preventDefault();
-                          setAvisoNome(true);
-                          document.getElementById("nome")?.focus();
-                        }
+                  ) : (
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        responder(atual.chave, outro);
                       }}
-                      className="btn-solid !px-8"
+                      className="flex w-full gap-2 sm:w-auto"
                     >
-                      Enviar pelo WhatsApp
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => irPara(FIM - 1)}
-                      className="text-[14px] font-bold underline decoration-tinta/30 underline-offset-4 hover:decoration-tinta"
-                    >
+                      <input
+                        autoFocus
+                        value={outro}
+                        onChange={(e) => setOutro(e.target.value)}
+                        placeholder="Escreva a sua resposta"
+                        aria-label="Sua resposta"
+                        className="field min-w-0 flex-1 sm:w-64"
+                      />
+                      <button type="submit" disabled={!outro.trim()} className="btn-latao shrink-0 !px-5 disabled:opacity-40">
+                        Usar
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                <div className="mt-10 flex items-center gap-6 text-[15px]">
+                  {passo > 0 && (
+                    <button type="button" onClick={() => irPara(passo - 1)} className="link">
                       Voltar
                     </button>
+                  )}
+                  {/* Sem resposta obrigatória: pular é melhor que abandonar. */}
+                  <button
+                    type="button"
+                    onClick={() => irPara(editando.current ? FIM : passo + 1)}
+                    className="link"
+                  >
+                    Pular
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="animate-troca">
+                <p className="text-[14px] text-andesito-escuro">Último passo</p>
+                <h3 className="titulo mt-2 text-[1.6rem] sm:text-[2rem]">Como podemos te chamar?</h3>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {PASSOS.map((p, i) => (
+                    <button
+                      key={p.chave}
+                      type="button"
+                      onClick={() => irPara(i, true)}
+                      className="rounded-lg border border-tinta/15 bg-pedra px-3.5 py-2 text-[14px] transition-colors hover:border-tinta"
+                    >
+                      {respostas[p.chave] || "não respondeu"}
+                      <span className="ml-2 font-semibold text-latao-texto">editar</span>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label className="label-form" htmlFor="nome">
+                      Seu nome
+                    </label>
+                    <input
+                      id="nome"
+                      className={`field ${avisoNome ? "!border-latao-texto ring-2 ring-latao/60" : ""}`}
+                      value={nome}
+                      onChange={(e) => {
+                        setNome(e.target.value);
+                        if (e.target.value.trim()) setAvisoNome(false);
+                      }}
+                      placeholder="Seu primeiro nome já basta"
+                      aria-describedby={avisoNome ? "aviso-nome" : undefined}
+                    />
+                    {avisoNome && (
+                      <p id="aviso-nome" className="mt-2 text-[14px] font-semibold text-latao-texto">
+                        Preencha o seu nome para enviar.
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="label-form" htmlFor="negocio">
+                      Nome do negócio
+                    </label>
+                    <input
+                      id="negocio"
+                      className="field"
+                      value={negocio}
+                      onChange={(e) => setNegocio(e.target.value)}
+                      placeholder="Ex.: Barbearia Norte"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="label-form" htmlFor="detalhes">
+                      Quer contar mais? (opcional)
+                    </label>
+                    <textarea
+                      id="detalhes"
+                      rows={3}
+                      className="field !h-auto resize-none py-3"
+                      value={detalhes}
+                      onChange={(e) => setDetalhes(e.target.value)}
+                      placeholder="O que te trava hoje: agenda cheia de mensagem, pedido perdido, site antigo…"
+                    />
                   </div>
                 </div>
-              )}
-            </div>
+
+                <div className="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center">
+                  <a
+                    href={whatsappLink(montarMensagem())}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      if (!nome.trim()) {
+                        e.preventDefault();
+                        setAvisoNome(true);
+                        document.getElementById("nome")?.focus();
+                      }
+                    }}
+                    className="btn-latao !px-8"
+                  >
+                    Enviar pelo WhatsApp
+                  </a>
+                  <button type="button" onClick={() => irPara(FIM - 1)} className="link self-start text-[15px] sm:self-auto">
+                    Voltar
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

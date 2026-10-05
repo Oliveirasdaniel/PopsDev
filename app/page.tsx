@@ -4,7 +4,6 @@ import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Habilidades from "@/components/Habilidades";
 import Portfolio from "@/components/Portfolio";
 import Processo from "@/components/Processo";
 import Servicos from "@/components/Servicos";
@@ -47,7 +46,6 @@ export default function Home() {
         <Servicos />
         <Portfolio />
         <Processo />
-        <Habilidades />
         <Faq />
         <Briefing />
       </main>

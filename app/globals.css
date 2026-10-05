@@ -9,7 +9,7 @@
 html {
   scroll-behavior: smooth;
   /* Altura do menu fixo, para o título da seção não nascer embaixo dele. */
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 4.5rem;
 }
 
 body {
@@ -22,113 +22,91 @@ body {
 }
 
 @layer components {
-  /* Largura de pôster: o letreiro e os títulos gigantes precisam de
-     espaço lateral para respirar. */
   .wrap {
-    @apply mx-auto w-full max-w-[90rem] px-4 sm:px-8 lg:px-10;
+    @apply mx-auto w-full max-w-[78rem] px-4 sm:px-8;
   }
 
-  /* Faixa de seção: a cor de fundo é que separa uma seção da outra.
-     Sem fio, sem sombra. */
-  .faixa {
-    @apply relative py-20 sm:py-28;
+  .secao {
+    @apply py-24 sm:py-32;
   }
 
-  /* Título-escultura: Archivo no corte mais largo e mais pesado, entrelinha
-     esmagada. As letras se empilham em bloco — é objeto, não frase. */
-  .display {
-    font-weight: 900;
-    font-stretch: 125%;
-    font-variation-settings: "wdth" 125;
-    line-height: 0.8;
-    letter-spacing: -0.015em;
-    text-transform: uppercase;
+  /* Títulos: a mesma Archivo do texto, aberta no eixo de largura. O corte
+     largo dá ao título o desenho de placa gravada; o peso 600 e a
+     entrelinha justa seguram a elegância. */
+  .titulo {
+    font-weight: 600;
+    font-stretch: 112%;
+    font-variation-settings: "wdth" 112;
+    letter-spacing: -0.032em;
+    line-height: 1.04;
   }
 
-  .display-secao {
-    @apply display;
-    font-size: clamp(2.4rem, 11.5vw, 8.75rem);
+  .titulo-1 {
+    @apply titulo;
+    font-size: clamp(2.5rem, 5.2vw, 4.5rem);
+    line-height: 1.02;
   }
 
-  /* A frase que acompanha cada título gigante. */
-  .tagline {
-    @apply mt-6 max-w-[26ch] text-[1.5rem] font-bold leading-[1.12] tracking-[-0.01em] sm:text-[2rem];
+  .titulo-2 {
+    @apply titulo;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+
+  .titulo-3 {
+    @apply titulo text-[1.3rem] sm:text-[1.45rem];
+    letter-spacing: -0.018em;
+    line-height: 1.2;
   }
 
   .lead {
-    @apply text-[16px] leading-relaxed text-tinta/75 sm:text-[17px];
+    @apply text-[1.075rem] leading-[1.65] sm:text-[1.175rem];
   }
 
-  /* Recorte: o contorno de 2px da logo em volta de tudo que se toca. */
-  .recorte {
-    @apply border-2 border-tinta;
+  /* Cabeçalho de seção: título à esquerda, apresentação à direita,
+     alinhados pela base. */
+  .cabecalho {
+    @apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-end lg:gap-16;
   }
 
   .btn {
-    @apply inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full border-2
-           border-tinta px-6 text-[15px] font-bold tracking-[0.03em] transition-colors duration-150
-           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4
-           focus-visible:outline-tinta;
+    @apply inline-flex h-12 items-center justify-center gap-2.5 whitespace-nowrap rounded-lg px-6 text-[15px]
+           font-semibold transition-colors duration-150 focus-visible:outline focus-visible:outline-2
+           focus-visible:outline-offset-[3px] focus-visible:outline-latao;
   }
 
-  /* Ação principal: pílula de tinta. No hover vira latão. */
-  .btn-solid {
-    @apply btn bg-tinta text-papel hover:bg-acento hover:text-tinta;
+  /* Ação principal, em qualquer fundo. */
+  .btn-latao {
+    @apply btn bg-latao text-tinta hover:bg-latao-claro;
   }
 
-  /* Ação secundária: pílula de papel com contorno. */
-  .btn-line {
-    @apply btn bg-papel text-tinta hover:bg-faixa-latao;
+  /* Secundária sobre tinta. */
+  .btn-vazado {
+    @apply btn border border-papel/25 text-papel hover:border-latao hover:text-latao-claro;
   }
 
-  /* Pílula do menu. */
-  .pilula {
-    @apply inline-flex h-10 items-center rounded-full border-2 border-tinta bg-papel px-4 text-[13px]
-           font-bold tracking-[0.03em] transition-colors duration-150 hover:bg-acento
-           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-           focus-visible:outline-tinta;
+  /* Secundária sobre pedra e papel. */
+  .btn-contorno {
+    @apply btn border border-tinta/25 text-tinta hover:border-tinta focus-visible:outline-tinta;
   }
 
-  /* Adesivo: recortado, colado torto. O giro vem de --giro, para a
-     animação de colar terminar exatamente no ângulo certo. */
-  .adesivo {
-    @apply recorte inline-flex flex-col rounded-[18px] px-4 py-3 leading-none;
-    transform: rotate(var(--giro, 0deg));
+  /* Sublinhado em fio de latão, nos dois fundos. */
+  .link {
+    @apply font-semibold underline decoration-latao/60 decoration-[1.5px] underline-offset-[5px]
+           transition-colors hover:decoration-latao;
   }
 
   .field {
-    @apply recorte h-12 w-full rounded-2xl bg-papel px-4 text-[15px] text-tinta outline-none
-           transition-colors placeholder:text-tinta/45 focus:bg-faixa-latao/40;
+    @apply h-12 w-full rounded-lg border border-tinta/20 bg-papel px-4 text-[15px] text-tinta outline-none
+           transition-colors placeholder:text-andesito-escuro/70 focus:border-tinta focus:ring-2
+           focus:ring-latao/60;
   }
 
   .label-form {
-    @apply mb-2 block text-[13px] font-bold tracking-[0.03em] text-tinta/80;
+    @apply mb-2 block text-[14px] font-semibold text-tinta;
   }
-}
-
-.mask-fade-x {
-  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
-}
-
-/* Engrenagem do letreiro. Gira dentro do SVG, e o sombreado é calculado
-   por fora do giro — por isso a luz continua vindo do alto à esquerda em
-   qualquer ângulo. No hover ela avança um dente. */
-.engrenagem-giro {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 0.7s cubic-bezier(0.2, 1.25, 0.4, 1);
-}
-
-.letreiro:hover .engrenagem-giro {
-  transform: rotate(45deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .letreiro:hover .engrenagem-giro {
-    transform: none;
-  }
-
   html {
     scroll-behavior: auto;
   }
