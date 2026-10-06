@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
+import IconeWhatsapp from "./IconeWhatsapp";
 
 export default function BotaoFlutuante() {
   const [visivel, setVisivel] = useState(false);
@@ -15,14 +16,16 @@ export default function BotaoFlutuante() {
 
   return (
     <a
-      href={whatsappLink(`Olá, Daniel! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`)}
+      href={whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`btn-solid fixed bottom-6 right-6 z-40 !transition-all !duration-200 ${
+      aria-label="Falar no WhatsApp"
+      tabIndex={visivel ? 0 : -1}
+      className={`fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-verde text-creme shadow-[0_6px_20px_-6px_rgba(28,46,37,.5)] ring-1 ring-creme/25 transition-all duration-200 hover:bg-verde-escuro focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde sm:bottom-7 sm:right-7 ${
         visivel ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >
-      WhatsApp
+      <IconeWhatsapp className="h-6 w-6" />
     </a>
   );
 }

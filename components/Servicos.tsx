@@ -1,72 +1,60 @@
 import { servicos } from "@/lib/site";
 
-type Icone = (typeof servicos)[number]["icone"];
-
 /**
- * Cada frente é um cartão recortado, com cor e tamanho próprios. Em tela
- * larga as linhas se desencontram (2+1, 1+2), e o delivery vem primeiro e
- * maior: é o sistema próprio da Popsdev.
+ * Ficha técnica, não grade de cartões: cada serviço é uma linha, com o
+ * nome (e o preço de entrada, quando houver) à esquerda e o que vem
+ * dentro à direita. Lê-se de cima a baixo como uma especificação.
  */
-const ordem: Icone[] = ["cart", "page", "calendar", "tools"];
-
-const estilo: Record<Icone, { cartao: string; lista: string }> = {
-  cart: { cartao: "bg-acento lg:col-span-2", lista: "sm:grid-cols-2" },
-  page: { cartao: "bg-papel", lista: "" },
-  calendar: { cartao: "bg-faixa-andesito", lista: "" },
-  tools: { cartao: "bg-acento-claro lg:col-span-2", lista: "sm:grid-cols-2" },
-};
-
 export default function Servicos() {
-  const lista = ordem.map((icone) => servicos.find((s) => s.icone === icone)!);
-
   return (
-    <section id="servicos" className="faixa bg-papel">
+    <section id="servicos" className="secao bg-creme">
       <div className="wrap">
-        {/* O adesivo é colado na ponta do título, por cima das letras. */}
-        <div className="relative w-fit">
-          <h2 className="display-secao">
-            Quatro
-            <br />
-            frentes
-          </h2>
-          <span
-            className="adesivo mt-4 bg-acento-claro text-[15px] font-extrabold sm:absolute sm:-right-8 sm:top-[-0.75rem] sm:mt-0"
-            style={{ "--giro": "8deg" } as React.CSSProperties}
-          >
-            sem template
-          </span>
+        <div className="cabecalho">
+          <h2 className="titulo-secao max-w-[12ch]">O que a Popsdev constrói</h2>
+          <p className="lead text-verde-escuro/75">
+            Quatro frentes, todas partindo do que trava a venda hoje: cliente perdido nas mensagens, horário
+            vago e pedido que some.
+          </p>
         </div>
-        <p className="tagline">Todas partindo do que trava a venda hoje.</p>
 
-        <div className="mt-14 grid gap-4 lg:grid-cols-3">
-          {lista.map((s) => (
+        <div className="mt-16 border-b border-verde-escuro/15">
+          {servicos.map((s) => (
             <article
               key={s.titulo}
-              className={`relative rounded-[32px] border-2 border-tinta p-7 sm:p-9 ${estilo[s.icone].cartao}`}
+              className="grid gap-6 border-t border-verde-escuro/15 py-10 sm:py-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
             >
-              {s.icone === "cart" && (
-                <span
-                  className="adesivo absolute -top-4 right-5 bg-tinta text-[13px] font-bold text-acento-claro sm:right-8"
-                  style={{ "--giro": "3deg" } as React.CSSProperties}
-                >
-                  sistema próprio
-                </span>
-              )}
+              <div>
+                <h3 className="titulo-item max-w-[14ch]">{s.titulo}</h3>
+                {s.proprio && (
+                  <p className="mt-4 inline-block rounded bg-verde-claro px-2 py-1 text-[13px] font-semibold text-verde-escuro">
+                    Sistema próprio da Popsdev
+                  </p>
+                )}
+                {s.preco && (
+                  <div className="mt-5">
+                    <p className="text-[15px] text-verde-escuro/75">
+                      A partir de{" "}
+                      <strong className="font-display text-[1.6rem] font-semibold tracking-[-0.02em] text-verde">
+                        {s.preco.valor}
+                      </strong>
+                      {s.preco.periodo && <span className="font-medium text-verde">{s.preco.periodo}</span>}
+                    </p>
+                    {s.preco.nota && <p className="mt-0.5 text-[14px] text-verde-escuro/65">{s.preco.nota}</p>}
+                  </div>
+                )}
+              </div>
 
-              <h3 className="max-w-[18ch] text-[1.65rem] font-extrabold leading-[1.05] tracking-[-0.02em] sm:text-[2.1rem]">
-                {s.titulo}
-              </h3>
-              <p className="lead mt-3 max-w-[46ch] !text-tinta/80">{s.resumo}</p>
-
-              <ul className={`mt-7 grid gap-x-8 gap-y-2.5 ${estilo[s.icone].lista}`}>
-                {s.itens.map((item) => (
-                  <li key={item} className="flex gap-3 text-[15px] font-medium leading-snug">
-                    {/* Marcador quadrado: um pixel da logo, ampliado. */}
-                    <span className="mt-[0.4em] h-2 w-2 shrink-0 bg-tinta" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <p className="lead max-w-[56ch] text-verde-escuro/75">{s.resumo}</p>
+                <ul className="mt-6 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+                  {s.itens.map((item) => (
+                    <li key={item} className="flex gap-3 text-[15px] leading-snug">
+                      <span className="mt-[0.6em] h-px w-3 shrink-0 bg-verde" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))}
         </div>

@@ -1,32 +1,29 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import IconeWhatsapp from "@/components/IconeWhatsapp";
 import { site, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Sobre",
-  description: `Quem é ${site.autor}, o desenvolvedor por trás da ${site.nome}.`,
+  description: `Quem é ${site.autor}, o fundador da ${site.nome}.`,
 };
 
-/** Cada bloco é um cartão recortado, com a cor de uma faixa do site. */
 const percurso = [
   {
     titulo: "Por que negócios locais",
     texto:
-      "Restaurante, barbearia e salão vivem do mesmo aperto: cliente chega pelo Instagram, some no meio das mensagens e o horário fica vago. É um problema de ferramenta, não de esforço — e ferramenta é o que eu sei fazer.",
-    cor: "bg-papel",
+      "Restaurante, barbearia e salão vivem do mesmo aperto: cliente chega pelo Instagram, some no meio das mensagens e o horário fica vago. É um problema de ferramenta, não de esforço — e ferramenta é o que a Popsdev sabe fazer.",
   },
   {
-    titulo: "Como eu trabalho",
+    titulo: "Como trabalhamos",
     texto:
-      "Escopo por escrito antes de começar, prévia para você acompanhar durante, e eu por perto depois que o site sobe. Sem contrato longo e sem cobrança que aparece no meio do caminho.",
-    cor: "bg-faixa-andesito",
+      "Escopo por escrito antes de começar, prévia para você acompanhar durante e suporte por perto depois que o site sobe. Sem contrato longo e sem cobrança que aparece no meio do caminho.",
   },
   {
-    titulo: "O que eu não faço",
+    titulo: "O que não fazemos",
     texto:
-      "Não entrego template com o nome trocado, não prometo primeiro lugar no Google e não sumo depois da entrega. Se o seu caso não for para mim, eu digo na primeira conversa.",
-    cor: "bg-acento-claro",
+      "Não entregamos template com o nome trocado, não prometemos primeiro lugar no Google e não sumimos depois da entrega. Se o seu caso não for para nós, você fica sabendo na primeira conversa.",
   },
 ];
 
@@ -35,62 +32,59 @@ export default function Sobre() {
     <>
       <Header />
       <main>
-        <section className="relative overflow-hidden bg-faixa-latao pb-20 pt-[4.75rem] sm:pb-28">
-          <div className="wrap pt-14 sm:pt-20">
-            <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16">
-              <div>
-                <h1 className="display text-[clamp(3.4rem,11vw,10rem)]">
-                  Prazer,
-                  <br />
-                  {site.autor.split(" ")[0]}.
-                </h1>
-                <p className="mt-8 max-w-xl text-[1.25rem] font-medium leading-relaxed sm:text-[1.4rem]">
-                  Sou desenvolvedor e faço sites e ferramentas para quem vive de agendamento e de entrega.
-                  Comecei atendendo negócios do meu círculo, vi o mesmo problema se repetir em cada um deles e
-                  resolvi construir do jeito certo, em vez de empurrar template pronto.
-                </p>
-              </div>
-
-              {/* A foto como adesivo: recortada, colada torta. */}
-              <figure className="max-w-[17rem] lg:max-w-none">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/daniel.jpeg"
-                  alt={`${site.autor}, desenvolvedor por trás da ${site.nome}`}
-                  width={720}
-                  height={900}
-                  className="w-full rotate-[3deg] rounded-[32px] border-2 border-tinta bg-papel"
-                />
-                <figcaption className="adesivo relative -mt-6 ml-6 bg-papel text-[13px] font-bold leading-snug" style={{ "--giro": "-3deg" } as React.CSSProperties}>
-                  {site.autor} — {site.cargo}
-                </figcaption>
-              </figure>
+        <section className="bg-tinta text-papel">
+          <div className="wrap grid items-end gap-14 pb-20 pt-16 sm:pt-24 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-20 lg:pb-28">
+            <div>
+              <h1 className="titulo-1 max-w-[14ch]">Quem está por trás da {site.nome}</h1>
+              <p className="lead mt-8 max-w-[56ch] text-papel/70">
+                Sou {site.autor}, desenvolvedor e fundador da {site.nome}. Comecei atendendo negócios do meu
+                círculo, vi o mesmo problema se repetir em cada um deles e resolvi construir do jeito certo, em
+                vez de empurrar template pronto. Hoje a {site.nome} faz sites e sistemas para quem vive de
+                agendamento e de entrega.
+              </p>
             </div>
+
+            <figure className="max-w-[18rem] lg:max-w-none">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/daniel.jpeg"
+                alt={`${site.autor}, fundador da ${site.nome}`}
+                width={720}
+                height={900}
+                className="w-full rounded-xl border border-papel/10"
+              />
+              <figcaption className="mt-4 text-[14px] text-papel/60">
+                <span className="font-semibold text-papel">{site.autor}</span>
+                <br />
+                {site.cargo}
+              </figcaption>
+            </figure>
           </div>
         </section>
 
-        <section className="faixa bg-papel">
+        <section className="secao bg-pedra">
           <div className="wrap">
-            <div className="grid gap-4 lg:grid-cols-3">
+            <div className="grid gap-12 lg:grid-cols-3 lg:gap-10">
               {percurso.map((p) => (
-                <article key={p.titulo} className={`rounded-[32px] border-2 border-tinta p-7 sm:p-9 ${p.cor}`}>
-                  <h2 className="text-[1.5rem] font-extrabold leading-tight tracking-[-0.02em]">{p.titulo}</h2>
-                  <p className="lead mt-3 !text-tinta/80">{p.texto}</p>
+                <article key={p.titulo} className="border-t border-latao-escuro pt-7">
+                  <h2 className="titulo-3">{p.titulo}</h2>
+                  <p className="mt-4 text-[16px] leading-relaxed text-andesito-escuro">{p.texto}</p>
                 </article>
               ))}
             </div>
 
-            <div className="mt-12 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-16 flex flex-col gap-3 sm:flex-row">
               <a
-                href={whatsappLink(`Olá, Daniel! Vim pela página Sobre do site da ${site.nome}.`)}
+                href={whatsappLink(`Olá! Vim pela página Sobre do site da ${site.nome}.`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-solid"
+                className="btn-latao"
               >
-                Falar comigo
+                <IconeWhatsapp />
+                Chamar no WhatsApp
               </a>
-              <a href="/#projetos" className="btn-line">
-                Ver os projetos
+              <a href="/#projetos" className="btn-contorno">
+                Ver projetos
               </a>
             </div>
           </div>

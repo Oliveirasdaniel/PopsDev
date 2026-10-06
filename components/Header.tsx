@@ -2,121 +2,137 @@
 
 import { useEffect, useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
-import Nichos from "./Nichos";
+import IconeWhatsapp from "./IconeWhatsapp";
+
+const whatsapp = whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`);
 
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
-  { href: "/#processo", label: "Processo" },
-  { href: "/#habilidades", label: "Habilidades" },
-  { href: "/#faq", label: "Dúvidas" },
-  { href: "/sobre", label: "Sobre" },
+  { href: "/#contato", label: "Contato" },
 ];
 
+/** O logo é só o nome, na fonte dos títulos. Também usado no rodapé. */
+export function Logo() {
+  return <span className="font-display text-[1.4rem] font-bold tracking-[-0.03em] text-creme">{site.nome}</span>;
+}
+
 /**
- * Faixa de nichos no topo e, abaixo dela, o menu em pílulas.
- *
- * O menu não tem barra de fundo: as pílulas são de papel com contorno e
- * se leem sobre qualquer faixa. Ele é `sticky` com margem negativa do
- * próprio tamanho — gruda no topo ao rolar, mas não empurra a abertura
- * para baixo, e a cor da faixa aparece por trás dele.
+ * Menu fixo. Em cima da foto da capa ele é transparente; ao rolar,
+ * ganha o verde escuro para continuar legível sobre o creme.
  */
 export default function Header() {
   const [aberto, setAberto] = useState(false);
+  const [rolou, setRolou] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = aberto ? "hidden" : "";
+    const medir = () => setRolou(window.scrollY > 24);
+    medir();
+    window.addEventListener("scroll", medir, { passive: true });
+    return () => window.removeEventListener("scroll", medir);
+  }, []);
+
+  useEffect(() => {
     if (!aberto) return;
 
     const fechar = (e: KeyboardEvent) => e.key === "Escape" && setAberto(false);
     window.addEventListener("keydown", fechar);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", fechar);
-    };
+    return () => window.removeEventListener("keydown", fechar);
   }, [aberto]);
 
-  const mensagem = `Olá, Daniel! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`;
+  const solido = rolou || aberto;
 
   return (
-    <>
-      <Nichos />
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${
+        solido ? "bg-verde-escuro" : "bg-transparent"
+      }`}
+    >
+      <div className="wrap flex h-[4.5rem] items-center justify-between gap-6">
+        <a
+          href="/"
+          className="rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde-claro"
+          aria-label={`${site.nome} — início`}
+        >
+          <Logo />
+        </a>
 
-      <header className="sticky top-0 z-50 -mb-[4.75rem] h-[4.75rem]">
-        <div className="wrap flex h-full items-center justify-between gap-3">
-          <a
-            href="/"
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-tinta bg-papel transition-colors hover:bg-acento focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
-            aria-label={`${site.nome} — início`}
-          >
-            {/* Pixel art em 2x exato (19 -> 38): em escala quebrada os pixels
-                ficam com larguras diferentes. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo/marca.svg" alt="" width={38} height={38} className="[image-rendering:pixelated]" />
-          </a>
-
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
+        <div className="flex items-center gap-8">
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
             {links.map((l) => (
-              <a key={l.href} href={l.href} className="pilula">
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded text-[15px] text-creme/75 transition-colors hover:text-creme focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde-claro"
+              >
                 {l.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <a
-              href={whatsappLink(mensagem)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-solid !h-10 !px-5 !text-[13px]"
-            >
-              WhatsApp
-            </a>
+          <a
+            href={whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden h-10 items-center gap-2 rounded-full border border-creme/35 px-4 text-[14px] font-medium text-creme transition-colors hover:border-creme hover:bg-creme hover:text-verde-escuro sm:inline-flex"
+          >
+            <IconeWhatsapp className="h-[18px] w-[18px]" />
+            WhatsApp
+          </a>
 
-            <button
-              type="button"
-              onClick={() => setAberto((v) => !v)}
-              className="grid h-10 w-10 place-items-center rounded-full border-2 border-tinta bg-papel transition-colors hover:bg-acento lg:hidden"
-              aria-label={aberto ? "Fechar menu" : "Abrir menu"}
-              aria-expanded={aberto}
-              aria-controls="menu-mobile"
-            >
-              {/* Um "+" que vira "×" girando 45°. */}
+          <button
+            type="button"
+            onClick={() => setAberto((v) => !v)}
+            className="grid h-10 w-10 place-items-center rounded-full border border-creme/35 text-creme focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-claro md:hidden"
+            aria-label={aberto ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={aberto}
+            aria-controls="menu-mobile"
+          >
+            {/* Dois fios que se cruzam em "×". */}
+            <span className="relative block h-3 w-4" aria-hidden="true">
               <span
-                className={`relative block h-3.5 w-3.5 transition-transform duration-200 ${aberto ? "rotate-45" : ""}`}
-                aria-hidden="true"
-              >
-                <span className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 rounded-full bg-tinta" />
-                <span className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 rounded-full bg-tinta" />
-              </span>
-            </button>
-          </div>
+                className={`absolute left-0 h-px w-full bg-current transition-transform duration-200 ${
+                  aberto ? "top-1/2 rotate-45" : "top-0.5"
+                }`}
+              />
+              <span
+                className={`absolute left-0 h-px w-full bg-current transition-transform duration-200 ${
+                  aberto ? "top-1/2 -rotate-45" : "bottom-0.5"
+                }`}
+              />
+            </span>
+          </button>
         </div>
+      </div>
 
-        {aberto && (
-          <div className="wrap lg:hidden">
-            <nav
-              id="menu-mobile"
-              className="flex flex-col gap-2 rounded-[28px] border-2 border-tinta bg-papel p-3"
-              aria-label="Navegação mobile"
-            >
-              {links.map((l) => (
+      {aberto && (
+        <nav id="menu-mobile" className="border-t border-creme/10 md:hidden" aria-label="Navegação mobile">
+          <ul className="wrap py-3">
+            {links.map((l) => (
+              <li key={l.href}>
                 <a
-                  key={l.href}
                   href={l.href}
                   onClick={() => setAberto(false)}
-                  className="pilula !h-12 !text-[15px]"
+                  className="block border-b border-creme/10 py-4 text-[17px] text-creme/85 hover:text-creme"
                 >
                   {l.label}
                 </a>
-              ))}
-              <a href={whatsappLink(mensagem)} target="_blank" rel="noopener noreferrer" className="btn-solid mt-1">
-                Falar no WhatsApp
+              </li>
+            ))}
+            <li className="py-4">
+              <a
+                href={whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-12 w-full items-center justify-center gap-2.5 rounded-full bg-creme text-[15px] font-semibold text-verde-escuro"
+              >
+                <IconeWhatsapp />
+                Chamar no WhatsApp
               </a>
-            </nav>
-          </div>
-        )}
-      </header>
-    </>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </header>
   );
 }
