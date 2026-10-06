@@ -30,13 +30,17 @@ export default function Servicos() {
                     Sistema próprio da Popsdev
                   </p>
                 )}
-                {s.aPartirDe && (
-                  <p className="mt-4 text-[15px] text-verde-escuro/75">
-                    A partir de{" "}
-                    <strong className="font-display text-[1.4rem] font-semibold tracking-[-0.02em] text-verde">
-                      {s.aPartirDe}
-                    </strong>
-                  </p>
+                {s.preco && (
+                  <div className="mt-5">
+                    <p className="text-[15px] text-verde-escuro/75">
+                      A partir de{" "}
+                      <strong className="font-display text-[1.6rem] font-semibold tracking-[-0.02em] text-verde">
+                        {s.preco.valor}
+                      </strong>
+                      {s.preco.periodo && <span className="font-medium text-verde">{s.preco.periodo}</span>}
+                    </p>
+                    {s.preco.nota && <p className="mt-0.5 text-[14px] text-verde-escuro/65">{s.preco.nota}</p>}
+                  </div>
                 )}
               </div>
 
