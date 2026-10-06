@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// Com o eixo de largura: os títulos usam o corte largo (112) e o texto
-// corrido fica no normal (100), tudo no mesmo arquivo de fonte.
-const sans = Archivo({
+// Títulos. O eixo opsz deixa o desenho mais apertado e com mais
+// personalidade nos tamanhos grandes, sozinho.
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
   display: "swap",
-  axes: ["wdth"],
+  axes: ["opsz"],
+  variable: "--font-display",
+});
+
+// Texto corrido: neutra, para o título ser a única voz forte.
+const sans = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
   variable: "--font-sans",
 });
 
@@ -48,7 +55,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={sans.variable}>
+    <html lang="pt-BR" className={`${sans.variable} ${display.variable}`}>
       <body>{children}</body>
     </html>
   );

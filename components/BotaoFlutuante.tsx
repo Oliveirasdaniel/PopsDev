@@ -21,7 +21,7 @@ export default function BotaoFlutuante() {
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp"
       tabIndex={visivel ? 0 : -1}
-      className={`fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-latao text-tinta shadow-[0_6px_20px_-6px_rgba(36,23,11,.45)] transition-all duration-200 hover:bg-latao-claro focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tinta sm:bottom-7 sm:right-7 ${
+      className={`fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-verde text-creme shadow-[0_6px_20px_-6px_rgba(28,46,37,.5)] ring-1 ring-creme/25 transition-all duration-200 hover:bg-verde-escuro focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde sm:bottom-7 sm:right-7 ${
         visivel ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >

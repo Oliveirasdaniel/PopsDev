@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
-import { Marca } from "./Engrenagem";
 import IconeWhatsapp from "./IconeWhatsapp";
 
 const whatsapp = whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`);
@@ -10,26 +9,28 @@ const whatsapp = whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
-  { href: "/#faq", label: "Dúvidas" },
-  { href: "/sobre", label: "Sobre" },
+  { href: "/#contato", label: "Contato" },
 ];
 
-/** O nome com a marca. Também usado no rodapé. */
+/** O logo é só o nome, na fonte dos títulos. Também usado no rodapé. */
 export function Logo() {
-  return (
-    <span className="flex items-center gap-2.5">
-      <Marca className="h-7 w-7" />
-      <span className="titulo text-[1.2rem] !tracking-[-0.02em] text-papel">{site.nome}</span>
-    </span>
-  );
+  return <span className="font-display text-[1.4rem] font-bold tracking-[-0.03em] text-creme">{site.nome}</span>;
 }
 
 /**
- * Menu fixo na cor da faixa de topo. Toda página abre numa faixa de
- * tinta, então ele não precisa trocar de cor ao rolar.
+ * Menu fixo. Em cima da foto da capa ele é transparente; ao rolar,
+ * ganha o verde escuro para continuar legível sobre o creme.
  */
 export default function Header() {
   const [aberto, setAberto] = useState(false);
+  const [rolou, setRolou] = useState(false);
+
+  useEffect(() => {
+    const medir = () => setRolou(window.scrollY > 24);
+    medir();
+    window.addEventListener("scroll", medir, { passive: true });
+    return () => window.removeEventListener("scroll", medir);
+  }, []);
 
   useEffect(() => {
     if (!aberto) return;
@@ -39,35 +40,41 @@ export default function Header() {
     return () => window.removeEventListener("keydown", fechar);
   }, [aberto]);
 
+  const solido = rolou || aberto;
+
   return (
-    <header className="sticky top-0 z-50 border-b border-papel/10 bg-tinta/95 backdrop-blur">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${
+        solido ? "bg-verde-escuro" : "bg-transparent"
+      }`}
+    >
       <div className="wrap flex h-[4.5rem] items-center justify-between gap-6">
         <a
           href="/"
-          className="rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-latao"
+          className="rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde-claro"
           aria-label={`${site.nome} — início`}
         >
           <Logo />
         </a>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Navegação principal">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded text-[15px] text-papel/70 transition-colors hover:text-papel focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-latao"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+        <div className="flex items-center gap-8">
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded text-[15px] text-creme/75 transition-colors hover:text-creme focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde-claro"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
 
-        <div className="flex items-center gap-2">
           <a
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-latao !h-10 !gap-2 !px-4 !text-[14px]"
+            className="hidden h-10 items-center gap-2 rounded-full border border-creme/35 px-4 text-[14px] font-medium text-creme transition-colors hover:border-creme hover:bg-creme hover:text-verde-escuro sm:inline-flex"
           >
             <IconeWhatsapp className="h-[18px] w-[18px]" />
             WhatsApp
@@ -76,7 +83,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setAberto((v) => !v)}
-            className="grid h-10 w-10 place-items-center rounded-lg border border-papel/20 text-papel transition-colors hover:border-latao focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-latao lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-creme/35 text-creme focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-verde-claro md:hidden"
             aria-label={aberto ? "Fechar menu" : "Abrir menu"}
             aria-expanded={aberto}
             aria-controls="menu-mobile"
@@ -99,21 +106,26 @@ export default function Header() {
       </div>
 
       {aberto && (
-        <nav id="menu-mobile" className="border-t border-papel/10 lg:hidden" aria-label="Navegação mobile">
+        <nav id="menu-mobile" className="border-t border-creme/10 md:hidden" aria-label="Navegação mobile">
           <ul className="wrap py-3">
             {links.map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
                   onClick={() => setAberto(false)}
-                  className="block border-b border-papel/10 py-4 text-[17px] text-papel/85 hover:text-latao-claro"
+                  className="block border-b border-creme/10 py-4 text-[17px] text-creme/85 hover:text-creme"
                 >
                   {l.label}
                 </a>
               </li>
             ))}
             <li className="py-4">
-              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn-latao w-full">
+              <a
+                href={whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-12 w-full items-center justify-center gap-2.5 rounded-full bg-creme text-[15px] font-semibold text-verde-escuro"
+              >
                 <IconeWhatsapp />
                 Chamar no WhatsApp
               </a>

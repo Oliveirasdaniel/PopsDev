@@ -5,6 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Paleta nova: dois verdes e um creme puxado pro caramelo. Sem
+        // gradiente e sem cor saturada; o contraste vem do verde escuro.
+        verde: {
+          // Verde meio escuro: faixas, botões, texto de destaque.
+          DEFAULT: "#2f4b3c",
+          // Texto sobre creme e o véu por cima das fotos.
+          escuro: "#1c2e25",
+          // Verde clarinho: fundos suaves e destaque sobre verde.
+          claro: "#c9dcb5",
+        },
+        creme: {
+          // Off-white acaramelado: o fundo do site.
+          DEFAULT: "#f2e9d8",
+          // Um tom abaixo, para linhas e superfícies sobre o creme.
+          escuro: "#e3d5bb",
+        },
+
         // As cores continuam saindo da logo em pixel art
         // (scripts/logo/gerar.mjs) — mudou lá, muda aqui. O que mudou foi
         // o uso: o latão virou acento fino sobre tinta e pedra, em vez de
@@ -39,22 +56,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-      },
-      keyframes: {
-        // Troca de pergunta no briefing: mostra que a resposta registrou.
-        troca: {
-          "0%": { opacity: "0", transform: "translateY(8px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        // A engrenagem do desenho engata: avança um dente (45°) e para.
-        engatar: {
-          "0%": { transform: "rotate(-45deg)" },
-          "100%": { transform: "rotate(0deg)" },
-        },
-      },
-      animation: {
-        troca: "troca .3s cubic-bezier(.22,1,.36,1) both",
-        engatar: "engatar 1.6s cubic-bezier(.2,1.1,.3,1) .2s both",
+        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
       },
     },
   },

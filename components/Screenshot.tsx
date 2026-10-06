@@ -15,8 +15,8 @@ export default function Screenshot({ src, alt, nome }: Props) {
 
   if (falhou) {
     return (
-      <div className="grid h-full w-full place-items-center bg-pedra">
-        <span className="text-[15px] font-semibold text-andesito-escuro">{nome}</span>
+      <div className="grid h-full w-full place-items-center bg-creme-escuro">
+        <span className="text-[15px] font-semibold text-verde-escuro/70">{nome}</span>
       </div>
     );
   }
@@ -26,7 +26,7 @@ export default function Screenshot({ src, alt, nome }: Props) {
       src={src}
       alt={alt}
       fill
-      sizes="(max-width: 768px) 100vw, 40vw"
+      sizes="(max-width: 1024px) 100vw, 55vw"
       onError={() => setFalhou(true)}
       className="object-cover object-top"
     />
