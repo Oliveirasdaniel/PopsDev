@@ -17,7 +17,7 @@ export const site = {
   cidade: "Brasil · atendimento 100% remoto",
 
   // Domínio final (usado no SEO / Open Graph)
-  url: "https://popsdev.vercel.app",
+  url: "https://www.popsdev.tech",
 };
 
 /**
