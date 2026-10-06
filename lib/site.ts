@@ -17,7 +17,7 @@ export const site = {
   cidade: "Brasil · atendimento 100% remoto",
 
   // Domínio final (usado no SEO / Open Graph)
-  url: "https://popsdev.vercel.app",
+  url: "https://www.popsdev.tech",
 };
 
 /**
@@ -129,7 +129,7 @@ export const projetos: Projeto[] = [
   {
     nome: "Mídia Led",
     segmento: "Mídia exterior · Painéis de LED",
-    url: "https://midia-led.vercel.app",
+    url: "https://midialeds.com.br",
     imagem: "/portfolio/midia-led.png",
     descricao:
       "Site de uma operação de mídia em LED na Baixada Fluminense: o trio de telas sobre veículo e o painel duplo da Via Dutra, com vídeo de fundo, números de circulação e pedido de orçamento em um clique.",
