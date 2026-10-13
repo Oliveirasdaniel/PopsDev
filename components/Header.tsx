@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import emblema from "@/public/logo/emblema.png";
 import { site, whatsappLink } from "@/lib/site";
 import IconeWhatsapp from "./IconeWhatsapp";
 
@@ -13,9 +15,14 @@ const links = [
   { href: "/#contato", label: "Contato" },
 ];
 
-/** O logo é só o nome, na fonte dos títulos. Também usado no rodapé. */
+/** Emblema + nome na fonte dos títulos. Também usado no rodapé. */
 export function Logo({ className = "text-creme" }: { className?: string }) {
-  return <span className={`font-display text-[1.4rem] font-bold tracking-[-0.03em] ${className}`}>{site.nome}</span>;
+  return (
+    <span className={`inline-flex items-center gap-2.5 font-display text-[1.4rem] font-bold tracking-[-0.03em] ${className}`}>
+      <Image src={emblema} alt="" width={34} height={34} className="h-[34px] w-auto" />
+      {site.nome}
+    </span>
+  );
 }
 
 /**
