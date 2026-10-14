@@ -34,6 +34,8 @@ export type Servico = {
   itens: string[];
   preco?: { valor: string; periodo?: string; nota?: string };
   proprio?: boolean;
+  /** Serviço recém-lançado: ganha o selo "Novo". */
+  novo?: boolean;
 };
 
 export const servicos: Servico[] = [
@@ -75,6 +77,18 @@ export const servicos: Servico[] = [
     ],
     preco: { valor: "R$ 90", periodo: "/mês", nota: "+ taxa de setup" },
     proprio: true,
+  },
+  {
+    titulo: "Agentes de IA",
+    resumo:
+      "Um atendente que responde seus clientes no WhatsApp a qualquer hora, com as informações do seu negócio, e passa para você quando precisa de gente.",
+    itens: [
+      "Responde dúvidas sobre preços, horários e serviços",
+      "Treinado com as informações do seu negócio",
+      "Atende fora do horário comercial",
+      "Passa a conversa para você quando necessário",
+    ],
+    novo: true,
   },
   {
     titulo: "Sistemas sob medida",
