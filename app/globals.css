@@ -105,3 +105,27 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Carrossel de projetos: a faixa tem a lista duas vezes, então andar -50%
+   cai exatamente no começo da cópia e o loop fica sem emenda. */
+.carrossel {
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.carrossel-faixa {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  padding-right: 1.5rem; /* mesmo valor do gap, senão a emenda pula */
+  animation: carrossel 45s linear infinite;
+}
+.carrossel:hover .carrossel-faixa,
+.carrossel:focus-within .carrossel-faixa {
+  animation-play-state: paused;
+}
+@keyframes carrossel {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carrossel { overflow-x: auto; mask-image: none; }
+  .carrossel-faixa { animation: none; }
+}

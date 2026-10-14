@@ -107,6 +107,15 @@ export type Projeto = {
 
 export const projetos: Projeto[] = [
   {
+    nome: "Pizzaria Don’Ana",
+    segmento: "Pizzaria · Delivery",
+    url: "https://www.donanapizzariadelivery.com.br",
+    imagem: "/portfolio/donana.png",
+    descricao:
+      "Site de pizzaria em Maricá com cardápio completo, horário de funcionamento ao vivo e pedido direto pelo Anota AI, iFood ou WhatsApp.",
+    tags: ["Cardápio", "Delivery", "iFood", "WhatsApp"],
+  },
+  {
     nome: "Florae Cosméticos",
     segmento: "Cosméticos veganos · E-commerce",
     url: "https://florae-cosmeticos.vercel.app/",
@@ -143,6 +152,25 @@ export const projetos: Projeto[] = [
     descricao:
       "Landing page de buffet artesanal com portfólio de eventos, tipos de festa atendidos e captação de orçamento em um clique.",
     tags: ["Landing page", "Portfólio", "Orçamento", "Eventos"],
+  },
+];
+
+/**
+ * Clientes com site no ar. `texto` é a fala do próprio cliente: fica vazio
+ * até ele mandar — depoimento inventado não entra aqui.
+ */
+export type Depoimento = {
+  cliente: string;
+  local: string;
+  url: string;
+  texto?: string;
+};
+
+export const depoimentos: Depoimento[] = [
+  {
+    cliente: "Pizzaria Don’Ana",
+    local: "Maricá, RJ",
+    url: "https://www.donanapizzariadelivery.com.br",
   },
 ];
 

@@ -7,13 +7,14 @@ function dominio(url: string) {
 }
 
 /**
- * Um projeto por vez, imagem de um lado e texto do outro, trocando de
- * lado a cada um. Dá espaço para contar o que foi feito em vez de só
- * mostrar o print.
+ * Carrossel contínuo com as prévias. A lista vai duas vezes na faixa para
+ * o loop não ter emenda; a segunda cópia fica fora do leitor de tela e do
+ * Tab. Passar o mouse (ou focar um card) pausa a animação — ver .carrossel
+ * no globals.css.
  */
 export default function Portfolio() {
   return (
-    <section id="projetos" className="secao bg-verde-claro">
+    <section id="projetos" className="secao overflow-hidden bg-verde-claro">
       <div className="wrap">
         <div className="cabecalho">
           <h2 className="titulo-secao">Projetos</h2>
@@ -21,71 +22,41 @@ export default function Portfolio() {
             Sites construídos do zero, cada um no jeito do seu nicho. Todos abertos para você navegar.
           </p>
         </div>
+      </div>
 
-        <div className="mt-16 space-y-20 lg:mt-24 lg:space-y-28">
-          {projetos.map((p, i) => (
-            // A coluna larga acompanha a imagem quando ela troca de lado.
-            <article
-              key={p.nome}
-              className={`grid items-center gap-8 lg:gap-16 ${
-                i % 2 === 1
-                  ? "lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
-                  : "lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]"
-              }`}
-            >
-              {/* A moldura mostra o endereço de verdade: é o site no ar,
-                  não uma imagem de vitrine. */}
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`block overflow-hidden rounded-xl border border-verde-escuro/15 bg-creme transition-colors hover:border-verde-escuro/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde ${
-                  i % 2 === 1 ? "lg:order-2" : ""
-                }`}
-                aria-label={`Abrir o site ${p.nome}`}
-              >
-                <div className="flex h-9 items-center gap-2 border-b border-verde-escuro/10 bg-creme px-3.5 text-[12.5px] text-verde-escuro/65">
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <rect x="5" y="11" width="14" height="10" rx="2" />
-                    <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-                  </svg>
-                  {dominio(p.url)}
-                </div>
-                <div className="relative aspect-[16/10]">
-                  <Screenshot src={p.imagem} alt={`Página inicial do site ${p.nome}`} nome={p.nome} />
-                </div>
-              </a>
-
-              <div>
-                <p className="text-[14px] font-medium text-verde-escuro/70">{p.segmento}</p>
-                <h3 className="titulo-item mt-2">{p.nome}</h3>
-                <p className="mt-5 max-w-[52ch] text-[16.5px] leading-relaxed text-verde-escuro/85">{p.descricao}</p>
-
-                {/* Ressalva do projeto, quando existe: ninguém deve ler o
-                    print como loja faturando. */}
-                {p.contexto && (
-                  <p className="mt-5 max-w-[52ch] border-l-2 border-verde pl-4 text-[14px] leading-relaxed text-verde-escuro/75">
-                    {p.contexto}
-                  </p>
-                )}
-
-                <p className="mt-5 text-[14px] text-verde-escuro/70">
-                  <span className="sr-only">Recursos: </span>
-                  {p.tags.join(" · ")}
-                </p>
-
+      <div className="carrossel mt-14 lg:mt-20">
+        <ul className="carrossel-faixa">
+          {[...projetos, ...projetos].map((p, i) => {
+            const copia = i >= projetos.length;
+            return (
+              <li key={i} aria-hidden={copia || undefined} className="w-[300px] shrink-0 sm:w-[420px]">
                 <a
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="link-verde mt-7 inline-block text-[15px]"
+                  tabIndex={copia ? -1 : undefined}
+                  className="group block overflow-hidden rounded-xl border border-verde-escuro/15 bg-creme transition-colors hover:border-verde-escuro/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-verde"
+                  aria-label={`Abrir o site ${p.nome}`}
                 >
-                  Visitar site
+                  <div className="flex h-8 items-center gap-2 border-b border-verde-escuro/10 px-3 text-[12px] text-verde-escuro/65">
+                    <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                      <rect x="5" y="11" width="14" height="10" rx="2" />
+                      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                    </svg>
+                    <span className="truncate">{dominio(p.url)}</span>
+                  </div>
+                  <div className="relative aspect-[16/10]">
+                    <Screenshot src={p.imagem} alt={`Página inicial do site ${p.nome}`} nome={p.nome} sizes="420px" />
+                  </div>
+                  <div className="border-t border-verde-escuro/10 px-4 py-3.5">
+                    <p className="text-[12.5px] font-medium text-verde-escuro/65">{p.segmento}</p>
+                    <p className="mt-0.5 font-semibold text-verde-escuro">{p.nome}</p>
+                  </div>
                 </a>
-              </div>
-            </article>
-          ))}
-        </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import BotaoFlutuante from "@/components/BotaoFlutuante";
 import Contato from "@/components/Contato";
+import Depoimentos from "@/components/Depoimentos";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -31,6 +32,7 @@ export default function Home() {
         <Hero />
         <Servicos />
         <Portfolio />
+        <Depoimentos />
         <Contato />
       </main>
       <Footer />
