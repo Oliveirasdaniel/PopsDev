@@ -12,7 +12,7 @@ export default function Servicos() {
         <div className="cabecalho">
           <h2 className="titulo-secao max-w-[12ch]">O que a Popsdev constrói</h2>
           <p className="lead text-verde-escuro/75">
-            Quatro frentes, todas partindo do que trava a venda hoje: cliente perdido nas mensagens, horário
+            Cinco frentes, todas partindo do que trava a venda hoje: cliente perdido nas mensagens, horário
             vago e pedido que some.
           </p>
         </div>
@@ -25,6 +25,15 @@ export default function Servicos() {
             >
               <div>
                 <h3 className="titulo-item max-w-[14ch]">{s.titulo}</h3>
+                {s.novo && (
+                  <p className="mt-4 inline-flex items-center gap-2 rounded bg-verde px-2 py-1 text-[13px] font-semibold text-creme">
+                    <span className="relative flex h-2 w-2" aria-hidden="true">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-verde-claro opacity-75 motion-reduce:animate-none" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-verde-claro" />
+                    </span>
+                    Novo
+                  </p>
+                )}
                 {s.proprio && (
                   <p className="mt-4 inline-block rounded bg-verde-claro px-2 py-1 text-[13px] font-semibold text-verde-escuro">
                     Sistema próprio da Popsdev
