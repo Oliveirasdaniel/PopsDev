@@ -155,25 +155,6 @@ export const projetos: Projeto[] = [
   },
 ];
 
-/**
- * Clientes com site no ar. `texto` é a fala do próprio cliente: fica vazio
- * até ele mandar — depoimento inventado não entra aqui.
- */
-export type Depoimento = {
-  cliente: string;
-  local: string;
-  url: string;
-  texto?: string;
-};
-
-export const depoimentos: Depoimento[] = [
-  {
-    cliente: "Pizzaria Don’Ana",
-    local: "Maricá, RJ",
-    url: "https://www.donanapizzariadelivery.com.br",
-  },
-];
-
 /** Monta o link do WhatsApp com a mensagem já preenchida. */
 export function whatsappLink(mensagem: string) {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(mensagem)}`;
