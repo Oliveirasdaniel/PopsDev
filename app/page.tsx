@@ -3,8 +3,8 @@ import Contato from "@/components/Contato";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import Planos from "@/components/Planos";
 import Portfolio from "@/components/Portfolio";
-import Servicos from "@/components/Servicos";
 import { site } from "@/lib/site";
 
 const jsonLd = {
@@ -29,7 +29,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Servicos />
+        <Planos />
         <Portfolio />
         <Contato />
       </main>

@@ -15,9 +15,9 @@ Abre em http://localhost:3000
 
 ## Onde editar
 
-**Quase tudo está em [`lib/site.ts`](lib/site.ts).** Textos, serviços e projetos saem daí — não precisa mexer em componente para mudar conteúdo.
+**Quase tudo está em [`lib/site.ts`](lib/site.ts).** Textos e projetos saem daí — não precisa mexer em componente para mudar conteúdo.
 
-**Preços e planos ficam em [`lib/planos.ts`](lib/planos.ts)** e aparecem só na página `/planos`. A seção de serviços da home não mostra valor: termina num botão para essa página.
+**O que a Popsdev oferece e quanto custa fica em [`lib/planos.ts`](lib/planos.ts)** e aparece numa seção só, a de Planos da home (`/planos` redireciona para ela).
 
 ### Antes de publicar, faça isto:
 
@@ -40,10 +40,9 @@ components/
   Header          menu fixo com versão mobile
   Hero            manchete, foto e números
   Nichos          esteira de segmentos atendidos
-  Servicos        4 frentes, em lista com fios
+  Planos          o que oferecemos + preço + checkout, em lista com fios
   Portfolio       projetos reais com link
   Processo        4 etapas do atendimento
-  Planos          R$ 29 / R$ 79 / R$ 149 por mês
   Faq             perguntas frequentes (accordion nativo)
   Briefing        formulário que monta a mensagem do WhatsApp
   Footer          contatos e navegação
@@ -51,25 +50,34 @@ components/
 lib/site.ts       ⬅ todo o conteúdo
 lib/planos.ts     ⬅ planos, adesão e mensalidade (em centavos)
 lib/syncpay.ts    cliente da API da SyncPay (só servidor)
-app/planos/       página dos planos, com o checkout Pix
-app/api/checkout/ cria o Pix (POST) e consulta o status (GET /[id])
+app/api/checkout/ cria o Pix da adesão ou a assinatura (POST) e consulta o status (GET /[id])
 app/api/syncpay/webhook/  aviso de pagamento da SyncPay
 ```
 
 ## Pagamentos (SyncPay)
 
-Sem credenciais, a página `/planos` funciona normalmente e todo botão leva ao WhatsApp. Com credenciais, os planos que têm `preco` em `lib/planos.ts` ganham o botão **Assinar**, que gera um Pix da primeira cobrança (adesão + 1ª mensalidade).
+Doc oficial: https://syncpay.apidog.io (API partner v1).
+
+Sem credenciais, a seção de planos funciona normalmente e todo botão leva ao WhatsApp. Com credenciais, os planos que têm `preco` em `lib/planos.ts` ganham o botão **Assinar**:
+
+1. **Adesão** (se o plano tiver): Pix único, por `POST /cash-in`.
+2. **Mensalidade**: assim que a adesão cai, o cliente é matriculado num plano recorrente da SyncPay (`POST /subscription-plans/{token}/enroll`), que devolve o Pix da 1ª mensalidade. Daí em diante a SyncPay gera e manda por e-mail o Pix de cada ciclo de 30 dias (ou debita sozinha, com `SYNCPAY_COBRANCA=pix_automatico`).
+
+Os planos recorrentes são criados na SyncPay sozinhos, na primeira assinatura, com o nome `Popsdev · <título>` e o valor de `lib/planos.ts`. Mudou o preço, nasce um plano novo lá; quem já assina continua no antigo.
+
+### Configurar
 
 1. Copie `.env.example` para `.env.local` e preencha `SYNCPAY_CLIENT_ID`, `SYNCPAY_CLIENT_SECRET` e `SYNCPAY_WEBHOOK_TOKEN`.
-2. Cadastre as mesmas variáveis na Vercel e faça um novo deploy.
-3. Faça uma compra de teste de valor baixo e confira em **Vercel › Logs** as linhas `[syncpay:webhook]`: elas mostram o formato real do aviso e os nomes de status. Ajuste `situacao()` em `lib/syncpay.ts` se algum status não estiver na lista.
+2. Cadastre as mesmas variáveis na Vercel e faça um novo deploy (os botões só mudam no build).
+3. Cadastre os webhooks de assinatura: `node --env-file=.env.local scripts/syncpay-webhooks.mjs`.
+4. Faça uma assinatura de teste e confira em **Vercel › Logs** as linhas `[checkout]` e `[syncpay:webhook]`.
 
-O que está pronto: autenticação, cobrança Pix, consulta de status, webhook com token e confirmação do status direto na API (o corpo do aviso não é tratado como verdade).
+O webhook não confia no corpo do aviso: pega o ID e confirma o status direto na API.
 
-O que falta:
+### O que falta
 
-- **Mensalidade recorrente.** Hoje só a primeira cobrança é online. A SyncPay anuncia planos de assinatura e Pix Automático na API; quando os endpoints forem confirmados na documentação do painel, eles entram em `lib/syncpay.ts`.
-- **Ativar a assinatura depois do pagamento.** Não há banco de dados ainda; o ponto de encaixe é o `TODO` em `app/api/syncpay/webhook/route.ts`.
+- **Guardar quem assinou.** Não há banco de dados; o status da assinatura só existe na SyncPay e nos logs. O ponto de encaixe é o `TODO` em `app/api/syncpay/webhook/route.ts`.
+- **Área do cliente com login**, para ver a assinatura, a próxima cobrança e cancelar. Depende do banco.
 - **Preços em aberto** em `lib/planos.ts`: adesão do delivery, CRM e agente de IA aparecem como "sob consulta".
 
 ## Publicar na Vercel

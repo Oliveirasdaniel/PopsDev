@@ -9,9 +9,8 @@ import IconeWhatsapp from "./IconeWhatsapp";
 const whatsapp = whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar sobre um projeto.`);
 
 const links = [
-  { href: "/#servicos", label: "Serviços" },
+  { href: "/#planos", label: "Planos" },
   { href: "/#projetos", label: "Projetos" },
-  { href: "/planos", label: "Planos" },
   { href: "/sobre", label: "Sobre" },
   { href: "/#contato", label: "Contato" },
 ];

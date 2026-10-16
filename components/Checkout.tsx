@@ -6,32 +6,42 @@ import { problemaNosDados } from "@/lib/validar";
 
 type Props = {
   plano: { id: string; titulo: string };
-  /** Texto do valor de hoje e do mensal, já formatados pela página. */
-  hoje: string;
+  /** Valores já formatados pela página; `adesao` vazio quando não há. */
+  adesao?: string;
   mensal: string;
   className?: string;
 };
 
+type Fase = "adesao" | "mensalidade";
+
 type Etapa =
   | { tipo: "dados" }
-  | { tipo: "pix"; id: string; copiaECola: string; qr: string }
+  | { tipo: "pix"; fase: Fase; id: string; copiaECola: string; qr: string; automatico: boolean }
+  | { tipo: "gerando" }
   | { tipo: "pago" }
   | { tipo: "falhou" };
+
+type Dados = { plano: string; nome: string; email: string; cpf: string; telefone: string };
 
 const campo =
   "h-12 w-full rounded-lg border border-verde-escuro/20 bg-white/60 px-4 text-[16px] text-verde-escuro placeholder:text-verde-escuro/40 focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/20";
 
 /**
- * Botão "Assinar" + modal: dados do cliente -> Pix (QR e copia e cola)
- * -> confirmação. A confirmação vem consultando /api/checkout/[id] a
- * cada 5 segundos enquanto houver um Pix pendente.
+ * Botão "Assinar" + modal: dados do cliente -> Pix da adesão (se houver)
+ * -> Pix da 1ª mensalidade, que abre a assinatura recorrente -> pronto.
+ * A confirmação vem consultando /api/checkout/[id] a cada 5 segundos
+ * enquanto houver um Pix na tela.
  */
-export default function Checkout({ plano, hoje, mensal, className = "" }: Props) {
+export default function Checkout({ plano, adesao, mensal, className = "" }: Props) {
   const dialogo = useRef<HTMLDialogElement>(null);
   const [etapa, setEtapa] = useState<Etapa>({ tipo: "dados" });
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
   const [copiado, setCopiado] = useState(false);
+  // Os dados ficam só na memória da aba, para a 2ª etapa não pedir tudo de novo.
+  const dados = useRef<Dados | null>(null);
+  // Adesão já paga: se a 2ª etapa falhar, tentar de novo não cobra outra adesão.
+  const adesaoPaga = useRef<string | null>(null);
 
   // Consulta o status do Pix enquanto ele está na tela.
   useEffect(() => {
@@ -39,11 +49,18 @@ export default function Checkout({ plano, hoje, mensal, className = "" }: Props)
     let ativo = true;
     const consultar = async () => {
       try {
-        const r = await fetch(`/api/checkout/${encodeURIComponent(etapa.id)}`, { cache: "no-store" });
+        const tipo = etapa.fase === "mensalidade" ? "?tipo=assinatura" : "";
+        const r = await fetch(`/api/checkout/${encodeURIComponent(etapa.id)}${tipo}`, { cache: "no-store" });
         const { situacao } = await r.json();
         if (!ativo) return;
-        if (situacao === "pago") setEtapa({ tipo: "pago" });
         if (situacao === "falhou") setEtapa({ tipo: "falhou" });
+        if (situacao !== "pago") return;
+        if (etapa.fase === "mensalidade") setEtapa({ tipo: "pago" });
+        // Adesão paga: já emenda o Pix da 1ª mensalidade.
+        else if (dados.current) {
+          adesaoPaga.current = etapa.id;
+          gerarPix({ ...dados.current, adesaoId: etapa.id });
+        }
       } catch {
         /* tenta de novo no próximo ciclo */
       }
@@ -66,28 +83,41 @@ export default function Checkout({ plano, hoje, mensal, className = "" }: Props)
   async function enviar(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
-    const dados = { plano: plano.id, nome: form.nome, email: form.email, cpf: form.cpf, telefone: form.telefone };
+    const d: Dados = { plano: plano.id, nome: form.nome, email: form.email, cpf: form.cpf, telefone: form.telefone };
 
-    const problema = problemaNosDados(dados);
+    const problema = problemaNosDados(d);
     if (problema) return setErro(problema);
 
+    dados.current = d;
     setErro(null);
     setEnviando(true);
+    await gerarPix(adesaoPaga.current ? { ...d, adesaoId: adesaoPaga.current } : d);
+    setEnviando(false);
+  }
+
+  async function gerarPix(pedido: Dados & { adesaoId?: string }) {
+    if (pedido.adesaoId) setEtapa({ tipo: "gerando" });
     try {
       const r = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados),
+        body: JSON.stringify(pedido),
       });
       const corpo = await r.json();
       if (!r.ok) throw new Error(corpo?.erro || "Não foi possível gerar o Pix agora.");
 
       const qr = await QRCode.toDataURL(corpo.pixCopiaECola, { margin: 1, width: 240, color: { dark: "#1c2e25", light: "#ffffff" } });
-      setEtapa({ tipo: "pix", id: corpo.id, copiaECola: corpo.pixCopiaECola, qr });
+      setEtapa({
+        tipo: "pix",
+        fase: corpo.etapa,
+        id: corpo.id,
+        copiaECola: corpo.pixCopiaECola,
+        qr,
+        automatico: Boolean(corpo.automatico),
+      });
     } catch (falha) {
       setErro(falha instanceof Error ? falha.message : "Não foi possível gerar o Pix agora.");
-    } finally {
-      setEnviando(false);
+      setEtapa({ tipo: "dados" });
     }
   }
 
@@ -120,7 +150,15 @@ export default function Checkout({ plano, hoje, mensal, className = "" }: Props)
                 {plano.titulo}
               </h2>
               <p className="mt-1 text-[15px] text-verde-escuro/70">
-                Hoje <strong className="text-verde">{hoje}</strong> · depois {mensal}/mês
+                {adesao ? (
+                  <>
+                    Adesão <strong className="text-verde">{adesao}</strong> · {mensal}/mês
+                  </>
+                ) : (
+                  <>
+                    <strong className="text-verde">{mensal}</strong>/mês, sem adesão
+                  </>
+                )}
               </p>
             </div>
             <button
@@ -151,16 +189,35 @@ export default function Checkout({ plano, hoje, mensal, className = "" }: Props)
                 disabled={enviando}
                 className="mt-2 inline-flex h-12 items-center justify-center rounded-full bg-verde px-6 text-[16px] font-semibold text-creme transition-colors hover:bg-verde-escuro disabled:opacity-60"
               >
-                {enviando ? "Gerando Pix…" : `Gerar Pix de ${hoje}`}
+                {enviando ? "Gerando Pix…" : `Gerar Pix de ${adesao || mensal}`}
               </button>
               <p className="text-[13px] leading-snug text-verde-escuro/60">
-                Pagamento processado pela SyncPay. Os dados vão só para a emissão da cobrança.
+                {adesao
+                  ? "São dois Pix: primeiro a adesão, depois a 1ª mensalidade. As próximas chegam no seu e-mail a cada 30 dias. "
+                  : "As próximas mensalidades chegam no seu e-mail a cada 30 dias. "}
+                Pagamento processado pela SyncPay.
               </p>
             </form>
           )}
 
+          {etapa.tipo === "gerando" && (
+            <p className="mt-7 text-[15px] text-verde-escuro/75" aria-live="polite">
+              Adesão confirmada. Gerando o Pix da 1ª mensalidade…
+            </p>
+          )}
+
           {etapa.tipo === "pix" && (
             <div className="mt-7 grid justify-items-center gap-5 text-center">
+              {adesao && (
+                <p className="text-[14px] font-semibold text-verde">
+                  {etapa.fase === "adesao" ? `Etapa 1 de 2 · adesão de ${adesao}` : `Etapa 2 de 2 · 1ª mensalidade de ${mensal}`}
+                </p>
+              )}
+              {etapa.automatico && (
+                <p className="text-[14px] leading-snug text-verde-escuro/75">
+                  Escaneie no app do banco para autorizar o Pix Automático: as mensalidades passam a ser debitadas sozinhas.
+                </p>
+              )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={etapa.qr} alt="QR Code do Pix" width={240} height={240} className="rounded-lg bg-white p-2" />
               <div className="w-full">
@@ -185,9 +242,9 @@ export default function Checkout({ plano, hoje, mensal, className = "" }: Props)
 
           {etapa.tipo === "pago" && (
             <div className="mt-7" aria-live="polite">
-              <p className="font-display text-[1.4rem] font-semibold">Pagamento confirmado.</p>
+              <p className="font-display text-[1.4rem] font-semibold">Assinatura ativa.</p>
               <p className="mt-2 text-[15px] leading-relaxed text-verde-escuro/75">
-                Entramos em contato pelo WhatsApp informado para começar.
+                Entramos em contato pelo WhatsApp informado para começar. As próximas mensalidades chegam no seu e-mail.
               </p>
             </div>
           )}
