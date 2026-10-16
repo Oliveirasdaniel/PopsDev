@@ -2,17 +2,20 @@
 //  CLIENTE DA SYNCPAY. Só roda no servidor (rotas em app/api):
 //  usa o client_secret, que nunca pode ir para o navegador.
 //
-//  Endpoints usados (API "partner" v1):
-//    POST /api/partner/v1/auth-token        -> access_token (Bearer)
-//    POST /api/partner/v1/cash-in           -> cobrança Pix
-//    GET  /api/partner/v1/transaction/{id}  -> status da cobrança
-//
-//  A SyncPay também anuncia planos de assinatura e Pix Automático na
-//  API, mas esses endpoints não estão aqui porque não foram conferidos
-//  na documentação. Quando estiverem, entram neste arquivo.
+//  Endpoints usados (API "partner" v1, doc: syncpay.apidog.io):
+//    POST /auth-token                         -> access_token (Bearer, 1 h)
+//    POST /cash-in                            -> Pix único (a adesão)
+//    GET  /transaction/{id}                   -> status do Pix único
+//    GET  /subscription-plans?search=         -> planos já criados
+//    POST /subscription-plans                 -> cria o plano recorrente
+//    POST /subscription-plans/{token}/enroll  -> assinante + Pix do 1º ciclo
+//    GET  /subscriptions/{token}              -> status da assinatura
+//    PATCH /subscriptions/{token}/cancel      -> cancela (irreversível)
+//    PATCH /subscriptions/{token}/resend-charge -> novo Pix do ciclo atual
 // ============================================================
 
 const BASE = process.env.SYNCPAY_BASE_URL || "https://api.syncpayments.com.br";
+const V1 = "/api/partner/v1";
 
 /** As credenciais saem do painel: app.syncpayments.com.br › Developer API. */
 export function syncpayConfigurada() {
@@ -36,7 +39,7 @@ let token: { valor: string; expira: number } | null = null;
 async function obterToken() {
   if (token && token.expira > Date.now()) return token.valor;
 
-  const res = await fetch(`${BASE}/api/partner/v1/auth-token`, {
+  const res = await fetch(`${BASE}${V1}/auth-token`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
@@ -56,9 +59,9 @@ async function obterToken() {
   return token.valor;
 }
 
-async function chamar<T>(caminho: string, init: { method: "GET" | "POST"; body?: unknown }): Promise<T> {
+async function chamar<T>(caminho: string, init: { method: "GET" | "POST" | "PATCH"; body?: unknown }): Promise<T> {
   const enviar = async () =>
-    fetch(`${BASE}${caminho}`, {
+    fetch(`${BASE}${V1}${caminho}`, {
       method: init.method,
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +103,7 @@ export type CobrancaPix = {
 
 /** Cria uma cobrança Pix. `centavos` é convertido para reais, que é o que a API recebe. */
 export function criarPix(dados: { centavos: number; descricao: string; cliente: Cliente; webhookUrl?: string }) {
-  return chamar<CobrancaPix>("/api/partner/v1/cash-in", {
+  return chamar<CobrancaPix>("/cash-in", {
     method: "POST",
     body: {
       amount: dados.centavos / 100,
@@ -123,13 +126,12 @@ export type Transacao = {
 };
 
 export function consultarTransacao(identifier: string) {
-  return chamar<Transacao>(`/api/partner/v1/transaction/${encodeURIComponent(identifier)}`, { method: "GET" });
+  return chamar<Transacao>(`/transaction/${encodeURIComponent(identifier)}`, { method: "GET" });
 }
 
 /**
- * Os nomes exatos de status da SyncPay ainda precisam ser confirmados
- * com uma transação real (veja o log do webhook). Até lá, aceita as
- * variações mais comuns de "pago" e trata todo o resto como pendente.
+ * A doc mostra `completed` para Pix pago e cita `refunded`; as outras
+ * variações ficam por garantia até aparecerem numa transação real.
  */
 const PAGO = new Set(["completed", "paid", "approved", "confirmed", "success", "paid_out"]);
 const FALHOU = new Set(["failed", "canceled", "cancelled", "expired", "refunded", "chargeback"]);
@@ -139,4 +141,134 @@ export function situacao(status: string | undefined): "pago" | "falhou" | "pende
   if (PAGO.has(s)) return "pago";
   if (FALHOU.has(s)) return "falhou";
   return "pendente";
+}
+
+// ------------------------------------------------------------
+//  ASSINATURAS (mensalidade recorrente)
+// ------------------------------------------------------------
+
+/**
+ * `qr_code`: a SyncPay gera um Pix a cada ciclo e manda por e-mail.
+ * `pix_automatico`: débito automático, o cliente autoriza uma vez no
+ * banco. Precisa estar habilitado na conta; sem isso a API dá 422.
+ */
+export type MetodoCobranca = "qr_code" | "pix_automatico";
+
+export function metodoCobranca(): MetodoCobranca {
+  return process.env.SYNCPAY_COBRANCA === "pix_automatico" ? "pix_automatico" : "qr_code";
+}
+
+type PlanoSyncPay = { token: string; name: string; amount: string; billing_method: MetodoCobranca; status: string };
+
+const planosCache = new Map<string, string>();
+
+/**
+ * Devolve o token do plano recorrente na SyncPay, criando na primeira
+ * vez. O plano é achado pelo nome e só serve se o valor e o método
+ * baterem: mudou o preço em lib/planos.ts, nasce um plano novo (quem já
+ * assina continua no antigo, que é como a SyncPay trata troca de valor).
+ */
+export async function tokenDoPlano(dados: { nome: string; descricao: string; centavos: number }) {
+  const valor = (dados.centavos / 100).toFixed(2);
+  const metodo = metodoCobranca();
+  const chave = `${dados.nome}|${valor}|${metodo}`;
+  const emCache = planosCache.get(chave);
+  if (emCache) return emCache;
+
+  const lista = await chamar<{ data: PlanoSyncPay[] }>(
+    `/subscription-plans?status=active&per_page=100&search=${encodeURIComponent(dados.nome)}`,
+    { method: "GET" },
+  );
+  let plano = lista.data?.find((p) => p.name === dados.nome && Number(p.amount) === Number(valor) && p.billing_method === metodo);
+
+  if (!plano) {
+    const criado = await chamar<{ data: PlanoSyncPay }>("/subscription-plans", {
+      method: "POST",
+      body: {
+        name: dados.nome,
+        description: dados.descricao,
+        amount: valor,
+        periodicity_days: 30,
+        billing_method: metodo,
+        billing_advance_days: 3,
+        grace_period_days: 5,
+        max_retry_attempts: 3,
+      },
+    });
+    plano = criado.data;
+  }
+
+  planosCache.set(chave, plano.token);
+  return plano.token;
+}
+
+export type Adesao = {
+  subscription_token: string;
+  status: string;
+  billing_method: MetodoCobranca;
+  /** `qr_code`: Pix do 1º ciclo. `pix_automatico`: QR de autorização do débito. */
+  /**
+   * A doc diz `pix_code`, mas a API real (out/2026) devolve o copia e
+   * cola em `qr_code_pix`; os dois são aceitos.
+   */
+  payment: {
+    pix_code?: string;
+    qr_code_pix?: string;
+    qr_code?: string | null;
+    identifier?: string;
+    mandate_id?: string;
+    mandate_status?: string;
+  };
+};
+
+/** Matricula o cliente no plano. A resposta já traz o Pix do primeiro ciclo. */
+export function assinar(planoToken: string, cliente: Cliente) {
+  return chamar<Adesao>(`/subscription-plans/${encodeURIComponent(planoToken)}/enroll`, {
+    method: "POST",
+    body: { name: cliente.name, email: cliente.email, document: cliente.cpf, phone: cliente.phone },
+  });
+}
+
+export type Assinatura = {
+  data: {
+    token: string;
+    status: "pending_first_payment" | "active" | "overdue" | "suspended" | "cancelled";
+    subscriber_name: string;
+    subscriber_email: string;
+    next_charge_at: string | null;
+    plan: { token: string; name: string; amount: string };
+    /** Últimas 12 cobranças, da mais recente para a mais antiga. */
+    charges?: { cycle_number: number; amount: string; status: string; due_date: string; paid_at: string | null }[];
+  };
+};
+
+/**
+ * A doc mostra a resposta dentro de `data`, mas a API real (out/2026)
+ * devolve a assinatura solta. Aceita os dois formatos.
+ */
+export async function consultarAssinatura(token: string): Promise<Assinatura> {
+  const r = await chamar<Assinatura | Assinatura["data"]>(`/subscriptions/${encodeURIComponent(token)}`, { method: "GET" });
+  return "data" in r && r.data ? (r as Assinatura) : { data: r as Assinatura["data"] };
+}
+
+/** `active` (e `overdue`, que já pagou o 1º ciclo) contam como assinatura em pé. */
+export function situacaoAssinatura(status: string | undefined): "pago" | "falhou" | "pendente" {
+  if (status === "active" || status === "overdue") return "pago";
+  if (status === "cancelled" || status === "suspended") return "falhou";
+  return "pendente";
+}
+
+export function cancelarAssinatura(token: string, motivo: string) {
+  return chamar<{ message: string }>(`/subscriptions/${encodeURIComponent(token)}/cancel`, {
+    method: "PATCH",
+    body: { reason: motivo.slice(0, 500) },
+  });
+}
+
+/** Gera um Pix novo para o ciclo atual; a SyncPay também manda por e-mail. */
+export function reenviarCobranca(token: string) {
+  return chamar<{ charge: { amount: string; due_date: string; payment: { pix_code: string | null } } }>(
+    `/subscriptions/${encodeURIComponent(token)}/resend-charge`,
+    { method: "PATCH" },
+  );
 }

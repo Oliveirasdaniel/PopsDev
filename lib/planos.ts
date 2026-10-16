@@ -1,5 +1,5 @@
 // ============================================================
-//  PLANOS DE ASSINATURA. A página /planos e o checkout leem daqui.
+//  PLANOS DE ASSINATURA. A seção da home e o checkout leem daqui.
 //  O servidor recalcula o valor a partir deste arquivo: o preço
 //  que o navegador manda nunca é usado na cobrança.
 // ============================================================
@@ -59,8 +59,7 @@ export const planos: Plano[] = [
       "Aberto ou fechado conforme o seu horário",
       "Sem comissão por pedido, nunca",
     ],
-    // TODO: definir a taxa de setup. A mensalidade é R$ 90; quando a
-    // adesão estiver decidida, troque por { adesao: XXXXX, mensal: 9000 }.
+    preco: { adesao: 15000, mensal: 9000 },
   },
   {
     id: "crm",
@@ -88,12 +87,14 @@ export const planos: Plano[] = [
 ];
 
 /**
- * O que é cobrado no primeiro Pix: a adesão mais a primeira mensalidade.
- * Para cobrar só a adesão no primeiro pagamento, troque por `p.adesao`
- * (e a página passa a mostrar isso sozinha).
- */
-export function primeiraCobranca(p: NonNullable<Plano["preco"]>) {
-  return p.adesao + p.mensal;
+ * Como o cliente paga: a adesão (quando há) é um Pix único; depois vem a
+ * assinatura na SyncPay, cujo primeiro ciclo já é a 1ª mensalidade e os
+ * seguintes ela cobra sozinha a cada 30 dias. No checkout, isso vira
+ * até dois Pix em sequência: adesão e, paga ela, a 1ª mensalidade.
+ *
+ * Nome do plano recorrente na SyncPay (é por ele que o plano é achado lá). */
+export function nomeNaSyncPay(p: Plano) {
+  return `Popsdev · ${p.titulo}`;
 }
 
 export function buscarPlano(id: string) {

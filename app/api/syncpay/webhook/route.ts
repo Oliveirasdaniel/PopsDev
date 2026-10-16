@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { consultarTransacao, situacao } from "@/lib/syncpay";
+import { atualizarAssinatura, bancoConfigurado } from "@/lib/db";
+import { consultarAssinatura, consultarTransacao, situacao } from "@/lib/syncpay";
 
 export const dynamic = "force-dynamic";
 
@@ -12,18 +13,26 @@ function tokenConfere(recebido: string | null) {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-/** Procura o ID da transação nos lugares onde ele costuma vir. */
-function idDoAviso(corpo: any): string | undefined {
+/** Eventos de assinatura trazem `event` e o token da assinatura. */
+function tokenDaAssinatura(corpo: any): string | undefined {
+  const v = corpo?.subscription_token ?? corpo?.subscription?.token;
+  return typeof v === "string" && v.length > 0 ? v : undefined;
+}
+
+/** Avisos de Pix único (cash-in) trazem o ID da transação. */
+function idDaTransacao(corpo: any): string | undefined {
   const candidatos = [corpo?.identifier, corpo?.id, corpo?.reference_id, corpo?.data?.identifier, corpo?.data?.id, corpo?.data?.reference_id];
   return candidatos.find((v) => typeof v === "string" && v.length > 0);
 }
 
 /**
- * Aviso da SyncPay de que uma cobrança mudou de status.
+ * Avisos da SyncPay: Pix da adesão pago e eventos da assinatura
+ * (assinatura_ativada, cobranca_paga, assinatura_em_atraso,
+ * assinatura_cancelada…).
  *
  * O corpo do aviso não é usado como verdade: a rota pega o ID e
- * confirma o status consultando a própria API. Assim, um POST forjado
- * não consegue "pagar" nada, mesmo se o token vazar.
+ * confirma consultando a própria API. Assim, um POST forjado não
+ * consegue "pagar" nada, mesmo se o token vazar.
  */
 export async function POST(req: Request) {
   if (!tokenConfere(new URL(req.url).searchParams.get("token"))) {
@@ -31,29 +40,30 @@ export async function POST(req: Request) {
   }
 
   const corpo = await req.json().catch(() => null);
-  // Enquanto o formato do aviso não estiver documentado aqui, o corpo
-  // bruto fica no log (Vercel › Logs) para conferir os campos reais.
-  console.log("[syncpay:webhook] recebido", JSON.stringify(corpo));
-
-  const id = idDoAviso(corpo);
-  if (!id) return NextResponse.json({ ok: true, ignorado: "sem id" });
+  const evento = typeof corpo?.event === "string" ? corpo.event : null;
 
   try {
-    const { data } = await consultarTransacao(id);
-    const s = situacao(data?.status);
-    console.log("[syncpay:webhook] transação", { id, status: data?.status, situacao: s, descricao: data?.description });
-
-    if (s === "pago") {
-      // TODO: ativar a assinatura. É aqui que entra o que acontece
-      // depois do pagamento: gravar o cliente num banco, liberar o
-      // acesso, avisar você no WhatsApp/e-mail e agendar a próxima
-      // mensalidade. O plano está no final da descrição ("plano:<id>").
+    const assinatura = tokenDaAssinatura(corpo);
+    if (assinatura) {
+      const { data } = await consultarAssinatura(assinatura);
+      console.log("[syncpay:webhook] assinatura", { evento, assinatura, status: data?.status, plano: data?.plan?.name, proxima: data?.next_charge_at });
+      // É daqui que a área do cliente lê o status.
+      if (bancoConfigurado() && data?.status) await atualizarAssinatura(assinatura, data.status, data.next_charge_at);
+      return NextResponse.json({ ok: true });
     }
+
+    const id = idDaTransacao(corpo);
+    if (!id) {
+      console.log("[syncpay:webhook] aviso sem id reconhecido", { evento, chaves: corpo ? Object.keys(corpo) : null });
+      return NextResponse.json({ ok: true, ignorado: "sem id" });
+    }
+
+    const { data } = await consultarTransacao(id);
+    console.log("[syncpay:webhook] transação", { id, status: data?.status, situacao: situacao(data?.status), descricao: data?.description });
+    return NextResponse.json({ ok: true });
   } catch (e) {
-    console.error("[syncpay:webhook] falha ao confirmar a transação", id, e);
-    // 500 faz a SyncPay tentar de novo mais tarde, se ela reenviar avisos.
+    console.error("[syncpay:webhook] falha ao confirmar na API", e);
+    // 500 faz a SyncPay tentar de novo mais tarde.
     return NextResponse.json({ ok: false }, { status: 500 });
   }
-
-  return NextResponse.json({ ok: true });
 }
