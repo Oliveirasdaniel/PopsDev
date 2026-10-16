@@ -74,11 +74,14 @@ Os planos recorrentes são criados na SyncPay sozinhos, na primeira assinatura, 
 
 O webhook não confia no corpo do aviso: pega o ID e confirma o status direto na API.
 
-### O que falta
+### Área do cliente
 
-- **Guardar quem assinou.** Não há banco de dados; o status da assinatura só existe na SyncPay e nos logs. O ponto de encaixe é o `TODO` em `app/api/syncpay/webhook/route.ts`.
-- **Área do cliente com login**, para ver a assinatura, a próxima cobrança e cancelar. Depende do banco.
-- **Preços em aberto** em `lib/planos.ts`: adesão do delivery, CRM e agente de IA aparecem como "sob consulta".
+`/entrar` pede o e-mail da assinatura e manda um link de acesso (sem senha, 15 min, uso único); `/conta` mostra as assinaturas, a próxima cobrança, reenvia o Pix e cancela. Fica escondida até existirem `DATABASE_URL` (Neon) e `RESEND_API_KEY`. O banco guarda só nome, e-mail, telefone, assinaturas e sessões (hash); CPF fica só na SyncPay.
+
+### Diferenças entre a doc da SyncPay e a API real (out/2026)
+
+- `enroll` devolve o copia e cola em `payment.qr_code_pix`, não em `pix_code`.
+- `GET /subscriptions/{token}` devolve a assinatura solta, sem o envelope `data`.
 
 ## Publicar na Vercel
 

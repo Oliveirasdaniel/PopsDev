@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { atualizarAssinatura, bancoConfigurado } from "@/lib/db";
 import { consultarAssinatura, consultarTransacao, situacao } from "@/lib/syncpay";
 
 export const dynamic = "force-dynamic";
@@ -46,8 +47,8 @@ export async function POST(req: Request) {
     if (assinatura) {
       const { data } = await consultarAssinatura(assinatura);
       console.log("[syncpay:webhook] assinatura", { evento, assinatura, status: data?.status, plano: data?.plan?.name, proxima: data?.next_charge_at });
-      // TODO (precisa de banco): gravar/atualizar o status da assinatura
-      // do cliente, que é o que o login da área do cliente vai ler.
+      // É daqui que a área do cliente lê o status.
+      if (bancoConfigurado() && data?.status) await atualizarAssinatura(assinatura, data.status, data.next_charge_at);
       return NextResponse.json({ ok: true });
     }
 

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { atualizarAssinatura, bancoConfigurado } from "@/lib/db";
 import {
   consultarAssinatura,
   consultarTransacao,
@@ -21,6 +22,9 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   try {
     if (new URL(req.url).searchParams.get("tipo") === "assinatura") {
       const a = await consultarAssinatura(params.id);
+      if (bancoConfigurado() && a?.data?.status) {
+        await atualizarAssinatura(params.id, a.data.status, a.data.next_charge_at).catch(() => {});
+      }
       return NextResponse.json({ situacao: situacaoAssinatura(a?.data?.status) });
     }
     const t = await consultarTransacao(params.id);

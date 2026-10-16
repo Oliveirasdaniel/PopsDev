@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { bancoConfigurado, salvarAssinatura, salvarCliente } from "@/lib/db";
 import { buscarPlano, nomeNaSyncPay, type Plano } from "@/lib/planos";
 import { site } from "@/lib/site";
 import {
@@ -102,12 +103,23 @@ async function abrirAssinatura(plano: Plano, cliente: Cliente) {
   const a = await assinar(token, cliente);
 
   // `qr_code`: Pix do 1º ciclo. `pix_automatico`: QR que autoriza o débito.
-  const codigo = a?.payment?.pix_code || a?.payment?.qr_code;
+  const codigo = a?.payment?.pix_code || a?.payment?.qr_code_pix || a?.payment?.qr_code;
   if (!a?.subscription_token || !codigo) {
     console.error("[checkout] resposta inesperada no enroll", a);
     return NextResponse.json({ erro: "Não foi possível gerar o Pix agora." }, { status: 502 });
   }
   console.log("[checkout] assinatura criada", { plano: plano.id, assinatura: a.subscription_token, metodo: a.billing_method });
+
+  // Guarda quem assinou, para a área do cliente. Falha aqui não pode
+  // derrubar o pagamento: a assinatura já existe na SyncPay.
+  if (bancoConfigurado()) {
+    try {
+      const clienteId = await salvarCliente({ email: cliente.email, nome: cliente.name, telefone: cliente.phone });
+      await salvarAssinatura({ token: a.subscription_token, clienteId, plano: plano.id, status: a.status });
+    } catch (e) {
+      console.error("[checkout] assinatura criada mas não gravada no banco", a.subscription_token, e);
+    }
+  }
 
   return NextResponse.json({
     etapa: "mensalidade",

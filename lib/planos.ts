@@ -59,8 +59,7 @@ export const planos: Plano[] = [
       "Aberto ou fechado conforme o seu horário",
       "Sem comissão por pedido, nunca",
     ],
-    // TODO: definir a taxa de setup. A mensalidade é R$ 90; quando a
-    // adesão estiver decidida, troque por { adesao: XXXXX, mensal: 9000 }.
+    preco: { adesao: 15000, mensal: 9000 },
   },
   {
     id: "crm",

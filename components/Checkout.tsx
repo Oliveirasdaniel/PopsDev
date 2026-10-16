@@ -244,7 +244,8 @@ export default function Checkout({ plano, adesao, mensal, className = "" }: Prop
             <div className="mt-7" aria-live="polite">
               <p className="font-display text-[1.4rem] font-semibold">Assinatura ativa.</p>
               <p className="mt-2 text-[15px] leading-relaxed text-verde-escuro/75">
-                Entramos em contato pelo WhatsApp informado para começar. As próximas mensalidades chegam no seu e-mail.
+                Entramos em contato pelo WhatsApp informado para começar. As próximas mensalidades chegam no seu e-mail, e
+                você acompanha tudo na <a href="/entrar" className="link-verde">área do cliente</a>.
               </p>
             </div>
           )}

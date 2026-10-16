@@ -1,3 +1,4 @@
+import { loginDisponivel } from "@/lib/sessao";
 import { site, whatsappLink } from "@/lib/site";
 import { Logo } from "./Header";
 
@@ -25,7 +26,7 @@ export default function Footer() {
               Navegar
             </h2>
             <ul className="mt-4 space-y-2.5">
-              {links.map((l) => (
+              {[...links, ...(loginDisponivel() ? [{ href: "/entrar", label: "Área do cliente" }] : [])].map((l) => (
                 <li key={l.href}>
                   <a href={l.href} className={linkClasse}>
                     {l.label}
