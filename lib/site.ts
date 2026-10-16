@@ -21,10 +21,8 @@ export const site = {
 };
 
 /**
- * `preco` é o valor de entrada, que sai como "A partir de R$ 60/mês".
- * `periodo` fica vazio quando o pagamento é único; `nota` é a linha
- * miúda embaixo (ex.: taxa de setup). Sem `preco`, o serviço aparece
- * sem valor.
+ * Preços não ficam aqui: moram em `lib/planos.ts` e aparecem só na
+ * página /planos.
  *
  * `proprio` marca o que é produto da Popsdev, não só trabalho sob encomenda.
  */
@@ -32,7 +30,6 @@ export type Servico = {
   titulo: string;
   resumo: string;
   itens: string[];
-  preco?: { valor: string; periodo?: string; nota?: string };
   proprio?: boolean;
   /** Serviço recém-lançado: ganha o selo "Novo". */
   novo?: boolean;
@@ -49,7 +46,6 @@ export const servicos: Servico[] = [
       "Galeria de trabalhos e depoimentos",
       "Google Maps, horários e formas de pagamento",
     ],
-    preco: { valor: "R$ 250" },
   },
   {
     titulo: "Sistema de agendamento",
@@ -61,7 +57,6 @@ export const servicos: Servico[] = [
       "Confirmação automática no WhatsApp",
       "Painel para ver e gerenciar os horários",
     ],
-    preco: { valor: "R$ 60", periodo: "/mês" },
   },
   {
     titulo: "Cardápio digital e delivery",
@@ -75,7 +70,6 @@ export const servicos: Servico[] = [
       "Pedido formatado direto no seu WhatsApp",
       "Sem comissão por pedido, nunca",
     ],
-    preco: { valor: "R$ 90", periodo: "/mês", nota: "+ taxa de setup" },
     proprio: true,
   },
   {
