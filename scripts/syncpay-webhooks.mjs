@@ -32,6 +32,12 @@ async function api(caminho, init = {}) {
     ...init,
     headers: { "Content-Type": "application/json", Accept: "application/json", ...init.headers },
   });
+  // A SyncPay limita a criação de webhooks por minuto: espera e repete.
+  if (res.status === 429) {
+    console.log("limite da SyncPay, esperando 1 minuto…");
+    await new Promise((r) => setTimeout(r, 61_000));
+    return api(caminho, init);
+  }
   const corpo = await res.json().catch(() => null);
   if (!res.ok) throw new Error(`${init.method || "GET"} ${caminho} -> ${res.status} ${JSON.stringify(corpo)}`);
   return corpo;
