@@ -23,8 +23,10 @@ export async function POST(req: Request) {
     const segredo = await criarLinkDeLogin(email);
     if (segredo) {
       // Endereço fixo, nunca o Host da requisição: um Host forjado faria
-      // o link (com o segredo) apontar para outro site.
-      const base = process.env.SITE_URL || site.url;
+      // o link (com o segredo) apontar para outro site. Na prévia da
+      // Vercel, o endereço da própria branch (variável de sistema dela).
+      const previa = process.env.VERCEL_ENV === "preview" && process.env.VERCEL_BRANCH_URL;
+      const base = previa ? `https://${previa}` : process.env.SITE_URL || site.url;
       await enviarLinkDeLogin(email, `${base}/entrar/confirmar?t=${encodeURIComponent(segredo)}`);
     }
   } catch (e) {
