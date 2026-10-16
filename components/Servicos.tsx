@@ -2,8 +2,9 @@ import { servicos } from "@/lib/site";
 
 /**
  * Ficha técnica, não grade de cartões: cada serviço é uma linha, com o
- * nome (e o preço de entrada, quando houver) à esquerda e o que vem
- * dentro à direita. Lê-se de cima a baixo como uma especificação.
+ * nome à esquerda e o que vem dentro à direita. Lê-se de cima a baixo
+ * como uma especificação. Preço não aparece aqui: fica na página
+ * /planos, para onde o fecho da seção leva.
  */
 export default function Servicos() {
   return (
@@ -39,18 +40,6 @@ export default function Servicos() {
                     Sistema próprio da Popsdev
                   </p>
                 )}
-                {s.preco && (
-                  <div className="mt-5">
-                    <p className="text-[15px] text-verde-escuro/75">
-                      A partir de{" "}
-                      <strong className="font-display text-[1.6rem] font-semibold tracking-[-0.02em] text-verde">
-                        {s.preco.valor}
-                      </strong>
-                      {s.preco.periodo && <span className="font-medium text-verde">{s.preco.periodo}</span>}
-                    </p>
-                    {s.preco.nota && <p className="mt-0.5 text-[14px] text-verde-escuro/65">{s.preco.nota}</p>}
-                  </div>
-                )}
               </div>
 
               <div>
@@ -66,6 +55,19 @@ export default function Servicos() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="mt-14 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="lead max-w-[40ch] text-verde-escuro/75">
+            Planos mensais, com suporte enquanto a assinatura estiver ativa.
+          </p>
+          <a
+            href="/planos"
+            className="inline-flex h-14 items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-verde px-8 text-[16px] font-semibold text-creme transition-colors hover:bg-verde-escuro focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-verde"
+          >
+            Ver planos e mensalidades
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
     </section>

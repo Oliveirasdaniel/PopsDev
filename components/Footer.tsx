@@ -4,6 +4,7 @@ import { Logo } from "./Header";
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
+  { href: "/planos", label: "Planos" },
   { href: "/sobre", label: "Sobre" },
   { href: "/#contato", label: "Contato" },
 ];

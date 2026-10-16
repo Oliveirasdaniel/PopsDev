@@ -15,7 +15,9 @@ Abre em http://localhost:3000
 
 ## Onde editar
 
-**Quase tudo está em [`lib/site.ts`](lib/site.ts).** Textos, preços, serviços, projetos, FAQ e depoimentos saem daí — não precisa mexer em componente para mudar conteúdo.
+**Quase tudo está em [`lib/site.ts`](lib/site.ts).** Textos, serviços e projetos saem daí — não precisa mexer em componente para mudar conteúdo.
+
+**Preços e planos ficam em [`lib/planos.ts`](lib/planos.ts)** e aparecem só na página `/planos`. A seção de serviços da home não mostra valor: termina num botão para essa página.
 
 ### Antes de publicar, faça isto:
 
@@ -47,7 +49,28 @@ components/
   Footer          contatos e navegação
   BotaoFlutuante  WhatsApp fixo no canto
 lib/site.ts       ⬅ todo o conteúdo
+lib/planos.ts     ⬅ planos, adesão e mensalidade (em centavos)
+lib/syncpay.ts    cliente da API da SyncPay (só servidor)
+app/planos/       página dos planos, com o checkout Pix
+app/api/checkout/ cria o Pix (POST) e consulta o status (GET /[id])
+app/api/syncpay/webhook/  aviso de pagamento da SyncPay
 ```
+
+## Pagamentos (SyncPay)
+
+Sem credenciais, a página `/planos` funciona normalmente e todo botão leva ao WhatsApp. Com credenciais, os planos que têm `preco` em `lib/planos.ts` ganham o botão **Assinar**, que gera um Pix da primeira cobrança (adesão + 1ª mensalidade).
+
+1. Copie `.env.example` para `.env.local` e preencha `SYNCPAY_CLIENT_ID`, `SYNCPAY_CLIENT_SECRET` e `SYNCPAY_WEBHOOK_TOKEN`.
+2. Cadastre as mesmas variáveis na Vercel e faça um novo deploy.
+3. Faça uma compra de teste de valor baixo e confira em **Vercel › Logs** as linhas `[syncpay:webhook]`: elas mostram o formato real do aviso e os nomes de status. Ajuste `situacao()` em `lib/syncpay.ts` se algum status não estiver na lista.
+
+O que está pronto: autenticação, cobrança Pix, consulta de status, webhook com token e confirmação do status direto na API (o corpo do aviso não é tratado como verdade).
+
+O que falta:
+
+- **Mensalidade recorrente.** Hoje só a primeira cobrança é online. A SyncPay anuncia planos de assinatura e Pix Automático na API; quando os endpoints forem confirmados na documentação do painel, eles entram em `lib/syncpay.ts`.
+- **Ativar a assinatura depois do pagamento.** Não há banco de dados ainda; o ponto de encaixe é o `TODO` em `app/api/syncpay/webhook/route.ts`.
+- **Preços em aberto** em `lib/planos.ts`: adesão do delivery, CRM e agente de IA aparecem como "sob consulta".
 
 ## Publicar na Vercel
 

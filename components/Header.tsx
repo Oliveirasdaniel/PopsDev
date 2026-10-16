@@ -11,6 +11,7 @@ const whatsapp = whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero falar
 const links = [
   { href: "/#servicos", label: "Serviços" },
   { href: "/#projetos", label: "Projetos" },
+  { href: "/planos", label: "Planos" },
   { href: "/sobre", label: "Sobre" },
   { href: "/#contato", label: "Contato" },
 ];
