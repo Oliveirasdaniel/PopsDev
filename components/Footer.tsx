@@ -67,7 +67,12 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {site.nome}. Fundada por {site.autor}.
           </p>
-          <p>{site.cidade}</p>
+          <p>
+            {site.cidade} ·{" "}
+            <a href="/privacidade" className="hover:text-creme">
+              Privacidade
+            </a>
+          </p>
         </div>
       </div>
     </footer>

@@ -10,7 +10,7 @@
 
 import { createHash, randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
-import { bancoConfigurado, db } from "./db";
+import { apagarVencidos, bancoConfigurado, db } from "./db";
 import { emailConfigurado } from "./email";
 
 export const COOKIE = "popsdev_sessao";
@@ -37,6 +37,9 @@ export async function criarLinkDeLogin(email: string) {
     select count(*)::int as recentes from links_login
     where cliente_id = ${cliente.id} and criado_em > now() - interval '15 minutes'`) as { recentes: number }[];
   if (recentes >= 3) return null;
+
+  // Aproveita o pedido para limpar links e sessões vencidos de todo mundo.
+  await apagarVencidos().catch(() => {});
 
   const segredo = novoSegredo();
   await sql`

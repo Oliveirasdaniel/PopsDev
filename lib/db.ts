@@ -97,3 +97,35 @@ export async function atualizarAssinatura(token: string, status: string, proxima
     update assinaturas set status = ${status}, proxima_cobranca = ${proxima}, atualizado_em = now()
     where token = ${token}`;
 }
+
+/** Retenção mínima (LGPD): links e sessões vencidos não ficam guardados. */
+export async function apagarVencidos() {
+  const sql = await db();
+  await sql`delete from links_login where expira_em < now() - interval '1 day'`;
+  await sql`delete from sessoes where expira_em < now()`;
+}
+
+/** Tudo o que o banco tem do cliente, para o direito de acesso e portabilidade. */
+export async function dadosDoCliente(clienteId: number) {
+  const sql = await db();
+  const [cliente] = (await sql`select nome, email, telefone, criado_em from clientes where id = ${clienteId}`) as Linha[];
+  const assinaturas = (await sql`
+    select plano, status, proxima_cobranca, criado_em, atualizado_em from assinaturas
+    where cliente_id = ${clienteId} order by criado_em`) as Linha[];
+  const [{ sessoes }] = (await sql`select count(*)::int as sessoes from sessoes where cliente_id = ${clienteId}`) as Linha[];
+  return { cliente, assinaturas, sessoes_abertas: sessoes };
+}
+
+export async function tokensDasAssinaturas(clienteId: number) {
+  const sql = await db();
+  return (await sql`select token, status from assinaturas where cliente_id = ${clienteId}`) as { token: string; status: string }[];
+}
+
+/** Direito de exclusão: apaga o cliente e tudo ligado a ele. */
+export async function excluirCliente(clienteId: number) {
+  const sql = await db();
+  await sql`delete from sessoes where cliente_id = ${clienteId}`;
+  await sql`delete from links_login where cliente_id = ${clienteId}`;
+  await sql`delete from assinaturas where cliente_id = ${clienteId}`;
+  await sql`delete from clientes where id = ${clienteId}`;
+}

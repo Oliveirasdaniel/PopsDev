@@ -18,7 +18,11 @@ const erros: Record<string, string> = {
   indisponivel: "A área do cliente ainda não está disponível.",
 };
 
-export default async function Entrar({ searchParams }: { searchParams: { enviado?: string; erro?: string } }) {
+export default async function Entrar({
+  searchParams,
+}: {
+  searchParams: { enviado?: string; erro?: string; excluida?: string };
+}) {
   if (await clienteLogado().catch(() => null)) redirect("/conta");
   const disponivel = loginDisponivel();
   const erro = searchParams.erro ? erros[searchParams.erro] : null;
@@ -38,6 +42,10 @@ export default async function Entrar({ searchParams }: { searchParams: { enviado
               </a>
               .
             </p>
+          ) : searchParams.excluida ? (
+            <p className="lead mt-6 text-verde-escuro/75" aria-live="polite">
+              Conta excluída. As assinaturas foram canceladas e seus dados apagados do nosso banco.
+            </p>
           ) : searchParams.enviado ? (
             <div className="mt-6" aria-live="polite">
               <p className="lead text-verde-escuro/75">
@@ -49,7 +57,11 @@ export default async function Entrar({ searchParams }: { searchParams: { enviado
             <>
               <p className="lead mt-6 text-verde-escuro/75">
                 Veja sua assinatura, a próxima cobrança e peça um Pix novo. Digite o e-mail usado na assinatura e mandamos um
-                link de acesso, sem senha.
+                link de acesso, sem senha. Veja como tratamos seus dados na{" "}
+                <a className="link-verde" href="/privacidade">
+                  política de privacidade
+                </a>
+                .
               </p>
               <form action="/api/entrar" method="post" className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
                 <input

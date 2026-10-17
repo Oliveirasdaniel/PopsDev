@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import BotaoCancelar from "@/components/BotaoCancelar";
+import BotaoExcluirConta from "@/components/BotaoExcluirConta";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { atualizarAssinatura, db } from "@/lib/db";
@@ -142,6 +143,26 @@ export default async function Conta({ searchParams }: { searchParams: { ok?: str
             </a>
             .
           </p>
+
+          <div className="mt-16 border-t border-verde-escuro/15 pt-8">
+            <h2 className="text-[15px] font-semibold">Seus dados</h2>
+            <p className="mt-2 max-w-[60ch] text-[15px] text-verde-escuro/65">
+              Pela LGPD, você pode baixar uma cópia do que guardamos ou apagar tudo. Detalhes na{" "}
+              <a className="link-verde" href="/privacidade">
+                política de privacidade
+              </a>
+              .
+            </p>
+            <div className="mt-5 flex flex-wrap items-center gap-6">
+              <a
+                href="/api/conta/dados"
+                className="text-[15px] font-medium text-verde-escuro/70 underline underline-offset-4 hover:text-verde-escuro"
+              >
+                Baixar meus dados
+              </a>
+              <BotaoExcluirConta />
+            </div>
+          </div>
         </div>
       </main>
       <Footer />

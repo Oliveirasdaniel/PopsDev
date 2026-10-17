@@ -195,7 +195,11 @@ export default function Checkout({ plano, adesao, mensal, className = "" }: Prop
                 {adesao
                   ? "São dois Pix: primeiro a adesão, depois a 1ª mensalidade. As próximas chegam no seu e-mail a cada 30 dias. "
                   : "As próximas mensalidades chegam no seu e-mail a cada 30 dias. "}
-                Pagamento processado pela SyncPay.
+                Pagamento processado pela SyncPay. Usamos seus dados só para a cobrança e o serviço contratado; veja a{" "}
+                <a href="/privacidade" target="_blank" className="link-verde">
+                  política de privacidade
+                </a>
+                .
               </p>
             </form>
           )}
