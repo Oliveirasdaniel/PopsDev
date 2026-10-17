@@ -5,8 +5,10 @@ import Header from "@/components/Header";
 export const metadata: Metadata = {
   title: "Entrar",
   robots: { index: false },
-  // O segredo está na URL: não vai junto para sites externos.
-  referrer: "no-referrer",
+  // O segredo está na URL: não vai junto para sites externos. Não pode
+  // ser "no-referrer": com ele o navegador manda `Origin: null` no POST
+  // do botão e a checagem de mesma origem recusa o login.
+  referrer: "same-origin",
 };
 export const dynamic = "force-dynamic";
 
