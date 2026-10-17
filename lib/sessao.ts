@@ -98,6 +98,10 @@ export async function encerrarSessao(segredo: string | undefined) {
  * todo POST da área do cliente confere que veio deste mesmo domínio.
  */
 export function mesmaOrigem(req: Request) {
+  // Navegadores atuais dizem direto se o pedido saiu deste mesmo site.
+  const site = req.headers.get("sec-fetch-site");
+  if (site) return site === "same-origin";
+
   const origem = req.headers.get("origin");
   const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
   if (!origem || !host) return false;
