@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { atualizarAssinatura, bancoConfigurado } from "@/lib/db";
+import { avisarCrm, pagamentoDaAdesao, pagamentosDaAssinatura } from "@/lib/crm";
+import { atualizarAssinatura, bancoConfigurado, clienteDaAssinatura } from "@/lib/db";
 import { consultarAssinatura, consultarTransacao, situacao } from "@/lib/syncpay";
 
 export const dynamic = "force-dynamic";
@@ -49,6 +50,21 @@ export async function POST(req: Request) {
       console.log("[syncpay:webhook] assinatura", { evento, assinatura, status: data?.status, plano: data?.plan?.name, proxima: data?.next_charge_at });
       // É daqui que a área do cliente lê o status.
       if (bancoConfigurado() && data?.status) await atualizarAssinatura(assinatura, data.status, data.next_charge_at);
+      // Para o financeiro do CRM: a situação e as cobranças já pagas.
+      if (data?.status) {
+        const cliente = bancoConfigurado() ? await clienteDaAssinatura(assinatura).catch(() => null) : null;
+        await avisarCrm({
+          cliente: cliente ?? (data.subscriber_name ? { nome: data.subscriber_name, email: data.subscriber_email, telefone: "" } : null),
+          assinatura: {
+            token: assinatura,
+            plano: data.plan?.name ?? "Assinatura",
+            valor: data.plan?.amount ?? null,
+            status: data.status,
+            proxima_cobranca: data.next_charge_at,
+          },
+          pagamentos: pagamentosDaAssinatura({ ...data, token: data.token ?? assinatura }),
+        });
+      }
       return NextResponse.json({ ok: true });
     }
 
@@ -60,6 +76,11 @@ export async function POST(req: Request) {
 
     const { data } = await consultarTransacao(id);
     console.log("[syncpay:webhook] transação", { id, status: data?.status, situacao: situacao(data?.status), descricao: data?.description });
+    // Pix único pago é a adesão. Quem pagou o CRM fica sabendo quando a
+    // assinatura abre (o checkout manda o mesmo pagamento com o cliente).
+    if (situacao(data?.status) === "pago" && data?.description?.includes("(adesão)")) {
+      await avisarCrm({ cliente: null, pagamentos: [pagamentoDaAdesao(data, id)] });
+    }
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("[syncpay:webhook] falha ao confirmar na API", e);
