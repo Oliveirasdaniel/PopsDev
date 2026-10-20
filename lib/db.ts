@@ -121,6 +121,15 @@ export async function tokensDasAssinaturas(clienteId: number) {
   return (await sql`select token, status from assinaturas where cliente_id = ${clienteId}`) as { token: string; status: string }[];
 }
 
+/** Quem assinou, para o aviso ao CRM. */
+export async function clienteDaAssinatura(token: string) {
+  const sql = await db();
+  const [c] = (await sql`
+    select c.nome, c.email, c.telefone from assinaturas a join clientes c on c.id = a.cliente_id
+    where a.token = ${token}`) as Linha[];
+  return c ? { nome: String(c.nome), email: String(c.email), telefone: String(c.telefone) } : null;
+}
+
 /** Direito de exclusão: apaga o cliente e tudo ligado a ele. */
 export async function excluirCliente(clienteId: number) {
   const sql = await db();

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { avisarCrm, pagamentoDaAdesao, type AvisoCrm } from "@/lib/crm";
 import { bancoConfigurado, salvarAssinatura, salvarCliente } from "@/lib/db";
 import { buscarPlano, nomeNaSyncPay, type Plano } from "@/lib/planos";
 import { site } from "@/lib/site";
@@ -50,10 +51,13 @@ export async function POST(req: Request) {
   try {
     if (plano.preco.adesao > 0 && !dados.adesaoId) return await cobrarAdesao(plano, cliente);
 
-    if (plano.preco.adesao > 0 && !(await adesaoPaga(dados.adesaoId!, plano))) {
-      return NextResponse.json({ erro: "A adesão ainda não aparece como paga." }, { status: 409 });
+    let adesao: AvisoCrm["pagamentos"][number] | undefined;
+    if (plano.preco.adesao > 0) {
+      const paga = await adesaoPaga(dados.adesaoId!, plano);
+      if (!paga) return NextResponse.json({ erro: "A adesão ainda não aparece como paga." }, { status: 409 });
+      adesao = pagamentoDaAdesao(paga, dados.adesaoId!);
     }
-    return await abrirAssinatura(plano, cliente);
+    return await abrirAssinatura(plano, cliente, adesao);
   } catch (e) {
     console.error("[checkout] erro na SyncPay", e instanceof SyncPayErro ? { status: e.status, corpo: e.corpo } : e);
     return NextResponse.json({ erro: "Não foi possível gerar o Pix agora. Tente de novo em instantes." }, { status: 502 });
@@ -84,17 +88,18 @@ async function cobrarAdesao(plano: Plano, cliente: Cliente) {
   return NextResponse.json({ etapa: "adesao", id: pix.identifier, pixCopiaECola: pix.pix_code, centavos });
 }
 
+/** A transação da adesão, se está paga e é deste plano; senão, null. */
 async function adesaoPaga(id: string, plano: Plano) {
-  if (!/^[\w-]{8,64}$/.test(id)) return false;
+  if (!/^[\w-]{8,64}$/.test(id)) return null;
   const { data } = await consultarTransacao(id);
-  return (
+  const ok =
     situacao(data?.status) === "pago" &&
     Boolean(data?.description?.endsWith(`plano:${plano.id}`)) &&
-    Math.round(Number(data?.amount) * 100) === plano.preco!.adesao
-  );
+    Math.round(Number(data?.amount) * 100) === plano.preco!.adesao;
+  return ok ? data : null;
 }
 
-async function abrirAssinatura(plano: Plano, cliente: Cliente) {
+async function abrirAssinatura(plano: Plano, cliente: Cliente, adesao?: AvisoCrm["pagamentos"][number]) {
   const token = await tokenDoPlano({
     nome: nomeNaSyncPay(plano),
     descricao: plano.resumo,
@@ -120,6 +125,20 @@ async function abrirAssinatura(plano: Plano, cliente: Cliente) {
       console.error("[checkout] assinatura criada mas não gravada no banco", a.subscription_token, e);
     }
   }
+
+  // O cliente entra no CRM já com a adesão paga (se houve) e a assinatura
+  // aguardando o 1º Pix; as mensalidades chegam pelo webhook.
+  await avisarCrm({
+    cliente: { nome: cliente.name, email: cliente.email, telefone: cliente.phone },
+    assinatura: {
+      token: a.subscription_token,
+      plano: nomeNaSyncPay(plano),
+      valor: (plano.preco!.mensal / 100).toFixed(2),
+      status: a.status,
+      proxima_cobranca: null,
+    },
+    pagamentos: adesao ? [adesao] : [],
+  });
 
   return NextResponse.json({
     etapa: "mensalidade",
