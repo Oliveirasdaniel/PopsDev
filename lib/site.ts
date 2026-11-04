@@ -84,6 +84,15 @@ export const projetos: Projeto[] = [
       "Landing page de buffet artesanal com portfólio de eventos, tipos de festa atendidos e captação de orçamento em um clique.",
     tags: ["Landing page", "Portfólio", "Orçamento", "Eventos"],
   },
+  {
+    nome: "Smart Ideal",
+    segmento: "Assistência técnica · Acessórios",
+    url: "https://smartideal.vercel.app",
+    imagem: "/portfolio/smartideal.png",
+    descricao:
+      "Site de assistência técnica de celulares com três lojas na Taquara (RJ): troca de tela, bateria e conector, catálogo de acessórios e orçamento direto pelo WhatsApp.",
+    tags: ["Assistência técnica", "Acessórios", "Lojas", "WhatsApp"],
+  },
 ];
 
 /** Monta o link do WhatsApp com a mensagem já preenchida. */

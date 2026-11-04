@@ -116,7 +116,7 @@ body {
   gap: 1.5rem;
   width: max-content;
   padding-right: 1.5rem; /* mesmo valor do gap, senão a emenda pula */
-  animation: carrossel 45s linear infinite;
+  animation: carrossel 24s linear infinite;
 }
 .carrossel:hover .carrossel-faixa,
 .carrossel:focus-within .carrossel-faixa {
