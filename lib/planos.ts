@@ -26,7 +26,7 @@ export type Plano = {
 export const planos: Plano[] = [
   {
     id: "site",
-    titulo: "Site + suporte",
+    titulo: "Site estático + suporte",
     resumo: "A landing page de conversão no ar e alguém cuidando dela enquanto a assinatura estiver ativa.",
     inclui: [
       "Copy e estrutura pensadas para o seu nicho",
@@ -34,7 +34,7 @@ export const planos: Plano[] = [
       "Galeria de trabalhos, mapa e horários",
       "Suporte pelo WhatsApp enquanto a assinatura estiver ativa",
     ],
-    preco: { adesao: 25000, mensal: 6000 },
+    preco: { adesao: 30000, mensal: 8000 },
     destaque: true,
   },
   {
