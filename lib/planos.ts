@@ -47,7 +47,7 @@ export const planos: Plano[] = [
       "Confirmação automática no WhatsApp",
       "Painel para ver e gerenciar os horários",
     ],
-    preco: { adesao: 0, mensal: 6000 },
+    preco: { adesao: 20000, mensal: 12000 },
   },
   {
     id: "delivery",
