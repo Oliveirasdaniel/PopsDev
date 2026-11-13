@@ -101,7 +101,7 @@ export function buscarPlano(id: string) {
   return planos.find((p) => p.id === id);
 }
 
-/** 25000 -> "R$ 250"; 9990 -> "R$ 99,90". */
+/** 30000 -> "R$ 300"; 9990 -> "R$ 99,90". */
 export function reais(centavos: number) {
   const inteiro = centavos % 100 === 0;
   return (centavos / 100).toLocaleString("pt-BR", {
