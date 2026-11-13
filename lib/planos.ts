@@ -34,7 +34,7 @@ export const planos: Plano[] = [
       "Galeria de trabalhos, mapa e horários",
       "Suporte pelo WhatsApp enquanto a assinatura estiver ativa",
     ],
-    preco: { adesao: 25000, mensal: 6000 },
+    preco: { adesao: 30000, mensal: 8000 },
     destaque: true,
   },
   {
@@ -101,7 +101,7 @@ export function buscarPlano(id: string) {
   return planos.find((p) => p.id === id);
 }
 
-/** 25000 -> "R$ 250"; 9990 -> "R$ 99,90". */
+/** 30000 -> "R$ 300"; 9990 -> "R$ 99,90". */
 export function reais(centavos: number) {
   const inteiro = centavos % 100 === 0;
   return (centavos / 100).toLocaleString("pt-BR", {
