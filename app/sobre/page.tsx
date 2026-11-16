@@ -21,12 +21,12 @@ const percurso = [
   {
     titulo: "Como trabalhamos",
     texto:
-      "Escopo por escrito antes de começar, prévia para você acompanhar durante e suporte por perto depois que o site sobe. Sem contrato longo e sem cobrança que aparece no meio do caminho.",
+      "Escopo por escrito antes de começar, prévia para você acompanhar durante a criação. Sem contrato longo e sem cobrança que aparece no meio do caminho.",
   },
 ];
 
 // Cada frase é verdade em outra parte do site: código próprio, delivery
-// sem comissão, assinatura mensal sem multa, suporte depois da entrega.
+// sem comissão, planos mensais sem multa.
 const naoFazemos = [
   "Não entregamos template com o nome trocado.",
   "Não cobramos comissão por pedido.",

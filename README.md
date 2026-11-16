@@ -63,6 +63,18 @@ Sem credenciais, a seção de planos funciona normalmente e todo botão leva ao 
 1. **Adesão** (se o plano tiver): Pix único, por `POST /cash-in`.
 2. **Mensalidade**: assim que a adesão cai, o cliente é matriculado num plano recorrente da SyncPay (`POST /subscription-plans/{token}/enroll`), que devolve o Pix da 1ª mensalidade. Daí em diante a SyncPay gera e manda por e-mail o Pix de cada ciclo de 30 dias (ou debita sozinha, com `SYNCPAY_COBRANCA=pix_automatico`).
 
+**Site estático e cardápio** (`oferta` em `lib/planos.ts`): R$ 300 em pagamento único, sem alterações depois de entregue. Os adicionais mensais são opcionais e independentes (um não é pré-requisito nem soma o outro):
+
+| Plano | Adicional opcional | Valor |
+| --- | --- | --- |
+| Site estático | Alterações ilimitadas | R$ 70/mês |
+| Cardápio digital (`id: delivery`) | Alterações ilimitadas | R$ 70/mês |
+| Cardápio digital (`id: delivery`) | Delivery (pedido no WhatsApp, taxa por bairro, sem comissão) | R$ 120/mês |
+
+Delivery não vem no cardápio básico: seus recursos ficam no `inclui` do adicional, não no do plano. Quem quiser delivery paga R$ 120/mês, não R$ 190.
+
+O checkout atual só sabe cobrar adesão + assinatura obrigatória, e não permite escolhas independentes. Por isso site e cardápio não têm `preco`: o botão sempre leva ao WhatsApp (a mensagem lista os adicionais) e `/api/checkout` os recusa com 400, mesmo que alguém envie o `plano` antigo direto à rota. Para ter checkout próprio seria preciso um fluxo de escolha (Pix único + adicionais marcáveis) e tratar webhook/CRM/conta para cliente sem assinatura. O `id` `delivery` foi mantido para não quebrar assinaturas já gravadas; esses clientes continuam na SyncPay, e `/conta` só deixa de mostrar o valor mensal deles.
+
 Os planos recorrentes são criados na SyncPay sozinhos, na primeira assinatura, com o nome `Popsdev · <título>` e o valor de `lib/planos.ts`. Mudou o preço, nasce um plano novo lá; quem já assina continua no antigo.
 
 ### Configurar

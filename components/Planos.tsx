@@ -1,13 +1,32 @@
 import Checkout from "@/components/Checkout";
 import IconeWhatsapp from "@/components/IconeWhatsapp";
-import { planos, reais, type Plano } from "@/lib/planos";
+import { planos, reais, temCheckoutOnline, type Plano } from "@/lib/planos";
 import { site, whatsappLink } from "@/lib/site";
 import { syncpayConfigurada } from "@/lib/syncpay";
 
 const botao =
   "inline-flex h-12 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-7 text-[15px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-verde";
 
-function Preco({ preco }: { preco: Plano["preco"] }) {
+function Preco({ plano }: { plano: Plano }) {
+  const { preco, oferta } = plano;
+  if (oferta) {
+    return (
+      <div>
+        <p className="text-[15px] text-verde-escuro/75">
+          <strong className="font-display text-[2rem] font-semibold tracking-[-0.02em] text-verde">{reais(oferta.unico)}</strong>
+          <span className="font-medium text-verde"> pagamento único</span>
+        </p>
+        <p className="mt-0.5 text-[14px] text-verde-escuro/65">Sem alterações depois de entregue.</p>
+        <ul className="mt-3 grid gap-1 text-[14px] text-verde-escuro/75">
+          {oferta.adicionais.map((a) => (
+            <li key={a.id}>
+              Adicional opcional: {a.nome.toLowerCase()}, <strong className="text-verde">{reais(a.mensal)}/mês</strong>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   if (!preco) {
     return <p className="font-display text-[1.6rem] font-semibold tracking-[-0.02em] text-verde">Sob consulta</p>;
   }
@@ -38,10 +57,10 @@ export default function Planos() {
     <section id="planos" className="secao bg-creme">
       <div className="wrap">
         <div className="cabecalho">
-          <h2 className="titulo-secao max-w-[12ch]">Planos e mensalidades</h2>
+          <h2 className="titulo-secao max-w-[12ch]">Planos e preços</h2>
           <p className="lead text-verde-escuro/75">
-            Em vez de pagar tudo de uma vez e ficar sozinho depois, você assina: o sistema fica no ar e o suporte
-            continua enquanto a mensalidade estiver em dia. Sem fidelidade.
+            Cada plano mostra o que é pagamento único e o que é mensal. Site estático e cardápio são pagamento
+            único; alterações ilimitadas e delivery são adicionais opcionais, contratados separadamente.
           </p>
         </div>
 
@@ -61,9 +80,9 @@ export default function Planos() {
                     </p>
                   )}
                 </div>
-                <Preco preco={p.preco} />
+                <Preco plano={p} />
                 <div>
-                  {checkout && p.preco ? (
+                  {checkout && temCheckoutOnline(p) ? (
                     <Checkout
                       plano={{ id: p.id, titulo: p.titulo }}
                       adesao={p.preco.adesao > 0 ? reais(p.preco.adesao) : undefined}
@@ -72,7 +91,11 @@ export default function Planos() {
                     />
                   ) : (
                     <a
-                      href={whatsappLink(`Olá! Vim pelo site da ${site.nome} e quero saber do plano ${p.titulo}.`)}
+                      href={whatsappLink(`Olá! Vim pelo site da ${site.nome} e ${
+                          p.oferta
+                            ? `quero contratar o plano ${p.titulo} (${reais(p.oferta.unico)}, pagamento único). Os adicionais são opcionais e não entram nesta contratação: ${p.oferta.adicionais.map((a) => `${a.nome.toLowerCase()} (${reais(a.mensal)}/mês)`).join(" e ")}.`
+                            : `quero saber do plano ${p.titulo}.`
+                        }`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`${botao} border border-verde-escuro/30 text-verde-escuro hover:border-verde-escuro hover:bg-verde-escuro hover:text-creme`}
@@ -94,6 +117,21 @@ export default function Planos() {
                     </li>
                   ))}
                 </ul>
+                {p.oferta?.adicionais.map((a) => (
+                  <div key={a.id} className="mt-8 border-t border-verde-escuro/15 pt-6">
+                    <p className="text-[15px] font-semibold text-verde">
+                      Adicional opcional: {a.nome} · {reais(a.mensal)}/mês
+                    </p>
+                    <ul className="mt-3 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+                      {a.inclui.map((item) => (
+                        <li key={item} className="flex gap-3 text-[15px] leading-snug">
+                          <span className="mt-[0.6em] h-px w-3 shrink-0 bg-verde" aria-hidden="true" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </article>
           ))}
