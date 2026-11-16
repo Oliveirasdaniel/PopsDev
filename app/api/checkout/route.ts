@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { avisarCrm, pagamentoDaAdesao, type AvisoCrm } from "@/lib/crm";
 import { bancoConfigurado, salvarAssinatura, salvarCliente } from "@/lib/db";
-import { buscarPlano, nomeNaSyncPay, type Plano } from "@/lib/planos";
+import { buscarPlano, nomeNaSyncPay, temCheckoutOnline, type Plano } from "@/lib/planos";
 import { site } from "@/lib/site";
 import {
   assinar,
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   if (!dados) return NextResponse.json({ erro: "Requisição inválida." }, { status: 400 });
 
   const plano = dados.plano ? buscarPlano(dados.plano) : undefined;
-  if (!plano?.preco) return NextResponse.json({ erro: "Plano indisponível para assinatura online." }, { status: 400 });
+  if (!temCheckoutOnline(plano)) return NextResponse.json({ erro: "Plano indisponível para assinatura online." }, { status: 400 });
 
   const problema = problemaNosDados(dados);
   if (problema) return NextResponse.json({ erro: problema }, { status: 400 });
