@@ -110,10 +110,35 @@ export default async function Conta({ searchParams }: { searchParams: { ok?: str
                     </p>
                   </div>
                   <div className="flex flex-col gap-5">
-                    {plano?.preco && (
+                    {(plano?.preco || !encerrada) && (
                       <p className="text-[15px] text-verde-escuro/75">
-                        Mensalidade de <strong className="text-verde">{reais(plano.preco.mensal)}</strong>
-                        {!encerrada && data(a.proxima_cobranca) && <> · próxima cobrança em {data(a.proxima_cobranca)}</>}
+                        {plano?.preco ? (
+                          <>
+                            Mensalidade de <strong className="text-verde">{reais(plano.preco.mensal)}</strong>
+                          </>
+                        ) : (
+                          // Assinatura antiga de plano que saiu da vitrine: não há valor
+                          // confiável aqui, então não inventamos um.
+                          <>
+                            Para consultar o valor da sua mensalidade,{" "}
+                            <a
+                              className="link-verde"
+                              href={whatsappLink(
+                                `Olá! Sou cliente da ${site.nome} (${cliente.email}) e quero consultar o valor da mensalidade do plano ${plano?.titulo ?? a.plano}.`,
+                              )}
+                            >
+                              fale com o atendimento
+                            </a>
+                            .
+                          </>
+                        )}
+                        {!encerrada && data(a.proxima_cobranca) && (
+                          <>
+                            {plano?.preco ? " · próxima cobrança em " : " Próxima cobrança em "}
+                            {data(a.proxima_cobranca)}
+                            {plano?.preco ? "" : "."}
+                          </>
+                        )}
                       </p>
                     )}
                     {!encerrada && (
